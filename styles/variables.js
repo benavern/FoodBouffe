@@ -8,7 +8,7 @@ const originalColors = {
   primary: '#FFC529',
   secondary: '#FE724C',
   text: '#272D2F',
-  textAlt: '#C7C7C7',
+  textAlt: '#A7A7A7',
   cardBackground: '#fff',
   background: '#F4F4F4'
 }

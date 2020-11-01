@@ -5,6 +5,7 @@
     "info": "Pas trop fort alors...",
     "like": false,
     "category": "Plat",
+    "prepDuration": 10,
     "image": "https://source.unsplash.com/12eHC6FxPyg/200x100"
   },
   {
@@ -13,6 +14,7 @@
     "info": "miam! 😜️",
     "like": true,
     "category": "Déssert",
+    "prepDuration": 20,
     "image": "https://source.unsplash.com/kXoCXrHhfRc/200x100"
   },
   {
@@ -21,6 +23,7 @@
     "info": "Épicés mais pas trop!",
     "like": false,
     "category": "Plat",
+    "prepDuration": 120,
     "image": "https://source.unsplash.com/GXhmQt6MFX8/200x100"
   },
   {
@@ -29,6 +32,7 @@
     "info": "Avec sirop d'erable et myrtilles",
     "like": false,
     "category": "Désert",
+    "prepDuration": 45,
     "image": "https://source.unsplash.com/8Nc_oQsc2qQ/200x100"
   },
   {
@@ -37,6 +41,7 @@
     "info": "Dans son plus simple appareil",
     "like": false,
     "category": "Entrée",
+    "prepDuration": 1,
     "image": "https://source.unsplash.com/9aOswReDKPo/200x100"
   },
   {
@@ -45,6 +50,7 @@
     "info": "Faits maison, les meilleurs",
     "like": false,
     "category": "Plat",
+    "prepDuration": 90,
     "image": "https://source.unsplash.com/Djs02AtkOm4/200x100"
   },
   {
@@ -53,6 +59,7 @@
     "info": "Grillés, c'est comme ça que ça se mange!",
     "like": false,
     "category": "Plat",
+    "prepDuration": 10,
     "image": "https://source.unsplash.com/ennARkXrF74/200x100"
   }
 ]

@@ -1,23 +1,25 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import RecipesList from '../../components/recipesList';
-import globalStyle from '../../styles/globalStyle';
-import recepes from './recepes.json';
+import HomeScreen from './homeScreen';
+import DetailsScreen from './detailsScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function HomeScreen() {
+const Stack = createStackNavigator();
+
+const homeStack = [
+  { name: 'Home', component: HomeScreen },
+  { name: 'Details', component: DetailsScreen },
+]
+
+export default function HomeStack() {
   return (
-    <SafeAreaView style={globalStyle.screen}>
-      <View>
-        <Text style={globalStyle.bigTitle}>
-            Mes dernières recettes
-        </Text>
-        <Text style={globalStyle.subtitle}>
-          Filtrer mes recettes pour mieux les retrouver
-        </Text>
-      </View>
-
-      <RecipesList items={recepes} />
-    </SafeAreaView>
+    <Stack.Navigator
+      headerMode="none">
+      {homeStack.map((screen, index) => (
+        <Stack.Screen
+          key={index.toString()}
+          name={screen.name}
+          component={screen.component} />
+      ))}
+    </Stack.Navigator>
   );
 }

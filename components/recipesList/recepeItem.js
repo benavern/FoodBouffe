@@ -5,8 +5,11 @@ import globalStyle from '../../styles/globalStyle';
 import { Ionicons } from '@expo/vector-icons';
 import Card from '../card';
 import { colors } from '../../styles/variables';
+import { useNavigation } from '@react-navigation/native';
 
 export default function RecipeItem ({ style, item }) {
+  const navigation = useNavigation();
+
   if (item.hidden) {
     return (
       <Card style={[style, styles.item, styles.hiddenItem]} />
@@ -15,7 +18,7 @@ export default function RecipeItem ({ style, item }) {
 
   const cardFooter = (
     <View style={styles.cardFooter}>
-      <Text style={globalStyle.textAlt}>
+      <Text style={globalStyle.textSecondary}>
         {item.category}
       </Text>
 
@@ -30,9 +33,7 @@ export default function RecipeItem ({ style, item }) {
     <TouchableOpacity
       style={[style, styles.item]}
       activeOpacity={0.6}
-      onPress={() => {
-        console.log('Touched', item)
-      }}>
+      onPress={() => { navigation.navigate('Details', { item }) }}>
       <Card
         key={item.id}
         style={{ flex: 1 }}

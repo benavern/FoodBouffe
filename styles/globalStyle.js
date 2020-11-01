@@ -21,12 +21,16 @@ export default StyleSheet.create({
     fontSize: text.m
   },
   textAlt: {
+    color: colors.textAlt,
+    fontSize: text.m
+  },
+  textSecondary: {
     color: colors.secondary,
     fontSize: text.m
   },
   screen: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
     paddingTop: 10,
     backgroundColor: colors.background
   }

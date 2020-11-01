@@ -9,6 +9,7 @@ export default function RecipeList ({ items }) {
       items={items}
       style={styles.list}
       renderItem={({item, width, gutter}) => <RecipeItem item={item} style={{ width, margin: gutter}} />}
+      gutter={10}
       nbPerRow={2} />
   );
 }

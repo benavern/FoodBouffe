@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import globalStyle from '../../styles/globalStyle';
 
 const { width: windowWidth } = Dimensions.get('window');
-const listWidth = windowWidth - (globalStyle.screen.paddingHorizontal * 2);
+const listWidth = windowWidth - (globalStyle.screen.paddingHorizontal );
 
 export default function List({
   items,
@@ -13,18 +13,20 @@ export default function List({
   style,
   renderItem
 }) {
-  const itemWidth = (listWidth - (gutter * 2) - (gutter * (nbPerRow - 1))) / nbPerRow;
+  const itemWidth = (listWidth  - (gutter * 2 * nbPerRow)) / nbPerRow;
 
   function _formatData (data, colNb) {
     let nbLastRow = data.length % colNb;
 
+    const cols = [...data];
+
     if (nbLastRow) {
       for (let i = 0; i < colNb - nbLastRow; i++) {
-        data.push({ id: `blank-${i}`, hidden: true })
+        cols.push({ id: `blank-${i}`, hidden: true })
       }
     }
 
-    return data;
+    return cols;
   }
 
   function _renderItem({ item, width, gutter }) {
@@ -38,7 +40,7 @@ export default function List({
   return (
     <FlatList
       data={_formatData(items, nbPerRow)}
-      style={[{ marginLeft: -gutter }, style]}
+      style={[{ marginHorizontal: -gutter }, style]}
       renderItem={(args) => _renderItem({ ...args, width: itemWidth, gutter })}
       numColumns={nbPerRow} />
   );
