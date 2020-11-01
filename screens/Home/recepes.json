@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "name": "Pates au pesto",
+    "info": "Pas trop fort alors...",
+    "like": false,
+    "category": "Plat",
+    "image": "https://source.unsplash.com/12eHC6FxPyg/200x100"
+  },
+  {
+    "id": "2",
+    "name": "Pizza nutella",
+    "info": "miam! 😜️",
+    "like": true,
+    "category": "Déssert",
+    "image": "https://source.unsplash.com/kXoCXrHhfRc/200x100"
+  },
+  {
+    "id": "3",
+    "name": "Ramen",
+    "info": "Épicés mais pas trop!",
+    "like": false,
+    "category": "Plat",
+    "image": "https://source.unsplash.com/GXhmQt6MFX8/200x100"
+  }
+]

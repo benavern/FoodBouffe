@@ -1,21 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from './styles/variables';
+
+import HomeScreen from './screens/Home';
+import FavoritesScreen from './screens/Favorites';
+import SearchScreen from './screens/Search';
+import CreateScreen from './screens/Create';
+
+const Tab = createBottomTabNavigator();
+
+const screens = [
+  { name: 'Home', icon: 'md-home', component: HomeScreen },
+  { name: 'Favorites', icon: 'md-heart-empty', component: FavoritesScreen },
+  { name: 'Search', icon: 'md-search', component: SearchScreen },
+  { name: 'Create', icon: 'md-add', component: CreateScreen }
+]
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: colors.primary,
+          inactiveTintColor: colors.text,
+          showLabel: false,
+          style: {
+            borderTopWidth: 0,
+            backgroundColor: colors.background,
+          },
+          tabStyle: {
+            backgroundColor: colors.cardBackground
+          }
+        }}>
+
+          {screens.map((screen, index) => (
+            <Tab.Screen
+              key={index.toString()}
+              name={screen.name}
+              component={screen.component}
+              options={{
+                tabBarIcon: ({color, size}) => (
+                  <Ionicons name={screen.icon} size={size} color={color} />
+                )
+              }} />
+          ))}
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
