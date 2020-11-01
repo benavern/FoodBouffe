@@ -2,15 +2,20 @@ import React from 'react';
 import { Image, StyleSheet, View } from "react-native";
 import { colors } from '../../styles/variables'
 
-export default function Card ({ style, children, footer, coverImage }) {
+export default function Card ({ style, children, header, footer, coverImage }) {
   return (
     <View style={[style, styles.wrapper]}>
       { coverImage &&
+        <Image
+          source={{ uri: coverImage }}
+          style={styles.coverImage}
+          />
+      }
+
+      {
+        header &&
         <View style={styles.header}>
-          <Image
-            source={{ uri: coverImage }}
-            style={styles.coverImage}
-            />
+          {header}
         </View>
       }
 
@@ -29,16 +34,23 @@ export default function Card ({ style, children, footer, coverImage }) {
 
 const styles = StyleSheet.create({
   wrapper: {
+    flex: 1,
     backgroundColor: colors.cardBackground,
     borderRadius: 20,
     overflow: "hidden"
   },
   content: {
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    flex: 1
   },
   coverImage: {
     width: '100%',
     height: 100
+  },
+  header: {
+    paddingHorizontal: 15,
+    paddingTop: 10
   },
   footer: {
     paddingHorizontal: 15,

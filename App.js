@@ -28,14 +28,13 @@ export default function App() {
           inactiveTintColor: colors.text,
           showLabel: false,
           style: {
-            borderTopWidth: 0,
+            borderTopColor: colors.textAlt,
             backgroundColor: colors.background,
           },
           tabStyle: {
             backgroundColor: colors.cardBackground
           }
         }}>
-
           {screens.map((screen, index) => (
             <Tab.Screen
               key={index.toString()}
