@@ -33,5 +33,10 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 10,
     backgroundColor: colors.background
+  },
+  fullCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
