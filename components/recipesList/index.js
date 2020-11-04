@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import List from '../List';
-import RecipeItem from './recepeItem';
+import RecipeItem from './recipeItem';
 
 export default function RecipeList ({ items }) {
   return (
