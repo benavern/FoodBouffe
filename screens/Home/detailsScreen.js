@@ -32,7 +32,7 @@ export default function DetailsScreen ({ navigation, route }) {
           <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => navigation.popToTop()}>
-            <Ionicons name="ios-arrow-back" color={colors.textAlt} size={24} />
+            <Ionicons name="ios-arrow-back" color={colors.text} size={24} />
           </TouchableOpacity>
 
           <TouchableOpacity

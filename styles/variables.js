@@ -9,16 +9,16 @@ const originalColors = {
   secondary: '#FE724C',
   text: '#272D2F',
   textAlt: '#A7A7A7',
-  cardBackground: '#fff',
+  cardBackground: '#FFFFFF',
   background: '#F4F4F4'
 }
 
 export const colors = darkmode
   ? {
     ...originalColors,
-    text: '#bd93f9',
-    textAlt: '#6272a4',
-    background: '#282A36',
+    text: '#ECECEC',
+    textAlt: '#6B778D',
+    background: '#202040',
     cardBackground: 'rgba(255, 255, 255, .05)'
   }
   : originalColors
