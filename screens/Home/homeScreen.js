@@ -1,25 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
-import { db } from '../../firebase'
 import { colors } from '../../styles/variables';
+import { useSelector } from 'react-redux';
 
 export default function HomeScreen() {
-  const [recipes, setRecipes] = useState([])
-
-  async function getRecipes () {
-    const recipesSnapshot = await db.collection('recipes').get()
-    const recipesDocs = recipesSnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }))
-    setRecipes(recipesDocs)
-  }
-
-  useEffect(() => { getRecipes() })
+  const recipes = useSelector(state => state.recipes)
 
   const emptyList = (
     <View style={globalStyle.fullCenter}>

@@ -33,7 +33,7 @@ export default function RecipeItem ({ style, item }) {
     <TouchableOpacity
       style={[style, styles.item]}
       activeOpacity={0.6}
-      onPress={() => { navigation.navigate('Details', { item }) }}>
+      onPress={() => { navigation.navigate('Details', { recipeId: item.id }) }}>
       <Card
         key={item.id}
         style={{ flex: 1 }}
