@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
 import { colors } from '../../styles/variables';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRecipeById, fetchRecipes } from '../../store/recipesSlice';
 
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchRecipes())
+    dispatch(fetchRecipeById('yolo'))
+  }, [])
 
   const emptyList = (
     <View style={globalStyle.fullCenter}>
