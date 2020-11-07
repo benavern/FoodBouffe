@@ -7,7 +7,7 @@ import Card from '../card';
 import { colors } from '../../styles/variables';
 import { useNavigation } from '@react-navigation/native';
 
-export default function RecipeItem ({ style, item }) {
+export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation();
 
   if (item.hidden) {
@@ -18,9 +18,11 @@ export default function RecipeItem ({ style, item }) {
 
   const cardFooter = (
     <View style={styles.cardFooter}>
-      <Text style={globalStyle.textSecondary}>
-        {item.category}
-      </Text>
+      <View>
+        <Text style={globalStyle.chips}>
+          {item.category}
+        </Text>
+      </View>
 
       <Ionicons
         name={item.like ? 'md-heart' : 'md-heart-empty'}

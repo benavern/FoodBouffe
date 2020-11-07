@@ -9,12 +9,12 @@ const originalColors = {
   secondary: '#FE724C',
   text: '#272D2F',
   textAlt: '#A7A7A7',
-  cardBackground: '#FFFFFF',
-  background: '#F4F4F4'
+  background: '#F4F4F4',
+  cardBackground: '#FFFFFF'
 }
 
 export const colors = darkmode
-  ? {
+? {
     ...originalColors,
     text: '#ECECEC',
     textAlt: '#6B778D',
@@ -29,3 +29,5 @@ export const text = {
     m: 13,
     s: 10
 }
+
+export const chipsSize = 24

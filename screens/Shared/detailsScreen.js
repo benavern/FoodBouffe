@@ -92,6 +92,8 @@ export default function DetailsScreen ({ navigation, route }) {
   )
 }
 
+const roundTopHeight = 40
+
 const styles = StyleSheet.create({
   scroller: {
     flex: 1,
@@ -115,10 +117,10 @@ const styles = StyleSheet.create({
   },
   detailsWrapper: {
     flex: 1,
-    paddingTop: 24,
-    marginTop: -24,
-    borderTopRightRadius: 24,
-    borderTopLeftRadius: 24
+    paddingTop: roundTopHeight/2,
+    marginTop: -roundTopHeight,
+    borderTopRightRadius: roundTopHeight,
+    borderTopLeftRadius: roundTopHeight
   },
   section: {
     paddingVertical: 20,

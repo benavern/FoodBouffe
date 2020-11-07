@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, text } from './variables';
+import { colors, text, chipsSize } from './variables';
 
 export default StyleSheet.create({
   bigTitle: {
@@ -59,5 +59,15 @@ export default StyleSheet.create({
   },
   textInputFocus: {
     borderColor: colors.text
+  },
+  chips: {
+    color: '#fff',
+    fontSize: chipsSize / 2,
+    height: chipsSize,
+    lineHeight: chipsSize,
+    fontFamily: 'Raleway',
+    backgroundColor: colors.secondary,
+    paddingHorizontal: chipsSize / 2,
+    borderRadius: chipsSize / 2
   }
 })
