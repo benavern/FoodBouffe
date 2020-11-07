@@ -5,28 +5,35 @@ export default StyleSheet.create({
   bigTitle: {
     color: colors.text,
     fontSize: text.xl,
-    fontWeight: 'bold'
+    fontFamily: 'Lobster'
   },
   title: {
     color: colors.text,
     fontSize: text.l,
-    fontWeight: 'bold'
+    fontFamily: 'Lobster'
   },
   subtitle: {
     color: colors.textAlt,
-    fontSize: text.m
+    fontSize: text.m,
+    fontFamily: 'Raleway'
+  },
+  textBold: {
+    fontFamily: 'Raleway-bold'
   },
   text: {
     color: colors.text,
-    fontSize: text.m
+    fontSize: text.m,
+    fontFamily: 'Raleway'
   },
   textAlt: {
     color: colors.textAlt,
-    fontSize: text.m
+    fontSize: text.m,
+    fontFamily: 'Raleway'
   },
   textSecondary: {
     color: colors.secondary,
-    fontSize: text.m
+    fontSize: text.m,
+    fontFamily: 'Raleway'
   },
   screen: {
     flex: 1,
@@ -47,7 +54,8 @@ export default StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     marginVertical: 10,
-    color: colors.text
+    color: colors.text,
+    fontFamily: 'Raleway'
   },
   textInputFocus: {
     borderColor: colors.text

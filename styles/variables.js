@@ -24,8 +24,8 @@ export const colors = darkmode
   : originalColors
 
 export const text = {
-    xl: 24,
-    l: 18,
-    m: 12,
-    s: 8
+    xl: 32,
+    l: 20,
+    m: 13,
+    s: 10
 }
