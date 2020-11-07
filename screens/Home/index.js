@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeScreen from './homeScreen';
-import DetailsScreen from './detailsScreen';
+import DetailsScreen from '../Shared/detailsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();

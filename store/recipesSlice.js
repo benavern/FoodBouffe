@@ -10,9 +10,9 @@ function handleRejection (state, { error }) {
 export const fetchRecipes = createAsyncThunk(
   'recipes/fetchRecipes',
   async () => {
-    const recipesSnapshot = await recipesRef.get()
+    const snap = await recipesRef.get()
 
-    return recipesSnapshot.docs.map(snap => ({
+    return snap.docs.map(snap => ({
       id: snap.id,
       ...snap.data()
     }))

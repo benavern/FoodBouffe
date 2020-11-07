@@ -7,10 +7,10 @@ import globalStyle from '../../styles/globalStyle';
 import { colors } from '../../styles/variables';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../../store/recipesSlice';
-import { homeLimit } from '../../config/foodbouffe.json'
 
-export default function HomeScreen() {
-  const recipes = useSelector(state => state.recipes.slice(0, homeLimit))
+
+export default function FavoritesScreen () {
+  const recipes = useSelector(state => state.recipes.filter(rec => rec.like))
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -22,10 +22,10 @@ export default function HomeScreen() {
       <Ionicons name="md-sad" size={64} color={colors.textAlt} />
 
       <Text style={[globalStyle.title, { color: colors.secondary }]}>
-        Aucune recette ici.
+        Aucune recette favorite.
       </Text>
 
-      <Text style={globalStyle.text}>Créez une recette!</Text>
+      <Text>Pensez à en ajouter ;)</Text>
     </View>
   )
 
@@ -33,10 +33,10 @@ export default function HomeScreen() {
     <SafeAreaView style={globalStyle.screen}>
       <View>
         <Text style={globalStyle.bigTitle}>
-          Mes dernières recettes
+          Mes recettes favorites
         </Text>
         <Text style={globalStyle.subtitle}>
-          Les plus récentes
+          Celles que je fais souvent
         </Text>
       </View>
 
