@@ -38,5 +38,18 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: colors.textAlt,
+    backgroundColor: colors.cardBackground,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    marginVertical: 10,
+    color: colors.text
+  },
+  textInputFocus: {
+    borderColor: colors.text
   }
 })

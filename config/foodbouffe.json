@@ -1,3 +1,4 @@
 {
-  "homeLimit": 4
+  "homeLimit": 6,
+  "searchEmptyLimit": 4
 }

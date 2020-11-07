@@ -1,13 +1,25 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import globalStyle from '../../styles/globalStyle';
+import SearchScreen from './searchScreen';
+import DetailsScreen from '../Shared/detailsScreen';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function SearchScreen({ navigation }) {
+const Stack = createStackNavigator();
+
+const searchStack = [
+  { name: 'Search', component: SearchScreen },
+  { name: 'Details', component: DetailsScreen },
+]
+
+export default function SearchStack() {
   return (
-    <View style={globalStyle.screen}>
-      <Text>
-        Search
-      </Text>
-    </View>
+    <Stack.Navigator
+      headerMode="none">
+      {searchStack.map((screen, index) => (
+        <Stack.Screen
+          key={index.toString()}
+          name={screen.name}
+          component={screen.component} />
+      ))}
+    </Stack.Navigator>
   );
 }
