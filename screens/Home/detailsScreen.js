@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
@@ -6,12 +6,16 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleLikeRecipe } from '../../store/recipesSlice'
+import { fetchRecipeById, toggleLikeRecipe } from '../../store/recipesSlice'
 
 export default function DetailsScreen ({ navigation, route }) {
   const { recipeId } = route.params
-  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId))
+  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchRecipeById(recipeId))
+  }, [])
 
   function _formatDuration(duration) {
     if (typeof duration !== 'number') {
@@ -41,7 +45,7 @@ export default function DetailsScreen ({ navigation, route }) {
 
           <TouchableOpacity
             style={styles.coverBtn}
-            onPress={() => dispatch(toggleLikeRecipe(item))}>
+            onPress={() => dispatch(toggleLikeRecipe(item.id))}>
             <Ionicons
               name={item.like ? 'md-heart' : 'md-heart-empty'}
               color={colors.primary}

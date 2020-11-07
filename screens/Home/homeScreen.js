@@ -6,7 +6,7 @@ import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
 import { colors } from '../../styles/variables';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipeById, fetchRecipes } from '../../store/recipesSlice';
+import { fetchRecipes } from '../../store/recipesSlice';
 
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
@@ -14,7 +14,6 @@ export default function HomeScreen() {
 
   useEffect(() => {
     dispatch(fetchRecipes())
-    dispatch(fetchRecipeById('yolo'))
   }, [])
 
   const emptyList = (

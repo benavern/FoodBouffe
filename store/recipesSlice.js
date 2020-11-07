@@ -3,21 +3,25 @@ import { db } from '../firebase'
 
 const recipesRef = db.collection('recipes')
 
+function handleRejection (state, { error }) {
+  console.error('Operation failed', error.message)
+}
+
 export const fetchRecipes = createAsyncThunk(
   'recipes/fetchRecipes',
   async () => {
     const recipesSnapshot = await recipesRef.get()
 
-    return recipesSnapshot.map(snap => ({
+    return recipesSnapshot.docs.map(snap => ({
       id: snap.id,
-      ...snap.data
+      ...snap.data()
     }))
   }
 )
 
 export const fetchRecipeById = createAsyncThunk(
   'recipes/fetchRecipeById',
-  async (id) => {
+  async id => {
     const snap = await recipesRef.doc(id).get()
 
     if (!snap.exists) {
@@ -27,7 +31,30 @@ export const fetchRecipeById = createAsyncThunk(
 
     return {
       id: snap.id,
-      ...snap.data
+      ...snap.data()
+    }
+  }
+)
+
+export const toggleLikeRecipe = createAsyncThunk(
+  'recipes/fetchRecipeById',
+  async id => {
+    const snap = await recipesRef.doc(id).get()
+
+    if (!snap.exists) {
+      throw new Error(`No recipe exists with the id "${id}"`)
+      return
+    }
+
+    const newLike = !snap.data().like
+
+    await recipesRef.doc(id).set({
+      like: newLike
+    }, { merge: true })
+
+    return {
+      id: snap.id,
+      like: newLike
     }
   }
 )
@@ -42,34 +69,22 @@ const recipesSlice = createSlice({
       state.push(payload)
     },
 
-    toggleLikeRecipe(state, { payload }) {
-      const recipe = state.find(rec => rec.id === payload.id)
-
-      if(!recipe) {
-        console.warn('This recipe does not exist.')
-        return
-      }
-      recipe.like = !recipe.like
-    },
-
     removeRecipe(state, { payload }) {
       return state.filter(rec => rec.id !== payload.id)
     }
   },
 
   extraReducers: {
-    [fetchRecipes.fulfilled]: (state, { payload }) => {
+    [fetchRecipes.fulfilled](state, { payload }) {
       // empty the state
       state.length = 0
       // then fill it
       state.push(...payload)
     },
-    [fetchRecipes.rejected]: (state, { error }) => {
-      console.error('REJECTED!!!', error.message)
-    },
+    [fetchRecipes.rejected]: handleRejection,
 
-    [fetchRecipeById.fulfilled]: (state, { payload }) => {
-      const recipeFromState = state.find(rec => rec.id === payload.id)
+    [fetchRecipeById.fulfilled](state, { payload }) {
+      let recipeFromState = state.find(rec => rec.id === payload.id)
 
       if (recipeFromState) {
         recipeFromState = payload
@@ -77,11 +92,15 @@ const recipesSlice = createSlice({
         state.push(payload)
       }
     },
-    [fetchRecipeById.rejected]: (state, { error }) => {
-      console.error('REJECTED BY ID !!!', error.message)
-    }
+    [fetchRecipeById.rejected]: handleRejection,
+
+    [toggleLikeRecipe.fulfilled](state, { payload }) {
+      const recipe = state.find(rec => rec.id === payload.id)
+      recipe.like = payload.like
+    },
+    [toggleLikeRecipe.rejected]: handleRejection
   }
 })
 
-export const { addRecipe, toggleLikeRecipe, removeRecipe } = recipesSlice.actions
+export const { addRecipe, removeRecipe } = recipesSlice.actions
 export default recipesSlice.reducer
