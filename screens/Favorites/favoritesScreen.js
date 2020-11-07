@@ -7,6 +7,7 @@ import globalStyle from '../../styles/globalStyle';
 import { colors } from '../../styles/variables';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../../store/recipesSlice';
+import EmptyList from '../../components/emptyList';
 
 
 export default function FavoritesScreen () {
@@ -16,18 +17,6 @@ export default function FavoritesScreen () {
   useEffect(() => {
     dispatch(fetchRecipes())
   }, [])
-
-  const emptyList = (
-    <View style={globalStyle.fullCenter}>
-      <Ionicons name="md-sad" size={64} color={colors.textAlt} />
-
-      <Text style={[globalStyle.title, { color: colors.secondary }]}>
-        Aucune recette favorite.
-      </Text>
-
-      <Text>Pensez à en ajouter ;)</Text>
-    </View>
-  )
 
   return (
     <SafeAreaView style={globalStyle.screen}>
@@ -43,7 +32,10 @@ export default function FavoritesScreen () {
       {
         recipes.length
           ? <RecipesList items={recipes} />
-          : emptyList
+          : <EmptyList
+              icon="md-heart-dislike"
+              title="Aucune recette favorite."
+              subtitle="Pensez à en ajouter pour les retrouver plus facilement!" />
       }
     </SafeAreaView>
   );
