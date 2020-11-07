@@ -16,6 +16,8 @@ import FavoritesScreen from './screens/Favorites'
 import SearchScreen from './screens/Search'
 import CreateScreen from './screens/Create'
 import { AppLoading } from 'expo'
+import { StatusBar } from 'expo-status-bar'
+import { View } from 'react-native'
 
 const Tab = createBottomTabNavigator();
 
@@ -43,6 +45,8 @@ export default function App() {
 
   return (
     <Provider store={store}>
+      <StatusBar />
+
       <NavigationContainer>
         <Tab.Navigator
           tabBarOptions={{

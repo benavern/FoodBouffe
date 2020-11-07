@@ -32,7 +32,7 @@ export default function DetailsScreen ({ navigation, route }) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView style={styles.scroller}>
         <ImageBackground
           source={{ uri: item.image }}
