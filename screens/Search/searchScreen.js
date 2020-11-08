@@ -10,6 +10,16 @@ import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
 import EmptyList from '../../components/emptyList'
 
+function setResults(recipes, searchTerm, setFn) {
+  if(searchTerm) {
+    setFn(recipes.filter(rec => {
+      return rec.name.match(new RegExp(searchTerm, 'i'))
+    }))
+  } else {
+    setFn(recipes.slice(0, searchEmptyLimit))
+  }
+}
+
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
   const dispatch = useDispatch()
@@ -19,20 +29,17 @@ export default function HomeScreen() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   useEffect(() => {
-    dispatch(fetchRecipes()).then(() => {
-      setSearchResults(recipes.slice(0, searchEmptyLimit))
-    })
+    dispatch(fetchRecipes())
+      // .then(() => setResults(recipes, searchTerm, setSearchResults))
   }, [])
 
   useEffect(() => {
-    if(debouncedSearchTerm) {
-      setSearchResults(recipes.filter(rec => {
-        return rec.name.match(new RegExp(debouncedSearchTerm, 'i'))
-      }))
-    } else {
-      setSearchResults(recipes.slice(0, searchEmptyLimit))
-    }
+    setResults(recipes, debouncedSearchTerm, setSearchResults)
   }, [debouncedSearchTerm])
+
+  useEffect(() => {
+    setResults(recipes, debouncedSearchTerm, setSearchResults)
+  }, [recipes])
 
   return (
     <SafeAreaView style={globalStyle.screen}>
