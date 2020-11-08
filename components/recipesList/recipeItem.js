@@ -6,9 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 import Card from '../card';
 import { colors } from '../../styles/variables';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation();
+
+  const getCatName = useSelector(state => catRef => state.categories[catRef] ? state.categories[catRef].name : '?')
 
   if (item.hidden) {
     return (
@@ -20,7 +23,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
     <View style={styles.cardFooter}>
       <View>
         <Text style={globalStyle.chips}>
-          {item.category}
+          {getCatName(item.categoryRef)}
         </Text>
       </View>
 

@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
 import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
-import { colors } from '../../styles/variables';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRecipes } from '../../store/recipesSlice';
 import { homeLimit } from '../../config/foodbouffe.json'

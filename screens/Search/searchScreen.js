@@ -85,7 +85,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   searchInput: {
-    marginTop: 20
+    marginVertical: 10
   },
   resultsWrapper: {
     flex: 1

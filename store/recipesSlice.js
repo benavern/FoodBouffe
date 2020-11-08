@@ -11,10 +11,9 @@ export const fetchRecipes = createAsyncThunk(
   'recipes/fetchRecipes',
   async () => {
     const snap = await recipesRef.get()
-
-    return snap.docs.map(snap => ({
-      id: snap.id,
-      ...snap.data()
+    return snap.docs.map(rec => ({
+      id: rec.id,
+      ...rec.data()
     }))
   }
 )
