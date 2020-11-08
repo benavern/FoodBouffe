@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import RecipesList from '../../components/recipesList'
 import globalStyle from '../../styles/globalStyle'
-import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRecipes } from '../../store/recipesSlice'
 import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
 import EmptyList from '../../components/emptyList'
+import Input from '../../components/Input'
 
 function setResults(recipes, searchTerm, setFn) {
   if(searchTerm) {
@@ -23,7 +23,6 @@ function setResults(recipes, searchTerm, setFn) {
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
   const dispatch = useDispatch()
-  const [inputUsed, setInputUsed] = useState(false)
   const [searchTerm, onSearchTermChange] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
@@ -53,16 +52,12 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.searchInput}>
-        <TextInput
-          style={[globalStyle.textInput, inputUsed && globalStyle.textInputFocus]}
+        <Input
           value={searchTerm}
-          onChangeText={term => onSearchTermChange(term)}
+          onChange={term => onSearchTermChange(term)}
           placeholder="Pizza"
-          placeholderTextColor={colors.textAlt}
           returnKeyType="search"
-          returnKeyLabel="Rechercher une recette"
-          onFocus={() => setInputUsed(true)}
-          onBlur={() => setInputUsed(!!searchTerm)} />
+          returnKeyLabel="Rechercher une recette" />
       </View>
 
       <View style={styles.resultsWrapper}>
