@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { AppLoading } from 'expo'
-import { dispatch, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { fetchCategories } from './store/categoriesSlice'
 import { colors } from './styles/variables'
 import * as Font from 'expo-font'
@@ -32,7 +32,9 @@ const getFonts = () => Font.loadAsync({
 
 export default function() {
   const [appReady, setAppReady] = useState(false)
-  useDispatch()(fetchCategories())
+  const dispatch = useDispatch()
+
+  useEffect(() => { dispatch(fetchCategories())}, [])
 
   if(!appReady) {
     return <AppLoading
