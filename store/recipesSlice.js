@@ -58,16 +58,23 @@ export const toggleLikeRecipe = createAsyncThunk(
   }
 )
 
+export const createRecipe = createAsyncThunk(
+  'recipes/createRecipe',
+  async recipe => {
+    const newRecipe = await recipesRef.add(recipe)
+    return {
+      id: newRecipe.id,
+      ...recipe
+    }
+  }
+)
+
 const recipesSlice = createSlice({
   name: 'recipes',
 
   initialState: [],
 
   reducers: {
-    addRecipe(state, {payload}) {
-      state.push(payload)
-    },
-
     removeRecipe(state, { payload }) {
       return state.filter(rec => rec.id !== payload.id)
     }
@@ -97,9 +104,14 @@ const recipesSlice = createSlice({
       const recipe = state.find(rec => rec.id === payload.id)
       recipe.like = payload.like
     },
-    [toggleLikeRecipe.rejected]: handleRejection
+    [toggleLikeRecipe.rejected]: handleRejection,
+
+    [createRecipe.fulfilled](state, { payload }) {
+      state.push(payload)
+    },
+    [createRecipe.rejected]: handleRejection
   }
 })
 
-export const { addRecipe, removeRecipe } = recipesSlice.actions
+export const { removeRecipe } = recipesSlice.actions
 export default recipesSlice.reducer

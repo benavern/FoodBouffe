@@ -1,31 +1,49 @@
-import React, { useEffect, useState } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
 
-export default function Input({ placeholder, onChange, value = '', returnKeyType, returnKeyLabel, onFocus, onBlur, label }) {
-  const [inputUsed, setInputUsed] = useState(false)
+export default forwardRef(
+  function Input({
+    placeholder,
+    onChange,
+    value = '',
+    keyboardType = 'default',
+    returnKeyType,
+    returnKeyLabel,
+    maxLength,
+    onFocus,
+    onBlur,
+    onSubmit,
+    label
+  }, ref) {
+    const [inputUsed, setInputUsed] = useState(false)
 
-  return (
-    <View>
-      {label && <Text style={[globalStyle.text, styles.label, inputUsed && styles.labelFocus]}>{label}</Text>}
+    return (
+      <View>
+        {label && <Text style={[globalStyle.text, styles.label, inputUsed && styles.labelFocus]}>{label}</Text>}
 
-      <TextInput
-        style={[styles.input, inputUsed && styles.inputFocused, label && styles.inputWithLabel]}
-        value={value}
-        onChangeText={onChange}
-        placeholder={placeholder}
-        placeholderTextColor={colors.textAlt}
-        returnKeyType={returnKeyType}
-        returnKeyLabel={returnKeyLabel}
-        onFocus={(e) => { setInputUsed(true); onFocus && onFocus(e); }}
-        onBlur={(e) => { setInputUsed(!!value); onBlur && onBlur(e); }} />
-    </View>
-  );
-}
+        <TextInput
+          ref={ref}
+          style={[styles.input, inputUsed && styles.inputFocused, label && styles.inputWithLabel]}
+          value={(value||'').toString()}
+          onChangeText={onChange}
+          placeholder={placeholder}
+          placeholderTextColor={colors.textAlt}
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType}
+          returnKeyLabel={returnKeyLabel}
+          maxLength={maxLength}
+          onSubmitEditing={onSubmit}
+          onFocus={(e) => { setInputUsed(true); onFocus && onFocus(e); }}
+          onBlur={(e) => { setInputUsed(!!value); onBlur && onBlur(e); }}/>
+      </View>
+    );
+  }
+)
 
 const blurColor = colors.textAlt
-const focusColor = colors.text
+const focusColor = colors.primary
 
 const styles = StyleSheet.create({
   input: {
@@ -36,7 +54,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     marginVertical: 10,
-    color: focusColor,
+    color: colors.text,
     fontFamily: 'Raleway'
   },
   inputFocused: {

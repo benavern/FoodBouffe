@@ -5,12 +5,13 @@ const colorScheme = Appearance.getColorScheme();
 export const darkmode = colorScheme === 'dark';
 
 const originalColors = {
-  primary: '#FFC529',
+  primary: '#f1c40f',
   secondary: '#FE724C',
   text: '#272D2F',
   textAlt: '#A7A7A7',
   background: '#F4F4F4',
-  cardBackground: '#FFFFFF'
+  cardBackground: '#FFF',
+  buttonText: '#F4F4F4'
 }
 
 export const colors = darkmode
