@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
@@ -17,15 +17,20 @@ export default forwardRef(
     onSubmit,
     label
   }, ref) {
-    const [inputUsed, setInputUsed] = useState(false)
+    const [inputFocused, setInputFocused] = useState(false)
+    const [inputActive, setInputActive] = useState(false)
+
+    useEffect(() => {
+      setInputActive(!!value || inputFocused)
+    }, [value, inputFocused])
 
     return (
       <View>
-        {label && <Text style={[globalStyle.text, styles.label, inputUsed && styles.labelFocus]}>{label}</Text>}
+        {label && <Text style={[globalStyle.text, styles.label, inputActive && styles.labelFocus]}>{label}</Text>}
 
         <TextInput
           ref={ref}
-          style={[styles.input, inputUsed && styles.inputFocused, label && styles.inputWithLabel]}
+          style={[styles.input, inputActive && styles.inputFocused, label && styles.inputWithLabel]}
           value={(value||'').toString()}
           onChangeText={onChange}
           placeholder={placeholder}
@@ -35,8 +40,8 @@ export default forwardRef(
           returnKeyLabel={returnKeyLabel}
           maxLength={maxLength}
           onSubmitEditing={onSubmit}
-          onFocus={(e) => { setInputUsed(true); onFocus && onFocus(e); }}
-          onBlur={(e) => { setInputUsed(!!value); onBlur && onBlur(e); }}/>
+          onFocus={(e) => { setInputFocused(true); onFocus && onFocus(e); }}
+          onBlur={(e) => { setInputFocused(false); onBlur && onBlur(e); }}/>
       </View>
     );
   }

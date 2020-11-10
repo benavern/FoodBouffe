@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Picker } from '@react-native-community/picker'
 import globalStyle from '../../styles/globalStyle'
@@ -12,21 +12,25 @@ export default forwardRef(
     options = [],
     required
   }, ref) {
-    const [inputUsed, setInputUsed] = useState(false)
+    const [inputActive, setinputActive] = useState(false)
+
+    useEffect(() => {
+      setinputActive(!!value)
+    }, [value])
 
     return (
       <View>
-        {label && <Text style={[globalStyle.text, styles.label, inputUsed && styles.labelFocus]}>{label}</Text>}
+        {label && <Text style={[globalStyle.text, styles.label, inputActive && styles.labelFocus]}>{label}</Text>}
 
         <View
-          style={[styles.input, inputUsed && styles.inputFocused, label && styles.inputWithLabel]}>
+          style={[styles.input, inputActive && styles.inputFocused, label && styles.inputWithLabel]}>
           <Picker
             ref={ref}
             style={styles.picker}
-            dropdownIconColor={inputUsed ? colors.text : colors.textAlt}
+            dropdownIconColor={inputActive ? colors.text : colors.textAlt}
             selectedValue={value}
             mode="dropdown"
-            onValueChange={(itemValue, itemIndex) => { onChange(itemValue, itemIndex); setInputUsed(!!itemValue); }}>
+            onValueChange={onChange}>
             { !required && <Picker.Item label="---" value={null} /> }
             {options.map(opt => <Picker.Item label={opt.name} value={opt.id} key={opt.id} />)}
           </Picker>

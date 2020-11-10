@@ -29,7 +29,6 @@ export default function HomeScreen() {
 
   useEffect(() => {
     dispatch(fetchRecipes())
-      // .then(() => setResults(recipes, searchTerm, setSearchResults))
   }, [])
 
   useEffect(() => {
