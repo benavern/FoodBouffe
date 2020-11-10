@@ -51,7 +51,7 @@ export default StyleSheet.create({
     fontSize: chipsSize / 2,
     height: chipsSize,
     lineHeight: chipsSize,
-    fontFamily: 'Raleway',
+    fontFamily: 'Raleway-bold',
     backgroundColor: colors.secondary,
     paddingHorizontal: chipsSize / 2,
     borderRadius: chipsSize / 2

@@ -11,7 +11,9 @@ import store from './store'
 export default function App() {
   return (
     <Provider store={store}>
-      <StatusBar />
+      <StatusBar
+        translucent
+        backgroundColor="rgba(0,0,0,0.24)"/>
 
       <ActionSheetProvider>
         <Main />

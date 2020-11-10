@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
-import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView } from 'react-native-gesture-handler'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipeById, toggleLikeRecipe, deleteRecipe } from '../../store/recipesSlice'
+import { fetchRecipeById, deleteRecipe } from '../../store/recipesSlice'
 import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
-import DetailHeader from '../../components/DetailsHeader/index.js'
+import DetailHeader from '../../components/DetailsHeader/index'
 
 export default function EditScreen ({ navigation, route }) {
   const { recipeId } = route.params
@@ -60,75 +59,85 @@ export default function EditScreen ({ navigation, route }) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView style={styles.scroller}>
-        <DetailHeader item={item} style={styles.headerStyle} mode="edit" />
+    <View style={styles.detailWrapper}>
+      <DetailHeader item={item} style={styles.detailHeader} mode="edit" />
 
-        <View style={[globalStyle.screen, styles.detailsWrapper]}>
-          <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
-            <View>
-              <Text style={globalStyle.bigTitle}>[EDIT] {item.name}</Text>
+      <View style={styles.detailMain}>
+        <ScrollView style={styles.scroller}>
 
-              <Text style={globalStyle.subtitle}>{item.info}</Text>
+          <View style={[globalStyle.screen, styles.detailsWrapper]}>
+            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
+              <View>
+                <Text style={globalStyle.bigTitle}>[EDIT] {item.name}</Text>
+
+                <Text style={globalStyle.subtitle}>{item.info}</Text>
+              </View>
+
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Ionicons name="md-clock" color={colors.secondary} size={24} />
+
+                <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
+              </View>
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons name="md-clock" color={colors.secondary} size={24} />
+            <View style={styles.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
-              <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
-            </View>
-          </View>
-
-          <View style={styles.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
-
-            <View>
-              <Text style={globalStyle.textAlt}>. truc</Text>
-              <Text style={globalStyle.textAlt}>. machin</Text>
-            </View>
-          </View>
-
-          <View style={styles.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
-
-            <View>
-              <Text style={globalStyle.textAlt}>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
-              </Text>
+              <View>
+                <Text style={globalStyle.textAlt}>. truc</Text>
+                <Text style={globalStyle.textAlt}>. machin</Text>
+              </View>
             </View>
 
-          </View>
+            <View style={styles.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
-          <View style={styles.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
+              <View>
+                <Text style={globalStyle.textAlt}>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
+                </Text>
+              </View>
 
-            <Button
-              style={styles.deleteButton}
-              title="Supprimer"
-              onPress={() => confirmDeleteAlert()} />
+            </View>
+
+            <View style={styles.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
+
+              <Button
+                style={styles.deleteButton}
+                title="Supprimer"
+                onPress={() => confirmDeleteAlert()} />
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </View>
+    </View>
   )
 }
 
 const roundTopHeight = 40
 
 const styles = StyleSheet.create({
-  scroller: {
+  detailWrapper: {
     flex: 1,
-    backgroundColor: colors.background
   },
-  headerStyle: {
+  detailHeader: {
     paddingBottom: roundTopHeight
   },
-  detailsWrapper: {
+  detailMain: {
     flex: 1,
-    paddingTop: roundTopHeight/2,
     marginTop: -roundTopHeight,
     borderTopRightRadius: roundTopHeight,
-    borderTopLeftRadius: roundTopHeight
+    borderTopLeftRadius: roundTopHeight,
+    overflow: 'hidden'
+  },
+  scroller: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  detailContent: {
+    flex: 1,
+    paddingTop: roundTopHeight/2
   },
   section: {
     paddingVertical: 20,

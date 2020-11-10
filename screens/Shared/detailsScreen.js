@@ -2,16 +2,16 @@ import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRecipeById } from '../../store/recipesSlice'
-import DetailHeader from '../../components/DetailsHeader/index.js'
+import DetailHeader from '../../components/DetailsHeader/index'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
   const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
+  const category = useSelector(state => state.categories[item.categoryRef])
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -33,68 +33,88 @@ export default function DetailsScreen ({ route }) {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView style={styles.scroller}>
-        <DetailHeader item={item} style={styles.headerStyle} />
+    <View style={styles.detailWrapper}>
+      <DetailHeader item={item} style={styles.detailHeader} />
 
-        <View style={[globalStyle.screen, styles.detailsWrapper]}>
-          <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
-            <View>
-              <Text style={globalStyle.bigTitle}>{item.name}</Text>
+      <View style={styles.detailMain}>
+        <ScrollView style={styles.scroller}>
+          <View style={[globalStyle.screen, styles.detailContent]}>
+            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
+              <View>
+                <Text style={globalStyle.bigTitle}>{item.name}</Text>
 
-              <Text style={globalStyle.subtitle}>{item.info}</Text>
+                <Text style={globalStyle.subtitle}>{item.info}</Text>
+              </View>
+
+              <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="md-clock" color={colors.secondary} size={24} />
+
+                  <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
+                </View>
+
+                { category && <Text style={[globalStyle.chips, styles.category, {backgroundColor: category.color}]}>
+                  {category.name}
+                </Text> }
+              </View>
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Ionicons name="md-clock" color={colors.secondary} size={24} />
+            <View style={styles.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
-              <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
+              <View>
+                <Text style={globalStyle.textAlt}>. truc</Text>
+                <Text style={globalStyle.textAlt}>. machin</Text>
+              </View>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
+
+              <View>
+                <Text style={globalStyle.textAlt}>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
+                </Text>
+              </View>
             </View>
           </View>
-
-          <View style={styles.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
-
-            <View>
-              <Text style={globalStyle.textAlt}>. truc</Text>
-              <Text style={globalStyle.textAlt}>. machin</Text>
-            </View>
-          </View>
-
-          <View style={styles.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
-
-            <View>
-              <Text style={globalStyle.textAlt}>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
-              </Text>
-            </View>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </View>
+    </View>
   )
 }
 
 const roundTopHeight = 40
 
 const styles = StyleSheet.create({
-  scroller: {
+  detailWrapper: {
     flex: 1,
-    backgroundColor: colors.background
   },
-  headerStyle: {
+  detailHeader: {
     paddingBottom: roundTopHeight
   },
-  detailsWrapper: {
+  detailMain: {
     flex: 1,
-    paddingTop: roundTopHeight/2,
     marginTop: -roundTopHeight,
     borderTopRightRadius: roundTopHeight,
-    borderTopLeftRadius: roundTopHeight
+    borderTopLeftRadius: roundTopHeight,
+    overflow: 'hidden'
+  },
+  scroller: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  detailContent: {
+    flex: 1,
+    paddingTop: roundTopHeight/2
+  },
+  category: {
+    alignSelf: 'flex-end',
+    marginTop: 10
   },
   section: {
-    paddingVertical: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.cardBackground
   }

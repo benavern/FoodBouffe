@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation();
 
-  const getCatName = useSelector(state => catRef => state.categories[catRef] ? state.categories[catRef].name : '?')
+  const category = useSelector(state => state.categories[item.categoryRef])
 
   if (item.hidden) {
     return (
@@ -22,9 +22,9 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const cardFooter = (
     <View style={styles.cardFooter}>
       <View>
-        <Text style={globalStyle.chips}>
-          {getCatName(item.categoryRef)}
-        </Text>
+        { category && <Text style={[globalStyle.chips, {backgroundColor: category.color}]}>
+          {category.name}
+        </Text> }
       </View>
 
       <Ionicons

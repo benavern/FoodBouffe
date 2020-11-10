@@ -8,6 +8,7 @@ import { colors } from '../../styles/variables'
 import { useDispatch } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import { useActionSheet } from '@expo/react-native-action-sheet'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const defaultImage = require('../../assets/default-background.jpg')
 const imageOptions = {
@@ -66,25 +67,25 @@ export default function DetailHeader ({
     <ImageBackground
       source={image}
       style={[styles.coverImage, style]}>
-      <View style={styles.headerContainer}>
+      <SafeAreaView style={styles.headerContainer}>
         <View style={styles.headerLine}>
           <TouchableOpacity
             style={styles.coverBtn}
-            onPress={() => navigation.popToTop()}>
+            onPress={() => navigation.pop()}>
             <Ionicons name="ios-arrow-back" color={colors.text} size={24} />
           </TouchableOpacity>
 
-          <TouchableOpacity
+          { mode === 'display' && <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => dispatch(toggleLikeRecipe(item.id))}>
             <Ionicons
               name={item.like ? 'md-heart' : 'md-heart-empty'}
               color={colors.primary}
               size={24} />
-          </TouchableOpacity>
+          </TouchableOpacity> }
         </View>
 
-        {mode === 'display' && <View style={[styles.headerLine, styles.editItemLine]}>
+        { mode === 'display' && <View style={[styles.headerLine, styles.editItemLine]}>
           <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => navigation.navigate('Edit', { recipeId: item.id })}>
@@ -93,9 +94,9 @@ export default function DetailHeader ({
               color={colors.secondary}
               size={24} />
           </TouchableOpacity>
-        </View>}
+        </View> }
 
-        {mode === 'edit' && <View style={styles.editImageLine}>
+        { mode === 'edit' && <View style={styles.editImageLine}>
           <TouchableOpacity
             style={styles.editImageBtn}
             onPress={promptImage}>
@@ -104,8 +105,8 @@ export default function DetailHeader ({
               color={colors.primary}
               size={32} />
           </TouchableOpacity>
-        </View>}
-      </View>
+        </View> }
+      </SafeAreaView>
     </ImageBackground>
   )
 }
@@ -116,7 +117,7 @@ const editImageBtnWidth = 80
 const styles = StyleSheet.create({
   coverImage: {
     width: '100%',
-    height: 220
+    height: 300,
   },
   headerContainer: {
     flex: 1,
