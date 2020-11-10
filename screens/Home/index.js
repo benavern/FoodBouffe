@@ -1,13 +1,15 @@
-import React from 'react';
-import HomeScreen from './homeScreen';
-import DetailsScreen from '../Shared/detailsScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react'
+import HomeScreen from './homeScreen'
+import DetailsScreen from '../Shared/detailsScreen'
+import EditScreen from '../Shared/editScreen'
+import { createStackNavigator } from '@react-navigation/stack'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const homeStack = [
   { name: 'Home', component: HomeScreen },
   { name: 'Details', component: DetailsScreen },
+  { name: 'Edit', component: EditScreen }
 ]
 
 export default function HomeStack() {
@@ -21,5 +23,5 @@ export default function HomeStack() {
           component={screen.component} />
       ))}
     </Stack.Navigator>
-  );
+  )
 }

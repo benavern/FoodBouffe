@@ -9,17 +9,20 @@ import Button from '../../components/Button'
 import { ScrollView } from 'react-native-gesture-handler'
 import { colors } from '../../styles/variables'
 import { createRecipe } from '../../store/recipesSlice'
+import { useNavigation } from '@react-navigation/native'
+import { unwrapResult } from '@reduxjs/toolkit'
 const emptyRecipy = {
   name: '',
   info: '',
   categoryRef: null,
   prepDuration: 0,
-
+  creationDate: null,
   like: false,
   image: null
 }
 
 export default function createScreen () {
+  const navigation = useNavigation()
   const catList = useSelector(state => Object.keys(state.categories).map(id => ({id, ...state.categories[id]})))
   const dispatch = useDispatch()
   const [newRecipe, setnewRecipe] = useState(emptyRecipy)
@@ -85,7 +88,14 @@ export default function createScreen () {
 
         <Button
           title="Créer"
-          onPress={() => { dispatch(createRecipe(newRecipe)).then(() => setnewRecipe(emptyRecipy)) }}
+          onPress={() => {
+            dispatch(createRecipe({...newRecipe, creationDate: Date.now()}))
+              .then(unwrapResult)
+              .then((res) => {
+                setnewRecipe(emptyRecipy)
+                navigation.navigate('Edit', { recipeId: res.id })
+              })
+          }}
           disabled={!formValid} />
       </ScrollView>
     </SafeAreaView>

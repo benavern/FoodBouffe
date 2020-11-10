@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipeById } from '../../store/recipesSlice'
+import { fetchRecipeById, toggleLikeRecipe, deleteRecipe } from '../../store/recipesSlice'
+import Button from '../../components/Button'
+import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index.js'
 
-export default function DetailsScreen ({ route }) {
+export default function EditScreen ({ navigation, route }) {
   const { recipeId } = route.params
   const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
   const dispatch = useDispatch()
@@ -32,15 +34,40 @@ export default function DetailsScreen ({ route }) {
     return `${duration} Mins`
   }
 
+  function confirmDeleteAlert () {
+    return Alert.alert(
+      'Supprimer la recette',
+      `Vous êtes sur le point de supprimer la recette "${item.name}". Voulez vous continuer ?`,
+      [
+        {
+          text: 'Annuler',
+          style: 'cancel',
+          onPress: () => { console.log('Deletion cancelled') }
+        },
+        {
+          text: 'Supprimer',
+          onPress: () => {
+            dispatch(deleteRecipe(recipeId))
+              .then(unwrapResult)
+              .then(() => {
+                console.log('Suppression effectuée', recipeId)
+                navigation.popToTop()
+              })
+          }
+        },
+      ]
+    )
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView style={styles.scroller}>
-        <DetailHeader item={item} style={styles.headerStyle} />
+        <DetailHeader item={item} style={styles.headerStyle} mode="edit" />
 
         <View style={[globalStyle.screen, styles.detailsWrapper]}>
           <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
             <View>
-              <Text style={globalStyle.bigTitle}>{item.name}</Text>
+              <Text style={globalStyle.bigTitle}>[EDIT] {item.name}</Text>
 
               <Text style={globalStyle.subtitle}>{item.info}</Text>
             </View>
@@ -69,6 +96,16 @@ export default function DetailsScreen ({ route }) {
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
               </Text>
             </View>
+
+          </View>
+
+          <View style={styles.section}>
+            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
+
+            <Button
+              style={styles.deleteButton}
+              title="Supprimer"
+              onPress={() => confirmDeleteAlert()} />
           </View>
         </View>
       </ScrollView>
@@ -97,5 +134,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderBottomWidth: 1,
     borderBottomColor: colors.cardBackground
+  },
+  deleteButton: {
+    backgroundColor: colors.secondary
   }
 })

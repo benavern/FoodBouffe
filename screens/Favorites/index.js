@@ -1,13 +1,15 @@
-import React from 'react';
-import FavoritesScreen from './favoritesScreen';
-import DetailsScreen from '../Shared/detailsScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react'
+import FavoritesScreen from './favoritesScreen'
+import DetailsScreen from '../Shared/detailsScreen'
+import EditScreen from '../Shared/editScreen'
+import { createStackNavigator } from '@react-navigation/stack'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const favoritesStack = [
   { name: 'Favorites', component: FavoritesScreen },
   { name: 'Details', component: DetailsScreen },
+  { name: 'Edit', component: EditScreen }
 ]
 
 export default function FavoritesStack() {
@@ -21,5 +23,5 @@ export default function FavoritesStack() {
           component={screen.component} />
       ))}
     </Stack.Navigator>
-  );
+  )
 }

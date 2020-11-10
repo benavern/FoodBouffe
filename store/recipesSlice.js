@@ -69,16 +69,20 @@ export const createRecipe = createAsyncThunk(
   }
 )
 
+export const deleteRecipe = createAsyncThunk(
+  'recipes/deleteRecipe',
+  async id => {
+    await recipesRef.doc(id).delete()
+    return { id }
+  }
+)
+
 const recipesSlice = createSlice({
   name: 'recipes',
 
   initialState: [],
 
-  reducers: {
-    removeRecipe(state, { payload }) {
-      return state.filter(rec => rec.id !== payload.id)
-    }
-  },
+  reducers: {},
 
   extraReducers: {
     [fetchRecipes.fulfilled](state, { payload }) {
@@ -109,7 +113,13 @@ const recipesSlice = createSlice({
     [createRecipe.fulfilled](state, { payload }) {
       state.push(payload)
     },
-    [createRecipe.rejected]: handleRejection
+    [createRecipe.rejected]: handleRejection,
+
+    [deleteRecipe.fulfilled](state, { payload }) {
+      console.log(payload)
+      return state.filter(rec => rec.id !== payload.id)
+    },
+    [deleteRecipe.rejected]: handleRejection
   }
 })
 

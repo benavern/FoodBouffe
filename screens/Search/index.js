@@ -1,13 +1,15 @@
-import React from 'react';
-import SearchScreen from './searchScreen';
-import DetailsScreen from '../Shared/detailsScreen';
-import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react'
+import SearchScreen from './searchScreen'
+import DetailsScreen from '../Shared/detailsScreen'
+import EditScreen from '../Shared/editScreen'
+import { createStackNavigator } from '@react-navigation/stack'
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const searchStack = [
   { name: 'Search', component: SearchScreen },
   { name: 'Details', component: DetailsScreen },
+  { name: 'Edit', component: EditScreen }
 ]
 
 export default function SearchStack() {
@@ -21,5 +23,5 @@ export default function SearchStack() {
           component={screen.component} />
       ))}
     </Stack.Navigator>
-  );
+  )
 }
