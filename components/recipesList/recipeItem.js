@@ -8,6 +8,8 @@ import { colors } from '../../styles/variables';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
+const defaultImage = require('../../assets/default-background.jpg')
+
 export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation();
 
@@ -43,6 +45,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
         key={item.id}
         style={{ flex: 1 }}
         coverImage={item.image}
+        defaultCoverImage={defaultImage}
         footer={cardFooter}>
         <Text style={globalStyle.title}>
           {item.name}

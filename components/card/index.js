@@ -2,12 +2,13 @@ import React from 'react';
 import { Image, StyleSheet, View } from "react-native";
 import { colors } from '../../styles/variables'
 
-export default function Card ({ style, children, header, footer, coverImage }) {
+export default function Card ({ style, children, header, footer, coverImage, defaultCoverImage }) {
+
   return (
     <View style={[styles.wrapper, style]}>
-      { coverImage &&
+      { (coverImage || defaultCoverImage) &&
         <Image
-          source={{ uri: coverImage }}
+          source={coverImage ? { uri: coverImage } : defaultCoverImage}
           style={styles.coverImage}
           />
       }

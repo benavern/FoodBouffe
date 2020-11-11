@@ -2,21 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { toggleLikeRecipe } from '../../store/recipesSlice'
+import { toggleLikeRecipe, changeImageRecipe } from '../../store/recipesSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
 import { useDispatch } from 'react-redux'
-import * as ImagePicker from 'expo-image-picker'
-import { useActionSheet } from '@expo/react-native-action-sheet'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import RecipeImagePicker from './RecipeImagePicker'
 
 const defaultImage = require('../../assets/default-background.jpg')
-const imageOptions = {
-  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  allowsEditing: true,
-  aspect: [4, 3],
-  quality: 0.6,
-}
 
 export default function DetailHeader ({
   item,
@@ -25,42 +18,20 @@ export default function DetailHeader ({
 }) {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { showActionSheetWithOptions } = useActionSheet();
   const [image, setImage] = useState(defaultImage)
 
   useEffect(() => {
-    if(item.image) setImage({ uri: item.image})
-  }, [])
+    if(item.image) setImage({ uri: item.image })
+  }, [item.image])
 
-  const handleImageChange = ({cancelled, ...image}) => {
-    if(cancelled) return
-
-    setImage(image);
-  }
-
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync(imageOptions);
-    handleImageChange(result)
-  };
-
-  const takePicture = async () => {
-    const result = await ImagePicker.launchCameraAsync(imageOptions);
-    handleImageChange(result)
-  };
-
-  const promptImage = () => showActionSheetWithOptions({
-    title: 'Changer d\'image',
-    options: [ 'Prendre une photo', 'Choisir une image', 'Supprimer l\'image courante', 'Annuler' ],
-    destructiveButtonIndex: 2,
-    cancelButtonIndex: 3
-  }, btnIndex => {
-    if(btnIndex === 0) takePicture()
-    if(btnIndex === 1) pickImage()
-    if(btnIndex === 2) setImage(defaultImage)
-  })
-
-  if(!item) {
-    return <Text>No Item</Text>
+  const handleNewImage = (newImage) => {
+    if (newImage) {
+      dispatch(changeImageRecipe({id: item.id, image: newImage.uri}))
+      setImage(newImage)
+    } else {
+      dispatch(changeImageRecipe({id: item.id, image: null}))
+      setImage(defaultImage)
+    }
   }
 
   return (
@@ -97,14 +68,15 @@ export default function DetailHeader ({
         </View> }
 
         { mode === 'edit' && <View style={styles.editImageLine}>
-          <TouchableOpacity
+          <RecipeImagePicker
             style={styles.editImageBtn}
-            onPress={promptImage}>
+            onImage={newImage => handleNewImage(newImage)}
+            onDelete={() => handleNewImage(null)}>
             <Ionicons
               name="md-create"
               color={colors.primary}
               size={32} />
-          </TouchableOpacity>
+          </RecipeImagePicker>
         </View> }
       </SafeAreaView>
     </ImageBackground>
@@ -133,8 +105,7 @@ const styles = StyleSheet.create({
   editImageLine: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0.6
+    justifyContent: 'center'
   },
   coverBtn: {
     backgroundColor: colors.background,
@@ -148,7 +119,7 @@ const styles = StyleSheet.create({
   },
   editImageBtn: {
     marginTop: -editImageBtnWidth / 2,
-    backgroundColor: colors.background,
+    backgroundColor: colors.overlay,
     width: editImageBtnWidth,
     height: editImageBtnWidth,
     borderRadius: editImageBtnWidth,
