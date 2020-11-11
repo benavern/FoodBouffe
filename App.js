@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import Main from './Main.js'
 import store from './store'
+import { colors } from './styles/variables'
 
 
 export default function App() {
@@ -13,7 +14,7 @@ export default function App() {
     <Provider store={store}>
       <StatusBar
         translucent
-        backgroundColor="rgba(0,0,0,0.24)"/>
+        backgroundColor={colors.overlay}/>
 
       <ActionSheetProvider>
         <Main />

@@ -4,7 +4,7 @@ import { colors } from '../../styles/variables'
 
 export default function Card ({ style, children, header, footer, coverImage }) {
   return (
-    <View style={[style, styles.wrapper]}>
+    <View style={[styles.wrapper, style]}>
       { coverImage &&
         <Image
           source={{ uri: coverImage }}

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRecipeById } from '../../store/recipesSlice'
 import DetailHeader from '../../components/DetailsHeader/index'
+import { detailsTopRadius } from '../../config/foodbouffe.json'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
@@ -39,7 +40,7 @@ export default function DetailsScreen ({ route }) {
       <View style={styles.detailMain}>
         <ScrollView style={styles.scroller}>
           <View style={[globalStyle.screen, styles.detailContent]}>
-            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
+            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, globalStyle.section]}>
               <View>
                 <Text style={globalStyle.bigTitle}>{item.name}</Text>
 
@@ -59,7 +60,7 @@ export default function DetailsScreen ({ route }) {
               </View>
             </View>
 
-            <View style={styles.section}>
+            <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
               <View>
@@ -68,7 +69,7 @@ export default function DetailsScreen ({ route }) {
               </View>
             </View>
 
-            <View style={styles.section}>
+            <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
               <View>
@@ -84,20 +85,18 @@ export default function DetailsScreen ({ route }) {
   )
 }
 
-const roundTopHeight = 40
-
 const styles = StyleSheet.create({
   detailWrapper: {
     flex: 1,
   },
   detailHeader: {
-    paddingBottom: roundTopHeight
+    paddingBottom: detailsTopRadius
   },
   detailMain: {
     flex: 1,
-    marginTop: -roundTopHeight,
-    borderTopRightRadius: roundTopHeight,
-    borderTopLeftRadius: roundTopHeight,
+    marginTop: -detailsTopRadius,
+    borderTopRightRadius: detailsTopRadius,
+    borderTopLeftRadius: detailsTopRadius,
     overflow: 'hidden'
   },
   scroller: {
@@ -106,16 +105,10 @@ const styles = StyleSheet.create({
   },
   detailContent: {
     flex: 1,
-    paddingTop: roundTopHeight/2
+    paddingTop: detailsTopRadius/2
   },
   category: {
     alignSelf: 'flex-end',
     marginTop: 10
-  },
-  section: {
-    paddingTop: 10,
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.cardBackground
   }
 })

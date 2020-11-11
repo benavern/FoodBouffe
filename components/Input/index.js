@@ -15,17 +15,19 @@ export default forwardRef(
     onFocus,
     onBlur,
     onSubmit,
-    label
+    label,
+    style,
+    disabled
   }, ref) {
     const [inputFocused, setInputFocused] = useState(false)
     const [inputActive, setInputActive] = useState(false)
 
     useEffect(() => {
-      setInputActive(!!value || inputFocused)
+      setInputActive(!disabled && (!!value || inputFocused))
     }, [value, inputFocused])
 
     return (
-      <View>
+      <View style={style}>
         {label && <Text style={[globalStyle.text, styles.label, inputActive && styles.labelFocus]}>{label}</Text>}
 
         <TextInput
@@ -40,6 +42,7 @@ export default forwardRef(
           returnKeyLabel={returnKeyLabel}
           maxLength={maxLength}
           onSubmitEditing={onSubmit}
+          disabled={disabled}
           onFocus={(e) => { setInputFocused(true); onFocus && onFocus(e); }}
           onBlur={(e) => { setInputFocused(false); onBlur && onBlur(e); }}/>
       </View>

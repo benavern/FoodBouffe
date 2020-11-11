@@ -55,5 +55,11 @@ export default StyleSheet.create({
     backgroundColor: colors.secondary,
     paddingHorizontal: chipsSize / 2,
     borderRadius: chipsSize / 2
+  },
+  section: {
+    paddingTop: 10,
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.cardBackground
   }
 })

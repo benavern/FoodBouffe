@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
 import globalStyle from '../../styles/globalStyle';
 
 const { width: windowWidth } = Dimensions.get('window');

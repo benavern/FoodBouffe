@@ -9,17 +9,20 @@ export default forwardRef(
     onChange,
     value = null,
     label,
+    nullLabel = '-',
     options = [],
-    required
+    required,
+    style,
+    disabled
   }, ref) {
     const [inputActive, setinputActive] = useState(false)
 
     useEffect(() => {
-      setinputActive(!!value)
+      setinputActive(!!value && !disabled)
     }, [value])
 
     return (
-      <View>
+      <View style={style}>
         {label && <Text style={[globalStyle.text, styles.label, inputActive && styles.labelFocus]}>{label}</Text>}
 
         <View
@@ -29,9 +32,10 @@ export default forwardRef(
             style={styles.picker}
             dropdownIconColor={inputActive ? colors.text : colors.textAlt}
             selectedValue={value}
-            mode="dropdown"
+            // mode="dropdown"
+            enabled={!disabled}
             onValueChange={onChange}>
-            { !required && <Picker.Item label="---" value={null} /> }
+            { !required && <Picker.Item label={`- ${nullLabel} -`} value={null} /> }
             {options.map(opt => <Picker.Item label={opt.name} value={opt.id} key={opt.id} />)}
           </Picker>
         </View>
@@ -57,7 +61,6 @@ const styles = StyleSheet.create({
     height: 48,
     fontFamily: 'Raleway',
     fontSize: text.m,
-
   },
   inputFocused: {
     borderColor: focusColor

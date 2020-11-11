@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { ScrollView } from 'react-native-gesture-handler'
+import { ScrollView } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,11 +9,14 @@ import { fetchRecipeById, deleteRecipe } from '../../store/recipesSlice'
 import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index'
+import { detailsTopRadius } from '../../config/foodbouffe.json'
+import AddIngredient from '../../components/Button/AddIngredient'
 
 export default function EditScreen ({ navigation, route }) {
   const { recipeId } = route.params
   const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
   const dispatch = useDispatch()
+  const [ingredients, setIngredients] = useState([])
 
   useEffect(() => {
     dispatch(fetchRecipeById(recipeId))
@@ -64,32 +67,39 @@ export default function EditScreen ({ navigation, route }) {
 
       <View style={styles.detailMain}>
         <ScrollView style={styles.scroller}>
-
-          <View style={[globalStyle.screen, styles.detailsWrapper]}>
-            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, styles.section]}>
+          <View style={[globalStyle.screen, styles.detailContent]}>
+            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, globalStyle.section]}>
               <View>
-                <Text style={globalStyle.bigTitle}>[EDIT] {item.name}</Text>
+                <Text style={globalStyle.bigTitle}>{item.name}</Text>
 
                 <Text style={globalStyle.subtitle}>{item.info}</Text>
               </View>
 
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Ionicons name="md-clock" color={colors.secondary} size={24} />
+              <View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="md-clock" color={colors.secondary} size={24} />
 
-                <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
+                  <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
+                </View>
               </View>
             </View>
 
-            <View style={styles.section}>
+            <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
               <View>
-                <Text style={globalStyle.textAlt}>. truc</Text>
-                <Text style={globalStyle.textAlt}>. machin</Text>
+                {ingredients.map((ing, i) => <Text
+                  key={i}
+                  style={globalStyle.textAlt}>
+                  - {ing.name}
+                </Text>)}
+
+                <AddIngredient
+                  onAdd={newIngredient => setIngredients(oldIngredients => [...oldIngredients, newIngredient])} />
               </View>
             </View>
 
-            <View style={styles.section}>
+            <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
               <View>
@@ -100,7 +110,7 @@ export default function EditScreen ({ navigation, route }) {
 
             </View>
 
-            <View style={styles.section}>
+            <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
 
               <Button
@@ -115,20 +125,18 @@ export default function EditScreen ({ navigation, route }) {
   )
 }
 
-const roundTopHeight = 40
-
 const styles = StyleSheet.create({
   detailWrapper: {
     flex: 1,
   },
   detailHeader: {
-    paddingBottom: roundTopHeight
+    paddingBottom: detailsTopRadius
   },
   detailMain: {
     flex: 1,
-    marginTop: -roundTopHeight,
-    borderTopRightRadius: roundTopHeight,
-    borderTopLeftRadius: roundTopHeight,
+    marginTop: -detailsTopRadius,
+    borderTopRightRadius: detailsTopRadius,
+    borderTopLeftRadius: detailsTopRadius,
     overflow: 'hidden'
   },
   scroller: {
@@ -137,12 +145,7 @@ const styles = StyleSheet.create({
   },
   detailContent: {
     flex: 1,
-    paddingTop: roundTopHeight/2
-  },
-  section: {
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.cardBackground
+    paddingTop: detailsTopRadius/2
   },
   deleteButton: {
     backgroundColor: colors.secondary

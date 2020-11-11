@@ -11,7 +11,8 @@ const originalColors = {
   textAlt: '#A7A7A7',
   background: '#F4F4F4',
   cardBackground: '#FFF',
-  buttonText: '#F4F4F4'
+  buttonText: '#F4F4F4',
+  overlay: 'rgba(0,0,0,0.6)'
 }
 
 export const colors = darkmode
@@ -20,7 +21,7 @@ export const colors = darkmode
     text: '#ECECEC',
     textAlt: '#6B778D',
     background: '#202040',
-    cardBackground: 'rgba(255, 255, 255, .05)'
+    cardBackground: '#2c2c58'
   }
   : originalColors
 

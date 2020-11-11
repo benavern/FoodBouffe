@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { toggleLikeRecipe } from '../../store/recipesSlice'
 import { useNavigation } from '@react-navigation/native'
