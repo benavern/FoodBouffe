@@ -9,6 +9,7 @@ export default forwardRef(
     onChange,
     value = '',
     keyboardType = 'default',
+    secureTextEntry,
     returnKeyType,
     returnKeyLabel,
     maxLength,
@@ -38,6 +39,7 @@ export default forwardRef(
           placeholder={placeholder}
           placeholderTextColor={colors.textAlt}
           keyboardType={keyboardType}
+          secureTextEntry={secureTextEntry}
           returnKeyType={returnKeyType}
           returnKeyLabel={returnKeyLabel}
           maxLength={maxLength}

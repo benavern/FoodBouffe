@@ -1,46 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
-import { AppLoading } from 'expo'
 import { useDispatch } from 'react-redux'
 import { fetchCategories } from './store/categoriesSlice'
 import { colors } from './styles/variables'
-import * as Font from 'expo-font'
-import { Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway'
-import { Lobster_400Regular } from '@expo-google-fonts/lobster'
 
-import HomeScreen from './screens/Home'
+// import HomeScreen from './screens/Home'
 import FavoritesScreen from './screens/Favorites'
 import SearchScreen from './screens/Search'
 import CreateScreen from './screens/Create'
+import SettingsScreen from './screens/Settings'
+import { fetchUsers } from './store/userSlice'
 
 const Tab = createBottomTabNavigator();
 
 const screens = [
-  { name: 'Home', icon: 'md-home', component: HomeScreen },
-  { name: 'Favorites', icon: 'md-heart-empty', component: FavoritesScreen },
+  // { name: 'Home', icon: 'md-home', component: HomeScreen },
   { name: 'Search', icon: 'md-search', component: SearchScreen },
-  { name: 'Create', icon: 'md-add', component: CreateScreen }
+  { name: 'Favorites', icon: 'md-heart-empty', component: FavoritesScreen },
+  { name: 'Create', icon: 'md-add', component: CreateScreen },
+  { name: 'Settings', icon: 'md-settings', component: SettingsScreen}
 ]
 
-const getFonts = () => Font.loadAsync({
-  Raleway: Raleway_400Regular,
-  'Raleway-bold': Raleway_700Bold,
-  Lobster: Lobster_400Regular
-})
-
 export default function() {
-  const [appReady, setAppReady] = useState(false)
   const dispatch = useDispatch()
-
-  useEffect(() => { dispatch(fetchCategories())}, [])
-
-  if(!appReady) {
-    return <AppLoading
-      startAsync={getFonts}
-      onFinish={() => setAppReady(true)} />
-  }
+  useEffect(() => {
+    // here we fetch whatever won't be often refreshed on the app lifecycle
+    dispatch(fetchUsers()) // users
+    dispatch(fetchCategories()) // categories
+  }, [])
 
   return (
     <NavigationContainer>
