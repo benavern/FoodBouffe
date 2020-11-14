@@ -35,6 +35,22 @@ export const fetchUsers = createAsyncThunk(
   }
 )
 
+export const editUser = createAsyncThunk(
+  'user/editUser',
+  async ({ id, avatar, pseudo }) => {
+    const snap = await usersRef.doc(id).get()
+
+    if (!snap.exists) {
+      throw new Error(`No user exists with the id "${id}"`)
+      return
+    }
+
+    await usersRef.doc(id).set({ avatar, pseudo }, { merge: true })
+
+    return { id: snap.id, avatar, pseudo }
+  }
+)
+
 const userSlice = createSlice({
   name: 'user',
 
@@ -68,16 +84,24 @@ const userSlice = createSlice({
       const error = new Error('Login failed')
       handleRejection(state, { error })
     },
-    [logoutUser.fullfilled](state) {
+    [logoutUser.fulfilled](state) {
       state.loggedIn = false
       state.currentUserUid = ''
+      state.users = []
     },
     [logoutUser.rejected]: handleRejection,
 
     [fetchUsers.fulfilled](state, { payload }) {
       state.users = payload
     },
-    [fetchUsers.rejected]: handleRejection
+    [fetchUsers.rejected]: handleRejection,
+
+    [editUser.fulfilled](state, { payload }) {
+      const currentUser = state.users.find(user => user.id === payload.id)
+      currentUser.avatar = payload.avatar
+      currentUser.pseudo = payload.pseudo
+    },
+    [editUser.rejected]: handleRejection
   }
 })
 

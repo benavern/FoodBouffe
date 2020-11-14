@@ -88,6 +88,7 @@ export default function createScreen () {
 
         <Button
           title="Créer"
+          style={{ backgroundColor: colors.success }}
           onPress={() => {
             dispatch(createRecipe({...newRecipe, creationDate: Date.now()}))
               .then(unwrapResult)

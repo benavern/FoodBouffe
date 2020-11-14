@@ -7,7 +7,7 @@ import { colors, text } from '../../styles/variables'
 export default function Button({ title = 'bouton', style, buttonStyle, onPress, disabled = false }) {
   return (
     <TouchableOpacity
-      style={[styles.wrapper, disabled && styles.wrapperDisabled, style]}
+      style={[styles.wrapper, style, disabled && styles.wrapperDisabled]}
       activeOpacity={0.6}
       onPress={onPress}
       disabled={disabled}>

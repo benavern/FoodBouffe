@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
 import { useDispatch } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import RecipeImagePicker from './RecipeImagePicker'
+import ImagePicker from '../ImagePicker'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -43,7 +43,10 @@ export default function DetailHeader ({
           <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => navigation.pop()}>
-            <Ionicons name="ios-arrow-back" color={colors.text} size={24} />
+            <Ionicons
+              name="ios-arrow-back"
+              color={colors.text}
+              size={24} />
           </TouchableOpacity>
 
           { mode === 'display' && <TouchableOpacity
@@ -62,21 +65,22 @@ export default function DetailHeader ({
             onPress={() => navigation.navigate('Edit', { recipeId: item.id })}>
             <Ionicons
               name="md-create"
-              color={colors.secondary}
+              color={colors.text}
               size={24} />
           </TouchableOpacity>
         </View> }
 
         { mode === 'edit' && <View style={styles.editImageLine}>
-          <RecipeImagePicker
+          <ImagePicker
             style={styles.editImageBtn}
+            directory="recipes"
             onImage={newImage => handleNewImage(newImage)}
             onDelete={() => handleNewImage(null)}>
             <Ionicons
               name="md-create"
-              color={colors.primary}
+              color={colors.buttonText}
               size={32} />
-          </RecipeImagePicker>
+          </ImagePicker>
         </View> }
       </SafeAreaView>
     </ImageBackground>

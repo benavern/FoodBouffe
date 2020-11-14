@@ -114,7 +114,7 @@ export default function EditScreen ({ navigation, route }) {
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
 
               <Button
-                style={styles.deleteButton}
+                style={{backgroundColor: colors.danger}}
                 title="Supprimer"
                 onPress={() => confirmDeleteAlert()} />
             </View>
@@ -146,8 +146,5 @@ const styles = StyleSheet.create({
   detailContent: {
     flex: 1,
     paddingTop: detailsTopRadius/2
-  },
-  deleteButton: {
-    backgroundColor: colors.secondary
   }
 })
