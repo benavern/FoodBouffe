@@ -51,6 +51,33 @@ export const editUser = createAsyncThunk(
   }
 )
 
+export const toggleLikeRecipe = createAsyncThunk(
+  'user/toggleLikeRecipe',
+  async (id, { getState }) => {
+    const state = getState()
+    const uid = state.user.currentUserUid
+    const user = state.user.users.find(user => user.uid === uid)
+    let like = false
+
+    await db.runTransaction(async t => {
+      const currentUserRef = usersRef.doc(user.id)
+      const currentUserSnap = await t.get(currentUserRef)
+      const { favorites } = currentUserSnap.data()
+      like = !favorites.some(fav => fav === id)
+
+      let newFavorites
+      if (like) {
+        newFavorites = [...favorites, id]
+      } else {
+        newFavorites = favorites.filter(fav => fav !== id)
+      }
+
+      await t.update(currentUserRef, { favorites: newFavorites })
+    })
+
+    return { id, like }
+  }
+)
 const userSlice = createSlice({
   name: 'user',
 
@@ -101,7 +128,17 @@ const userSlice = createSlice({
       currentUser.avatar = payload.avatar
       currentUser.pseudo = payload.pseudo
     },
-    [editUser.rejected]: handleRejection
+    [editUser.rejected]: handleRejection,
+
+    [toggleLikeRecipe.fulfilled](state, { payload }) {
+      const currentUser = state.users.find(user => user.uid === state.currentUserUid)
+      if (payload.like) {
+        currentUser.favorites = [...currentUser.favorites, payload.id]
+      } else {
+        currentUser.favorites = currentUser.favorites.filter(fav => fav !== payload.id)
+      }
+    },
+    [toggleLikeRecipe.rejected]: handleRejection
   }
 })
 
@@ -111,4 +148,13 @@ export default userSlice.reducer
 export const currentUserSelector = state => {
   const uid = state.user.currentUserUid
   return state.user.users.find(user => user.uid === uid)
+}
+
+export const userLikesRecipeSelector = recipeId => state => {
+  const uid = state.user.currentUserUid
+  const user = state.user.users.find(user => user.uid === uid)
+
+  if(!user || !user.favorites) return false
+
+  return user.favorites.some(fav => fav === recipeId)
 }

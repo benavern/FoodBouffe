@@ -35,29 +35,6 @@ export const fetchRecipeById = createAsyncThunk(
   }
 )
 
-export const toggleLikeRecipe = createAsyncThunk(
-  'recipes/fetchRecipeById',
-  async id => {
-    const snap = await recipesRef.doc(id).get()
-
-    if (!snap.exists) {
-      throw new Error(`No recipe exists with the id "${id}"`)
-      return
-    }
-
-    const newLike = !snap.data().like
-
-    await recipesRef.doc(id).set({
-      like: newLike
-    }, { merge: true })
-
-    return {
-      id: snap.id,
-      like: newLike
-    }
-  }
-)
-
 export const changeImageRecipe = createAsyncThunk(
   'recipes/changeImageRecipe',
   async ({id, image}) => {
@@ -120,12 +97,6 @@ const recipesSlice = createSlice({
     },
     [fetchRecipeById.rejected]: handleRejection,
 
-    [toggleLikeRecipe.fulfilled](state, { payload }) {
-      const recipe = state.find(rec => rec.id === payload.id)
-      recipe.like = payload.like
-    },
-    [toggleLikeRecipe.rejected]: handleRejection,
-
     [changeImageRecipe.fulfilled](state, { payload }) {
       const recipe = state.find(rec => rec.id === payload.id)
       recipe.image = payload.image
@@ -146,3 +117,14 @@ const recipesSlice = createSlice({
 
 export const { removeRecipe } = recipesSlice.actions
 export default recipesSlice.reducer
+
+export const favoriteRecipesSelector = state => {
+  const uid = state.user.currentUserUid
+  const user = state.user.users.find(user => user.uid === uid)
+
+  if(!user || !user.favorites) return []
+
+  return state.recipes.filter(rec => user.favorites.some(fav => fav === rec.id))
+}
+
+export const recipesCountSelector = state => state.recipes.length

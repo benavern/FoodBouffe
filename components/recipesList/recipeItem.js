@@ -7,6 +7,7 @@ import Card from '../card';
 import { colors } from '../../styles/variables';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { userLikesRecipeSelector } from '../../store/userSlice';
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -14,6 +15,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation();
 
   const category = useSelector(state => state.categories[item.categoryRef])
+  const like = useSelector(userLikesRecipeSelector(item.id))
 
   if (item.hidden) {
     return (
@@ -30,7 +32,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
       </View>
 
       <Ionicons
-        name={item.like ? 'md-heart' : 'md-heart-empty'}
+        name={like ? 'md-heart' : 'md-heart-empty'}
         size={24}
         color={colors.primary} />
     </View>

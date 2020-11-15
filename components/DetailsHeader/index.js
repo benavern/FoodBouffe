@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { toggleLikeRecipe, changeImageRecipe } from '../../store/recipesSlice'
+import { changeImageRecipe } from '../../store/recipesSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
+import { toggleLikeRecipe, userLikesRecipeSelector } from '../../store/userSlice'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -16,6 +17,7 @@ export default function DetailHeader ({
   mode = 'display',
   style
 }) {
+  const like = useSelector(userLikesRecipeSelector(item.id))
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [image, setImage] = useState(defaultImage)
@@ -53,7 +55,7 @@ export default function DetailHeader ({
             style={styles.coverBtn}
             onPress={() => dispatch(toggleLikeRecipe(item.id))}>
             <Ionicons
-              name={item.like ? 'md-heart' : 'md-heart-empty'}
+              name={like ? 'md-heart' : 'md-heart-empty'}
               color={colors.primary}
               size={24} />
           </TouchableOpacity> }

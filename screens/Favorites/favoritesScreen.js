@@ -4,17 +4,26 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchRecipes } from '../../store/recipesSlice';
+import { fetchRecipes, recipesCountSelector } from '../../store/recipesSlice';
 import EmptyList from '../../components/emptyList';
-
+import { favoriteRecipesSelector } from '../../store/recipesSlice';
 
 export default function FavoritesScreen () {
-  const recipes = useSelector(state => state.recipes.filter(rec => rec.like))
+  const recipes = useSelector(favoriteRecipesSelector)
+  const recipesCount = useSelector(recipesCountSelector)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(fetchRecipes())
   }, [])
+
+  const favoritesCountText = <Text style={globalStyle.textBold}>{recipes.length}</Text>
+  const recipesCountText = <Text style={globalStyle.textBold}>{recipesCount}</Text>
+
+  function pluralize(word, nb = 1) {
+    if(nb > 1) return word + 's'
+    return word
+  }
 
   return (
     <SafeAreaView style={globalStyle.screen}>
@@ -23,7 +32,7 @@ export default function FavoritesScreen () {
           Mes recettes favorites
         </Text>
         <Text style={globalStyle.subtitle}>
-          Celles que je fais souvent
+          Vous avez {favoritesCountText} {pluralize('recette', recipes.length)} en favori sur {recipesCountText} en tout
         </Text>
       </View>
 
