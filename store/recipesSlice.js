@@ -53,8 +53,16 @@ export const changeImageRecipe = createAsyncThunk(
 
 export const createRecipe = createAsyncThunk(
   'recipes/createRecipe',
-  async recipe => {
-    const newRecipe = await recipesRef.add(recipe)
+  async (recipe, { getState }) => {
+    const creationDate = Date.now()
+    const state = getState()
+    const currentUser = state.user.users.find(u => u.uid === state.user.currentUserUid)
+    const newRecipe = await recipesRef.add({
+      ...recipe,
+      creationDate,
+      authorRef: currentUser.id
+    })
+
     return {
       id: newRecipe.id,
       ...recipe

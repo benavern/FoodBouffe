@@ -16,8 +16,6 @@ const emptyRecipy = {
   info: '',
   categoryRef: null,
   prepDuration: 0,
-  creationDate: null,
-  like: false,
   image: null
 }
 
@@ -90,7 +88,7 @@ export default function createScreen () {
           title="Créer"
           style={{ backgroundColor: colors.success }}
           onPress={() => {
-            dispatch(createRecipe({...newRecipe, creationDate: Date.now()}))
+            dispatch(createRecipe(newRecipe))
               .then(unwrapResult)
               .then((res) => {
                 setnewRecipe(emptyRecipy)

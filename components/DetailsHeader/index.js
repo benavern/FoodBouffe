@@ -3,12 +3,13 @@ import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { changeImageRecipe } from '../../store/recipesSlice'
+import { toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
-import { toggleLikeRecipe, userLikesRecipeSelector } from '../../store/userSlice'
+import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -18,6 +19,8 @@ export default function DetailHeader ({
   style
 }) {
   const like = useSelector(userLikesRecipeSelector(item.id))
+  const author = useSelector(userByIdSelector(item.authorRef))
+
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [image, setImage] = useState(defaultImage)
@@ -61,7 +64,9 @@ export default function DetailHeader ({
           </TouchableOpacity> }
         </View>
 
-        { mode === 'display' && <View style={[styles.headerLine, styles.editItemLine]}>
+        { mode === 'display' && <View style={styles.headerLine}>
+          <Author user={author} style={styles.author}/>
+
           <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => navigation.navigate('Edit', { recipeId: item.id })}>
@@ -105,8 +110,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  editItemLine: {
-    justifyContent: 'flex-end'
+  author: {
+    marginVertical: 10,
+    marginHorizontal: 12
   },
   editImageLine: {
     flex: 1,

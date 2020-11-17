@@ -6,8 +6,10 @@ import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchRecipeById } from '../../store/recipesSlice'
+import { fetchUserById } from '../../store/userSlice'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
@@ -17,6 +19,11 @@ export default function DetailsScreen ({ route }) {
 
   useEffect(() => {
     dispatch(fetchRecipeById(recipeId))
+      .then(unwrapResult)
+      .then((res) => {
+        // refresh user data, just in case...
+        if(res.authorRes) dispatch(fetchUserById(res.authorRef))
+      })
   }, [])
 
   function _formatDuration(duration) {
