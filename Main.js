@@ -4,21 +4,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { fetchCategories } from './store/categoriesSlice'
+import { fetchUsers } from './store/userSlice'
 import { colors } from './styles/variables'
 
-// import HomeScreen from './screens/Home'
+import HomeScreen from './screens/Home'
 import FavoritesScreen from './screens/Favorites'
 import SearchScreen from './screens/Search'
 import CreateScreen from './screens/Create'
 import SettingsScreen from './screens/Settings'
-import { fetchUsers } from './store/userSlice'
 
 const Tab = createBottomTabNavigator();
 
 const screens = [
-  // { name: 'Home', icon: 'md-home', component: HomeScreen },
-  { name: 'Search', icon: 'md-search', component: SearchScreen },
+  { name: 'Home', icon: 'md-home', component: HomeScreen },
   { name: 'Favorites', icon: 'md-heart-empty', component: FavoritesScreen },
+  { name: 'Search', icon: 'md-search', component: SearchScreen },
   { name: 'Create', icon: 'md-add', component: CreateScreen },
   { name: 'Settings', icon: 'md-settings', component: SettingsScreen}
 ]
