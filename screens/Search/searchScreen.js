@@ -9,21 +9,27 @@ import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
 import EmptyList from '../../components/emptyList'
 import Input from '../../components/Input'
+import { categoriesListSelector } from '../../store/categoriesSlice'
+import { colors } from '../../styles/variables'
 
-function setResults(recipes, searchTerm, setFn) {
+function getResults(recipes, searchTerm, searchCategory, setFn) {
   if(searchTerm) {
-    setFn(recipes.filter(rec => {
-      return rec.name.match(new RegExp(searchTerm, 'i'))
-    }))
+    return recipes
+    .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
+    .filter(rec => rec.name.match(new RegExp(searchTerm, 'i')))
   } else {
-    setFn(recipes.slice(0, searchEmptyLimit))
+    return recipes
+      .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
+      .slice(0, searchEmptyLimit)
   }
 }
 
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
+  const categories = useSelector(categoriesListSelector)
   const dispatch = useDispatch()
-  const [searchTerm, onSearchTermChange] = useState('')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchCategory, setSearchCategory] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
@@ -32,11 +38,13 @@ export default function HomeScreen() {
   }, [])
 
   useEffect(() => {
-    setResults(recipes, debouncedSearchTerm, setSearchResults)
-  }, [debouncedSearchTerm])
+    console.log(getResults(recipes, debouncedSearchTerm, searchCategory).map(item => item.name))
+    setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
+  }, [debouncedSearchTerm, searchCategory])
 
   useEffect(() => {
-    setResults(recipes, debouncedSearchTerm, setSearchResults)
+    console.log(getResults(recipes, debouncedSearchTerm, searchCategory).map(item => item.name))
+    setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
   }, [recipes])
 
   return (
@@ -50,13 +58,31 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-      <View style={styles.searchInput}>
+      <View style={globalStyle.section}>
         <Input
           value={searchTerm}
-          onChange={term => onSearchTermChange(term)}
+          onChange={term => setSearchTerm(term)}
           placeholder="Pizza"
           returnKeyType="search"
           returnKeyLabel="Rechercher une recette" />
+
+        <View style={styles.categoryChoices}>
+          {
+            categories.map(cat => (
+              <Text
+                key={cat.id}
+                style={[globalStyle.chips, { backgroundColor: cat.color}, searchCategory === cat.id && styles.categoryChoiceSelected]}
+                onPress={() => setSearchCategory(cat.id)}>
+                {cat.name}
+              </Text>
+            ))
+          }
+          <Text
+            style={[globalStyle.chips, styles.categoryChoice]}
+            onPress={() => setSearchCategory(null)}>
+            Toutes
+          </Text>
+        </View>
       </View>
 
       <View style={styles.resultsWrapper}>
@@ -78,10 +104,19 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  searchInput: {
-    marginVertical: 10
-  },
   resultsWrapper: {
-    flex: 1
+    flex: 1,
+    marginTop: 10
+  },
+  categoryChoices: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  categoryChoice: {
+    backgroundColor: colors.textAlt,
+  },
+  categoryChoiceSelected: {
+    borderColor: colors.primary,
+    borderWidth: 2
   }
 })
