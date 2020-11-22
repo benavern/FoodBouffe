@@ -1,15 +1,11 @@
 import React from 'react'
 import FavoritesScreen from './favoritesScreen'
-import DetailsScreen from '../Shared/detailsScreen'
-import EditScreen from '../Shared/editScreen'
 import { createStackNavigator } from '@react-navigation/stack'
 
 const Stack = createStackNavigator()
 
 const favoritesStack = [
-  { name: 'Favorites', component: FavoritesScreen },
-  { name: 'Details', component: DetailsScreen },
-  { name: 'Edit', component: EditScreen }
+  { name: 'Favorites', component: FavoritesScreen }
 ]
 
 export default function FavoritesStack() {

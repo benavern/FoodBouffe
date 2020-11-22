@@ -1,16 +1,12 @@
 import React from 'react'
 import CreateScreen from './createScreen'
-import DetailsScreen from '../Shared/detailsScreen'
-import EditScreen from '../Shared/editScreen'
 import { createStackNavigator } from '@react-navigation/stack'
 
 
 const Stack = createStackNavigator()
 
 const createStack = [
-  { name: 'Create', component: CreateScreen },
-  { name: 'Details', component: DetailsScreen },
-  { name: 'Edit', component: EditScreen }
+  { name: 'Create', component: CreateScreen }
 ]
 
 export default function CreateStack() {

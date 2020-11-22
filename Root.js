@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Login from './screens/Auth/LoginScreen'
-import Main from './Main'
+import SharedStack from './screens/Shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './firebase'
 import { setAuthReady, setUser } from './store/userSlice'
@@ -9,6 +9,7 @@ import { AppLoading } from 'expo'
 import * as Font from 'expo-font'
 import { Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway'
 import { Lobster_400Regular } from '@expo-google-fonts/lobster'
+import { NavigationContainer } from '@react-navigation/native'
 
 const getFonts = () => Font.loadAsync({
   Raleway: Raleway_400Regular,
@@ -43,5 +44,9 @@ export default function RootNavigation() {
     return <Login />
   }
 
-  return <Main />
+  return (
+    <NavigationContainer>
+      <SharedStack />
+    </NavigationContainer>
+  )
 }

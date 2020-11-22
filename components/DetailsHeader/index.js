@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { changeImageRecipe } from '../../store/recipesSlice'
-import { toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
+import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,7 @@ export default function DetailHeader ({
 }) {
   const like = useSelector(userLikesRecipeSelector(item.id))
   const author = useSelector(userByIdSelector(item.authorRef))
+  const currentUser = useSelector(currentUserSelector)
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -67,14 +68,14 @@ export default function DetailHeader ({
         { mode === 'display' && <View style={styles.headerLine}>
           <Author user={author} style={styles.author}/>
 
-          <TouchableOpacity
+          {author && currentUser.id === author.id && <TouchableOpacity
             style={styles.coverBtn}
             onPress={() => navigation.navigate('Edit', { recipeId: item.id })}>
             <Ionicons
               name="md-create"
               color={colors.text}
               size={24} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View> }
 
         { mode === 'edit' && <View style={styles.editImageLine}>

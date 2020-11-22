@@ -4,7 +4,7 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { Provider } from 'react-redux'
 import { ActionSheetProvider } from '@expo/react-native-action-sheet'
-import RootNavigation from './RootNavigation'
+import Root from './Root'
 import store from './store'
 import { colors } from './styles/variables'
 
@@ -16,7 +16,7 @@ export default function App() {
         backgroundColor={colors.overlay}/>
 
       <ActionSheetProvider>
-        <RootNavigation />
+        <Root />
       </ActionSheetProvider>
     </Provider>
   );
