@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { db } from '../firebase'
+import { categoryByAppNameSelector } from "./categoriesSlice"
 
 const recipesRef = db.collection('recipes')
 
@@ -136,3 +137,8 @@ export const favoriteRecipesSelector = state => {
 }
 
 export const recipesCountSelector = state => state.recipes.length
+
+export const recipesByCatAppNameSelector = catAppName => state => {
+  const {id: catRef} = categoryByAppNameSelector(catAppName)(state) || {}
+  return state.recipes.filter(rec => rec.categoryRef === catRef)
+}

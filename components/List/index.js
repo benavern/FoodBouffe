@@ -1,24 +1,32 @@
-import React from 'react';
-import { Dimensions, View } from 'react-native';
-import { FlatList } from 'react-native';
-import globalStyle from '../../styles/globalStyle';
+import React from 'react'
+import { Dimensions, View } from 'react-native'
+import { FlatList } from 'react-native'
+import globalStyle from '../../styles/globalStyle'
 
-const { width: windowWidth } = Dimensions.get('window');
-const listWidth = windowWidth - (globalStyle.screen.paddingHorizontal );
+const { width: screenWidth } = Dimensions.get('screen')
+const listWidth = screenWidth - (globalStyle.screen.paddingHorizontal * 2)
 
 export default function List({
   items,
   nbPerRow = 1,
   gutter = 10,
+  horizontal,
   style,
   renderItem
 }) {
-  const itemWidth = (listWidth  - (gutter * 2 * nbPerRow)) / nbPerRow;
 
-  function _formatData (data, colNb) {
-    let nbLastRow = data.length % colNb;
+  // when horizontal, display 1/4 extra of an item so that it is obvious that the user can scroll
+  const nbVisible = horizontal ? nbPerRow + 0.25 : nbPerRow
+  const itemWidth = (listWidth  - (gutter * 2 * nbVisible - gutter * 2)) / nbVisible
 
-    const cols = [...data];
+  // Only snap to each item when horizontal
+  const snapToInterval = horizontal && itemWidth + gutter * 2
+
+  function _formatData (data, colNb, horizontal) {
+    if (horizontal) return data
+
+    let nbLastRow = data.length % colNb
+    const cols = [...data]
 
     if (nbLastRow) {
       for (let i = 0; i < colNb - nbLastRow; i++) {
@@ -26,7 +34,7 @@ export default function List({
       }
     }
 
-    return cols;
+    return cols
   }
 
   function _renderItem({ item, width, gutter }) {
@@ -39,9 +47,14 @@ export default function List({
 
   return (
     <FlatList
-      data={_formatData(items, nbPerRow)}
+      data={_formatData(items, nbPerRow, horizontal)}
+      horizontal={horizontal}
+      showsHorizontalScrollIndicator={false}
+      pagingEnabled={horizontal}
+      snapToInterval={snapToInterval}
+      bounces={horizontal}
       style={[{ marginHorizontal: -gutter }, style]}
       renderItem={(args) => _renderItem({ ...args, width: itemWidth, gutter })}
-      numColumns={nbPerRow} />
-  );
+      numColumns={horizontal ? undefined : nbPerRow} />
+  )
 }

@@ -66,3 +66,8 @@ const categoriesSlice = createSlice({
 
 export const { addCategory, removeCategory } = categoriesSlice.actions
 export default categoriesSlice.reducer
+
+export const categoryByAppNameSelector = appName => state => {
+    const categories = Object.keys(state.categories).map(catId => ({id: catId, ...state.categories[catId]}))
+    return categories.find(cat => cat.appname === appName)
+}

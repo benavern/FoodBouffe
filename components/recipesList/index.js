@@ -3,20 +3,23 @@ import { StyleSheet } from 'react-native';
 import List from '../List';
 import RecipeItem from './recipeItem';
 
-export default function RecipeList ({ items }) {
+export default function RecipeList ({ items, horizontal, nbPerRow=2 }) {
   return (
     <List
       items={items}
-      style={styles.list}
+      style={[
+        styles.list,
+        { minHeight: horizontal ? 250 : 'auto' }
+      ]}
+      horizontal={horizontal}
       renderItem={({item, width, gutter}) => <RecipeItem item={item} style={{ width, margin: gutter}} />}
-      gutter={10}
-      nbPerRow={2} />
+      gutter={6}
+      nbPerRow={nbPerRow} />
   );
 }
 
 const styles = StyleSheet.create({
   list: {
-    flex: 1,
     marginTop: 10
   }
 });
