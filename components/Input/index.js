@@ -18,7 +18,8 @@ export default forwardRef(
     onSubmit,
     label,
     style,
-    disabled
+    disabled,
+    multiline
   }, ref) {
     const [inputFocused, setInputFocused] = useState(false)
     const [inputActive, setInputActive] = useState(false)
@@ -45,6 +46,7 @@ export default forwardRef(
           maxLength={maxLength}
           onSubmitEditing={onSubmit}
           disabled={disabled}
+          multiline={multiline}
           onFocus={(e) => { setInputFocused(true); onFocus && onFocus(e); }}
           onBlur={(e) => { setInputFocused(false); onBlur && onBlur(e); }}/>
       </View>

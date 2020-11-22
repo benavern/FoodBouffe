@@ -12,6 +12,7 @@ import FavoritesScreen from './screens/Favorites'
 import SearchScreen from './screens/Search'
 import CreateScreen from './screens/Create'
 import SettingsScreen from './screens/Settings'
+import { fetchIngredients } from './store/ingredientsSlice'
 
 const Tab = createBottomTabNavigator();
 
@@ -29,6 +30,7 @@ export default function() {
     // here we fetch whatever won't be often refreshed on the app lifecycle
     dispatch(fetchUsers()) // users
     dispatch(fetchCategories()) // categories
+    dispatch(fetchIngredients()) // ingredients
   }, [])
 
   return (

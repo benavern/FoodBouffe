@@ -52,6 +52,22 @@ export const changeImageRecipe = createAsyncThunk(
   }
 )
 
+export const updateRecipe = createAsyncThunk(
+  'recipes/updateRecipe',
+  async ({id, ...recipe}) => {
+    const snap = await recipesRef.doc(id).get()
+
+    if (!snap.exists) {
+      throw new Error(`No recipe exists with the id "${id}"`)
+      return
+    }
+
+    await recipesRef.doc(id).set(recipe)
+
+    return {id, ...recipe}
+  }
+)
+
 export const createRecipe = createAsyncThunk(
   'recipes/createRecipe',
   async (recipe, { getState }) => {
@@ -111,6 +127,12 @@ const recipesSlice = createSlice({
       recipe.image = payload.image
     },
     [changeImageRecipe.rejected]: handleRejection,
+
+    [updateRecipe.fulfilled](state, { payload }) {
+      const recipeIndex = state.findIndex(rec => rec.id === payload.id)
+      state[recipeIndex] = payload
+    },
+    [updateRecipe.rejected]: handleRejection,
 
     [createRecipe.fulfilled](state, { payload }) {
       state.push(payload)

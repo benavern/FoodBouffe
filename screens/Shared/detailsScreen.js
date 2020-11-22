@@ -10,6 +10,7 @@ import { fetchUserById } from '../../store/userSlice'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
 import { unwrapResult } from '@reduxjs/toolkit'
+import IngredientsList from '../../components/IngredientsList'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
@@ -70,10 +71,7 @@ export default function DetailsScreen ({ route }) {
             <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
-              <View>
-                <Text style={globalStyle.textAlt}>. truc</Text>
-                <Text style={globalStyle.textAlt}>. machin</Text>
-              </View>
+              <IngredientsList ingredients={item.ingredients} />
             </View>
 
             <View style={globalStyle.section}>
@@ -81,7 +79,7 @@ export default function DetailsScreen ({ route }) {
 
               <View>
                 <Text style={globalStyle.textAlt}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
+                  {item.details}
                 </Text>
               </View>
             </View>

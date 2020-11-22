@@ -47,7 +47,7 @@ export default function DetailHeader ({
         <View style={styles.headerLine}>
           <TouchableOpacity
             style={styles.coverBtn}
-            onPress={() => navigation.pop()}>
+            onPress={() => navigation.goBack()}>
             <Ionicons
               name="ios-arrow-back"
               color={colors.text}

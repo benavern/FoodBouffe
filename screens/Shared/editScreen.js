@@ -1,40 +1,38 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipeById, deleteRecipe } from '../../store/recipesSlice'
+import { fetchRecipeById, deleteRecipe, updateRecipe } from '../../store/recipesSlice'
 import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
 import AddIngredient from '../../components/Button/AddIngredient'
+import Input from '../../components/Input'
+import Select from '../../components/Select'
+import { categoriesListSelector } from '../../store/categoriesSlice'
+import IngredientsList from '../../components/IngredientsList'
+import { useNavigation } from '@react-navigation/native'
 
-export default function EditScreen ({ navigation, route }) {
+export default function EditScreen ({ route }) {
+  const navigation = useNavigation()
   const { recipeId } = route.params
-  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
+  const catList = useSelector(categoriesListSelector)
   const dispatch = useDispatch()
-  const [ingredients, setIngredients] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [item, setItem] = useState({})
 
   useEffect(() => {
+    setLoading(true)
     dispatch(fetchRecipeById(recipeId))
-  }, [])
-
-  function _formatDuration(duration) {
-    if (typeof duration !== 'number') {
-      return 'NA'
-    }
-    if (duration > 60) {
-      const hrs = Math.floor(duration / 60);
-      const mins = duration - hrs * 60
-      return mins
-        ? `${hrs} Heures ${mins} Mins`
-        : `${hrs} Heures`
-    }
-    return `${duration} Mins`
-  }
+      .then(unwrapResult)
+      .then(recipe => {
+        setLoading(false)
+        setItem(recipe)
+      })
+  }, [recipeId])
 
   function confirmDeleteAlert () {
     return Alert.alert(
@@ -61,6 +59,19 @@ export default function EditScreen ({ navigation, route }) {
     )
   }
 
+  async function submitForm () {
+    const res = await dispatch(updateRecipe(item)).then(unwrapResult)
+    navigation.goBack()
+  }
+
+  const infoInput = useRef(null)
+
+  function focusNext(next) {
+    if(next && next.current && next.current.focus) next.current.focus()
+  }
+
+  if (loading) return <Text>Loading...</Text>
+
   return (
     <View style={styles.detailWrapper}>
       <DetailHeader item={item} style={styles.detailHeader} mode="edit" />
@@ -68,51 +79,70 @@ export default function EditScreen ({ navigation, route }) {
       <View style={styles.detailMain}>
         <ScrollView style={styles.scroller}>
           <View style={[globalStyle.screen, styles.detailContent]}>
-            <View style={[{ flexDirection: 'row', justifyContent: "space-between" }, globalStyle.section]}>
-              <View>
-                <Text style={globalStyle.bigTitle}>{item.name}</Text>
+            <View style={globalStyle.section}>
+              <Input
+                label="Nom de la recette"
+                placeholder="Pizza maison"
+                returnKeyType="next"
+                value={item.name}
+                onChange={name => setItem(oldItem => ({...oldItem, name}))}
+                onSubmit={() => focusNext(infoInput)} />
 
-                <Text style={globalStyle.subtitle}>{item.info}</Text>
-              </View>
+              <Input
+                ref={infoInput}
+                label="Description rapide"
+                placeholder="À la mozzarella"
+                value={item.info}
+                onChange={info => setItem(oldItem => ({...oldItem, info}))} />
 
-              <View>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Ionicons name="md-clock" color={colors.secondary} size={24} />
+              <Select
+                label="Sélectionner une catégorie"
+                value={item.categoryRef}
+                onChange={newCatRef => setItem(oldItem => ({ ...oldItem, categoryRef: newCatRef }))}
+                options={catList} />
 
-                  <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>{_formatDuration(item.prepDuration)}</Text>
-                </View>
-              </View>
+              <Input
+                label="Temps de préparation (min)"
+                placeholder="10"
+                keyboardType="numeric"
+                maxLength={3}
+                value={item.prepDuration}
+                onChange={newPrepDuration => setItem(oldItem => ({
+                  ...oldItem,
+                  prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
+                }))} />
             </View>
 
             <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
-              <View>
-                {ingredients.map((ing, i) => <Text
-                  key={i}
-                  style={globalStyle.textAlt}>
-                  - {ing.name}
-                </Text>)}
-
-                <AddIngredient
-                  onAdd={newIngredient => setIngredients(oldIngredients => [...oldIngredients, newIngredient])} />
-              </View>
+              <IngredientsList
+                ingredients={item.ingredients}
+                mode="edit"
+                onAdd={newIngredient => setItem(oldItem => ({...oldItem, ingredients: [...(oldItem.ingredients || []), newIngredient]}))}
+                onRemove={ingredientToRemove => setItem(oldItem => ({ ...oldItem, ingredients: (oldItem.ingredients || []).filter(ing => ing.ingredientRef !== ingredientToRemove) }))} />
             </View>
 
             <View style={globalStyle.section}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
               <View>
-                <Text style={globalStyle.textAlt}>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia quidem vitae quod fugit doloribus vel iure unde impedit, at facilis obcaecati eveniet nulla adipisci ad. Distinctio ullam quas totam provident.
-                </Text>
+                <Input
+                  multiline
+                  label="Contenu de la recette"
+                  placeholder="Tout mettre dans la casserole et cuire 10 min"
+                  value={item.details}
+                  onChange={details => setItem(oldItem => ({...oldItem, details}))} />
               </View>
-
             </View>
 
             <View style={globalStyle.section}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Zone de danger</Text>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Actions</Text>
 
+              <Button
+                style={{ backgroundColor: colors.success }}
+                title="Valider"
+                onPress={() => submitForm()} />
               <Button
                 style={{backgroundColor: colors.danger}}
                 title="Supprimer"
