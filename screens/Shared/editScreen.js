@@ -74,83 +74,83 @@ export default function EditScreen ({ route }) {
 
   return (
     <View style={styles.detailWrapper}>
-      <DetailHeader item={item} style={styles.detailHeader} mode="edit" />
+      <ScrollView style={styles.scroller}>
+        <DetailHeader
+          item={item}
+          style={styles.detailHeader} mode="edit" />
 
-      <View style={styles.detailMain}>
-        <ScrollView style={styles.scroller}>
-          <View style={[globalStyle.screen, styles.detailContent]}>
-            <View style={globalStyle.section}>
+        <View style={[globalStyle.screen, styles.detailContent]}>
+          <View style={globalStyle.section}>
+            <Input
+              label="Nom de la recette"
+              placeholder="Pizza maison"
+              returnKeyType="next"
+              value={item.name}
+              onChange={name => setItem(oldItem => ({...oldItem, name}))}
+              onSubmit={() => focusNext(infoInput)} />
+
+            <Input
+              ref={infoInput}
+              label="Description rapide"
+              placeholder="À la mozzarella"
+              value={item.info}
+              onChange={info => setItem(oldItem => ({...oldItem, info}))} />
+
+            <Select
+              label="Sélectionner une catégorie"
+              value={item.categoryRef}
+              onChange={newCatRef => setItem(oldItem => ({ ...oldItem, categoryRef: newCatRef }))}
+              options={catList} />
+
+            <Input
+              label="Temps de préparation (min)"
+              placeholder="10"
+              keyboardType="numeric"
+              maxLength={3}
+              value={item.prepDuration}
+              onChange={newPrepDuration => setItem(oldItem => ({
+                ...oldItem,
+                prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
+              }))} />
+          </View>
+
+          <View style={globalStyle.section}>
+            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
+
+            <IngredientsList
+              ingredients={item.ingredients}
+              mode="edit"
+              onAdd={newIngredient => setItem(oldItem => ({...oldItem, ingredients: [...(oldItem.ingredients || []), newIngredient]}))}
+              onRemove={ingredientToRemove => setItem(oldItem => ({ ...oldItem, ingredients: (oldItem.ingredients || []).filter(ing => ing.ingredientRef !== ingredientToRemove) }))} />
+          </View>
+
+          <View style={globalStyle.section}>
+            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
+
+            <View>
               <Input
-                label="Nom de la recette"
-                placeholder="Pizza maison"
-                returnKeyType="next"
-                value={item.name}
-                onChange={name => setItem(oldItem => ({...oldItem, name}))}
-                onSubmit={() => focusNext(infoInput)} />
-
-              <Input
-                ref={infoInput}
-                label="Description rapide"
-                placeholder="À la mozzarella"
-                value={item.info}
-                onChange={info => setItem(oldItem => ({...oldItem, info}))} />
-
-              <Select
-                label="Sélectionner une catégorie"
-                value={item.categoryRef}
-                onChange={newCatRef => setItem(oldItem => ({ ...oldItem, categoryRef: newCatRef }))}
-                options={catList} />
-
-              <Input
-                label="Temps de préparation (min)"
-                placeholder="10"
-                keyboardType="numeric"
-                maxLength={3}
-                value={item.prepDuration}
-                onChange={newPrepDuration => setItem(oldItem => ({
-                  ...oldItem,
-                  prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
-                }))} />
-            </View>
-
-            <View style={globalStyle.section}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
-
-              <IngredientsList
-                ingredients={item.ingredients}
-                mode="edit"
-                onAdd={newIngredient => setItem(oldItem => ({...oldItem, ingredients: [...(oldItem.ingredients || []), newIngredient]}))}
-                onRemove={ingredientToRemove => setItem(oldItem => ({ ...oldItem, ingredients: (oldItem.ingredients || []).filter(ing => ing.ingredientRef !== ingredientToRemove) }))} />
-            </View>
-
-            <View style={globalStyle.section}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
-
-              <View>
-                <Input
-                  multiline
-                  label="Contenu de la recette"
-                  placeholder="Tout mettre dans la casserole et cuire 10 min"
-                  value={item.details}
-                  onChange={details => setItem(oldItem => ({...oldItem, details}))} />
-              </View>
-            </View>
-
-            <View style={globalStyle.section}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Actions</Text>
-
-              <Button
-                style={{ backgroundColor: colors.success }}
-                title="Valider"
-                onPress={() => submitForm()} />
-              <Button
-                style={{backgroundColor: colors.danger}}
-                title="Supprimer"
-                onPress={() => confirmDeleteAlert()} />
+                multiline
+                label="Contenu de la recette"
+                placeholder="Tout mettre dans la casserole et cuire 10 min"
+                value={item.details}
+                onChange={details => setItem(oldItem => ({...oldItem, details}))} />
             </View>
           </View>
-        </ScrollView>
-      </View>
+
+          <View style={globalStyle.section}>
+            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Actions</Text>
+
+            <Button
+              style={{ backgroundColor: colors.success }}
+              title="Valider"
+              onPress={() => submitForm()} />
+            <Button
+              style={{backgroundColor: colors.danger}}
+              title="Supprimer"
+              onPress={() => confirmDeleteAlert()} />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -160,21 +160,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   detailHeader: {
-    paddingBottom: detailsTopRadius
+    paddingBottom: detailsTopRadius + 10
   },
-  detailMain: {
+  scroller: {
     flex: 1,
+    backgroundColor: colors.background
+  },
+  detailContent: {
+    flex: 1,
+    paddingTop: detailsTopRadius/2,
     marginTop: -detailsTopRadius,
     borderTopRightRadius: detailsTopRadius,
     borderTopLeftRadius: detailsTopRadius,
     overflow: 'hidden'
-  },
-  scroller: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  detailContent: {
-    flex: 1,
-    paddingTop: detailsTopRadius/2
   }
 })

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { changeImageRecipe } from '../../store/recipesSlice'
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
 import Author from '../Author'
+import { detailsImageHeight } from '../../config/foodbouffe.json'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -41,9 +42,12 @@ export default function DetailHeader ({
   }
 
   return (
-    <ImageBackground
-      source={image}
+    <View
       style={[styles.coverImage, style]}>
+      <Image
+        source={image}
+        style={StyleSheet.absoluteFillObject} />
+
       <SafeAreaView style={styles.headerContainer}>
         <View style={styles.headerLine}>
           <TouchableOpacity
@@ -91,7 +95,7 @@ export default function DetailHeader ({
           </ImagePicker>
         </View> }
       </SafeAreaView>
-    </ImageBackground>
+    </View>
   )
 }
 
@@ -101,7 +105,7 @@ const editImageBtnWidth = 80
 const styles = StyleSheet.create({
   coverImage: {
     width: '100%',
-    height: 300,
+    height: detailsImageHeight,
   },
   headerContainer: {
     flex: 1,

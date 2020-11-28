@@ -38,12 +38,10 @@ export default function HomeScreen() {
   }, [])
 
   useEffect(() => {
-    console.log(getResults(recipes, debouncedSearchTerm, searchCategory).map(item => item.name))
     setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
   }, [debouncedSearchTerm, searchCategory])
 
   useEffect(() => {
-    console.log(getResults(recipes, debouncedSearchTerm, searchCategory).map(item => item.name))
     setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
   }, [recipes])
 
