@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MainNavigation from '../Main'
 import DetailsScreen from './detailsScreen'
 import EditScreen from './editScreen'
+
 import { createStackNavigator } from '@react-navigation/stack'
+
+import { useDispatch } from 'react-redux'
+import { fetchUsers } from '../../store/userSlice'
+import { fetchCategories } from '../../store/categoriesSlice'
+import { fetchIngredients } from '../../store/ingredientsSlice'
 
 const Stack = createStackNavigator()
 
@@ -13,6 +19,14 @@ const sharedStack = [
 ]
 
 export default function SharedStack() {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    // here we fetch whatever won't be often refreshed on the app lifecycle
+    dispatch(fetchUsers()) // users
+    dispatch(fetchCategories()) // categories
+    dispatch(fetchIngredients()) // ingredients
+  }, [])
+
   return (
     <Stack.Navigator
       headerMode="none">

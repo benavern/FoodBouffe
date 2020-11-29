@@ -8,7 +8,6 @@ import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
 import IngredientsList from '../../components/IngredientsList'
 import { formatDuration } from '../../helpers/date.helper'
-import { detailsImageHeight } from '../../config/foodbouffe.json'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params

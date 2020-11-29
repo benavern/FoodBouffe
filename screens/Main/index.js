@@ -1,10 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
-import { useDispatch } from 'react-redux'
-import { fetchUsers } from '../../store/userSlice'
-import { fetchCategories } from '../../store/categoriesSlice'
-import { fetchIngredients } from '../../store/ingredientsSlice'
 import { colors } from '../../styles/variables'
 
 import HomeScreen from '../Home'
@@ -24,14 +20,6 @@ const screens = [
 ]
 
 export default function() {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    // here we fetch whatever won't be often refreshed on the app lifecycle
-    dispatch(fetchUsers()) // users
-    dispatch(fetchCategories()) // categories
-    dispatch(fetchIngredients()) // ingredients
-  }, [])
-
   return (
     <Tab.Navigator
       tabBarOptions={{
