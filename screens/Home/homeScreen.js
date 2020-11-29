@@ -5,8 +5,6 @@ import globalStyle from '../../styles/globalStyle';
 import { useDispatch } from 'react-redux';
 import { fetchRecipes } from '../../store/recipesSlice';
 import { homeLimit } from '../../config/foodbouffe.json'
-import Separator from '../../components/Separator';
-import { colors } from '../../styles/variables';
 import HomeCarousel from './HomeCarousel';
 
 export default function HomeScreen() {
@@ -19,8 +17,6 @@ export default function HomeScreen() {
     <ScrollView>
       <SafeAreaView style={globalStyle.screen}>
         <HomeCarousel categoryAppname="salted" limit={homeLimit} />
-
-        <Separator color={colors.primary} />
 
         <HomeCarousel categoryAppname="sweet" limit={homeLimit} />
       </SafeAreaView>
