@@ -59,13 +59,13 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
         header={cardHeader}
         headerStyle={styles.cardHeader}
         footer={cardFooter}>
-        <Text style={globalStyle.title}>
+        <Text style={globalStyle.title} numberOfLines={2}>
           {item.name}
         </Text>
 
-        <Text style={globalStyle.subtitle}>
+        {/* <Text style={globalStyle.subtitle} numberOfLines={2}>
           {item.info}
-        </Text>
+        </Text> */}
       </Card>
     </TouchableOpacity>
   )

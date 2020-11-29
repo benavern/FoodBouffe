@@ -14,8 +14,8 @@ export default function HomeScreen() {
   }, [])
 
   return (
-    <ScrollView>
-      <SafeAreaView style={globalStyle.screen}>
+    <ScrollView style={globalStyle.screen}>
+      <SafeAreaView>
         <HomeCarousel categoryAppname="salted" limit={homeLimit} />
 
         <HomeCarousel categoryAppname="sweet" limit={homeLimit} />

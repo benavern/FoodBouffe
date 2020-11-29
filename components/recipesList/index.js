@@ -9,7 +9,7 @@ export default function RecipeList ({ items, horizontal, nbPerRow=2 }) {
       items={items}
       style={[
         styles.list,
-        { minHeight: horizontal ? 250 : 'auto' }
+        { minHeight: horizontal ? 215 : 'auto' }
       ]}
       horizontal={horizontal}
       renderItem={({item, width, gutter}) => <RecipeItem item={item} style={{ width, margin: gutter}} />}

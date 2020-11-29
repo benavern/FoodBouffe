@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Animated, StyleSheet, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { changeImageRecipe } from '../../store/recipesSlice'
@@ -17,7 +17,8 @@ const defaultImage = require('../../assets/default-background.jpg')
 export default function DetailHeader ({
   item,
   mode = 'display',
-  style
+  style,
+  imageOffset = new Animated.Value(0)
 }) {
   const like = useSelector(userLikesRecipeSelector(item.id))
   const author = useSelector(userByIdSelector(item.authorRef))
@@ -41,12 +42,29 @@ export default function DetailHeader ({
     }
   }
 
+  const imageTranslateY = imageOffset.interpolate({
+    inputRange: [0, detailsImageHeight],
+    outputRange: [0, detailsImageHeight / 2]
+  })
+
+  const imageOverlay = imageOffset.interpolate({
+    inputRange: [0, detailsImageHeight],
+    outputRange: [0, 0.75]
+  })
+
   return (
     <View
       style={[styles.coverImage, style]}>
-      <Image
+      <Animated.Image
         source={image}
-        style={StyleSheet.absoluteFillObject} />
+        style={[StyleSheet.absoluteFillObject, {
+          transform: [
+            {translateY: imageTranslateY}
+          ]
+        }]} />
+
+        <Animated.View
+          style={[StyleSheet.absoluteFillObject, {backgroundColor: colors.background, opacity: imageOverlay }]}/>
 
       <SafeAreaView style={styles.headerContainer}>
         <View style={styles.headerLine}>

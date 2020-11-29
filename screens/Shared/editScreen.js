@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Alert, StyleSheet, Text, View } from 'react-native'
-import { ScrollView } from 'react-native'
+import { Alert, Animated, StyleSheet, Text, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +8,6 @@ import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
-import AddIngredient from '../../components/Button/AddIngredient'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import { categoriesListSelector } from '../../store/categoriesSlice'
@@ -23,6 +21,7 @@ export default function EditScreen ({ route }) {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const [item, setItem] = useState({})
+  const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
     setLoading(true)
@@ -74,10 +73,16 @@ export default function EditScreen ({ route }) {
 
   return (
     <View style={styles.detailWrapper}>
-      <ScrollView style={styles.scroller}>
+      <Animated.ScrollView
+        style={styles.scroller}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          { useNativeDriver: true }
+        )}>
         <DetailHeader
           item={item}
-          style={styles.detailHeader} mode="edit" />
+          style={styles.detailHeader} mode="edit"
+          imageOffset={scrollY} />
 
         <View style={[globalStyle.screen, styles.detailContent]}>
           <View style={globalStyle.section}>
@@ -130,6 +135,7 @@ export default function EditScreen ({ route }) {
             <View>
               <Input
                 multiline
+                style={{ maxHeight: 300 }}
                 label="Contenu de la recette"
                 placeholder="Tout mettre dans la casserole et cuire 10 min"
                 value={item.details}
@@ -150,7 +156,7 @@ export default function EditScreen ({ route }) {
               onPress={() => confirmDeleteAlert()} />
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   )
 }

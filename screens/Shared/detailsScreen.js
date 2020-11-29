@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Animated, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
@@ -13,13 +13,21 @@ export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
   const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
   const category = useSelector(state => state.categories[item.categoryRef])
+  const scrollY = useRef(new Animated.Value(0)).current
 
   return (
     <View style={styles.detailWrapper}>
-      <ScrollView style={styles.scroller}>
+      <Animated.ScrollView
+        style={styles.scroller}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          { useNativeDriver: true }
+        )}>
         <DetailHeader
           item={item}
-          style={styles.detailHeader}/>
+          style={styles.detailHeader}
+          imageOffset={scrollY}
+          />
 
         <View style={[globalStyle.screen, styles.detailContent]}>
 
@@ -67,7 +75,7 @@ export default function DetailsScreen ({ route }) {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   )
 }
