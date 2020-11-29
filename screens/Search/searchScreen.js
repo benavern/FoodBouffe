@@ -9,17 +9,23 @@ import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
 import EmptyList from '../../components/emptyList'
 import Input from '../../components/Input'
+import Select from '../../components/Select'
+import Button from '../../components/Button'
+import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import { colors } from '../../styles/variables'
+import { unwrapResult } from '@reduxjs/toolkit'
 
-function getResults(recipes, searchTerm, searchCategory, setFn) {
+function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
   if(searchTerm) {
     return recipes
     .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
+    .filter(rec => !searchAuthor || rec.authorRef === searchAuthor)
     .filter(rec => rec.name.match(new RegExp(searchTerm, 'i')))
   } else {
     return recipes
       .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
+      .filter(rec => !searchAuthor || rec.authorRef === searchAuthor)
       .slice(0, searchEmptyLimit)
   }
 }
@@ -27,23 +33,26 @@ function getResults(recipes, searchTerm, searchCategory, setFn) {
 export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
   const categories = useSelector(categoriesListSelector)
+  const usersList = useSelector(state => state.user.users.map(({id, pseudo}) => ({id, name: pseudo})))
   const dispatch = useDispatch()
   const [searchTerm, setSearchTerm] = useState('')
+  const [searchMore, setSearchMore] = useState(false)
   const [searchCategory, setSearchCategory] = useState(null)
+  const [searchAuthor, setSearchAuthor] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
 
   useEffect(() => {
     dispatch(fetchRecipes())
+      .then(unwrapResult)
+      .then(() => {
+        setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory, searchAuthor))
+      })
   }, [])
 
   useEffect(() => {
-    setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
-  }, [debouncedSearchTerm, searchCategory])
-
-  useEffect(() => {
-    setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory))
-  }, [recipes])
+    setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory, searchAuthor))
+  }, [debouncedSearchTerm, searchCategory, searchAuthor])
 
   return (
     <SafeAreaView style={globalStyle.screen}>
@@ -57,35 +66,52 @@ export default function HomeScreen() {
       </View>
 
       <View style={globalStyle.section}>
-        <Input
-          value={searchTerm}
-          onChange={term => setSearchTerm(term)}
-          placeholder="Pizza"
-          returnKeyType="search"
-          returnKeyLabel="Rechercher une recette" />
+        <View style={styles.searchMain}>
+          <Input
+            style={styles.searchField}
+            value={searchTerm}
+            onChange={term => setSearchTerm(term)}
+            placeholder="Pizza"
+            returnKeyType="search"
+            returnKeyLabel="Rechercher une recette" />
 
-        <View style={styles.categoryChoices}>
-          {
-            categories.map(cat => (
-              <Text
-                key={cat.id}
-                style={[globalStyle.chips, { backgroundColor: cat.color}, searchCategory === cat.id && styles.categoryChoiceSelected]}
-                onPress={() => setSearchCategory(cat.id)}>
-                {cat.name}
-              </Text>
-            ))
-          }
-          <Text
-            style={[globalStyle.chips, styles.categoryChoice]}
-            onPress={() => setSearchCategory(null)}>
-            Toutes
-          </Text>
+          <Button
+            style={styles.searchMoreBtn}
+            title={<Ionicons name={searchMore ? 'md-remove' : 'md-add'} color={colors.buttonText} size={24} />}
+            onPress={() => setSearchMore(!searchMore)} />
+        </View>
+
+        <View style={styles.searchMore(searchMore)}>
+          <View style={styles.categoryChoices}>
+            {
+              categories.map(cat => (
+                <Text
+                  key={cat.id}
+                  style={[globalStyle.chips, { backgroundColor: cat.color}, searchCategory === cat.id && styles.categoryChoiceSelected]}
+                  onPress={() => setSearchCategory(cat.id)}>
+                  {cat.name}
+                </Text>
+              ))
+            }
+            <Text
+              style={[globalStyle.chips, styles.categoryChoice]}
+              onPress={() => setSearchCategory(null)}>
+              Toutes
+            </Text>
+          </View>
+
+          <Select
+            value={searchAuthor}
+            onChange={newAuthor => setSearchAuthor(newAuthor)}
+            label="Autheur"
+            nullLabel="Tous"
+            options={usersList} />
         </View>
       </View>
 
       <View style={styles.resultsWrapper}>
         <Text style={globalStyle.title}>
-          {debouncedSearchTerm ? 'Resultats' : 'Suggestions'} :
+          {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
         </Text>
 
         {
@@ -102,6 +128,19 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  searchMain: {
+    flexDirection: 'row'
+  },
+  searchField: {
+    flex: 1,
+    marginRight: 10
+  },
+  searchMoreBtn: {
+    width: 50
+  },
+  searchMore: visible => ({
+    display: visible ? 'flex' : 'none',
+  }),
   resultsWrapper: {
     flex: 1,
     marginTop: 10

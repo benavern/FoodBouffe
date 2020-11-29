@@ -32,7 +32,6 @@ export default forwardRef(
             style={styles.picker}
             dropdownIconColor={inputActive ? colors.text : colors.textAlt}
             selectedValue={value}
-            // mode="dropdown"
             enabled={!disabled}
             onValueChange={onChange}>
             { !required && <Picker.Item label={`- ${nullLabel} -`} value={null} /> }
