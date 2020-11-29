@@ -10,7 +10,13 @@ import { colors } from '../../styles/variables'
 
 export default function HomeCarousel({ categoryAppname, limit }) {
   const category = useSelector(categoryByAppNameSelector(categoryAppname)) || {}
-  const recipes = useSelector(recipesByCatAppNameSelector(categoryAppname)).slice(0, limit) || []
+  const recipes = useSelector(
+    recipesByCatAppNameSelector(categoryAppname))
+      //from most recent to older
+      .sort((a,b) => b.creationDate - a.creationDate)
+      // slice to homeLimit
+      .slice(0, limit)
+    || []
 
   return (
     <View style={styles.wrapper}>
