@@ -3,40 +3,46 @@ import Login from './screens/Auth/LoginScreen'
 import SharedStack from './screens/Shared'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './firebase'
-import { setAuthReady, setUser } from './store/userSlice'
+import { setCurrentUser } from './store/userSlice'
 import { AppLoading } from 'expo'
 
-import * as Font from 'expo-font'
+import { loadAsync as loadFontAsync } from 'expo-font'
 import { Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway'
 import { Lobster_400Regular } from '@expo-google-fonts/lobster'
 import { NavigationContainer } from '@react-navigation/native'
 
-const getFonts = () => Font.loadAsync({
+const getFonts = () => loadFontAsync({
   Raleway: Raleway_400Regular,
   'Raleway-bold': Raleway_700Bold,
   Lobster: Lobster_400Regular
 })
 
+let resolveAppReadyPromise = () => {}
+const prepareApp = () => {
+  return Promise.all([
+    getFonts(),
+    new Promise(resolve => { resolveAppReadyPromise = resolve })
+  ])
+}
+
 export default function RootNavigation() {
   const [appReady, setAppReady] = useState(false)
-  const {authReady, loggedIn} = useSelector(state => state.user)
+  const { loggedIn } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    auth.onAuthStateChanged(userData => {
-      let usefulUserData
-      if(userData) {
-        usefulUserData = { uid: userData.uid }
+    auth.onAuthStateChanged((userInfo) => {
+      if (userInfo) {
+        const { uid } = userInfo
+        dispatch(setCurrentUser(uid))
       }
-      dispatch(setUser(usefulUserData))
-
-      dispatch(setAuthReady(true))
+      resolveAppReadyPromise()
     })
   }, [])
 
-  if (!authReady && !appReady) {
+  if (!appReady) {
     return <AppLoading
-      startAsync={getFonts}
+      startAsync={prepareApp}
       onFinish={() => setAppReady(true)} />
   }
 

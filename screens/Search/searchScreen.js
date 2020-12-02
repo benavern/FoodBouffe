@@ -3,8 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import RecipesList from '../../components/recipesList'
 import globalStyle from '../../styles/globalStyle'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipes } from '../../store/recipesSlice'
+import { useSelector } from 'react-redux'
 import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
 import EmptyList from '../../components/emptyList'
@@ -14,7 +13,6 @@ import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import { colors } from '../../styles/variables'
-import { unwrapResult } from '@reduxjs/toolkit'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
   if(searchTerm) {
@@ -34,21 +32,12 @@ export default function HomeScreen() {
   const recipes = useSelector(state => state.recipes)
   const categories = useSelector(categoriesListSelector)
   const usersList = useSelector(state => state.user.users.map(({id, pseudo}) => ({id, name: pseudo})))
-  const dispatch = useDispatch()
   const [searchTerm, setSearchTerm] = useState('')
   const [searchMore, setSearchMore] = useState(false)
   const [searchCategory, setSearchCategory] = useState(null)
   const [searchAuthor, setSearchAuthor] = useState(null)
   const [searchResults, setSearchResults] = useState([])
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
-
-  useEffect(() => {
-    dispatch(fetchRecipes())
-      .then(unwrapResult)
-      .then(() => {
-        setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory, searchAuthor))
-      })
-  }, [])
 
   useEffect(() => {
     setSearchResults(getResults(recipes, debouncedSearchTerm, searchCategory, searchAuthor))

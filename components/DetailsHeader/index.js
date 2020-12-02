@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import { changeImageRecipe } from '../../store/recipesSlice'
 import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors } from '../../styles/variables'
@@ -18,7 +17,8 @@ export default function DetailHeader ({
   item,
   mode = 'display',
   style,
-  imageOffset = new Animated.Value(0)
+  imageOffset = new Animated.Value(0),
+  onImageChange
 }) {
   const like = useSelector(userLikesRecipeSelector(item.id))
   const author = useSelector(userByIdSelector(item.authorRef))
@@ -34,10 +34,10 @@ export default function DetailHeader ({
 
   const handleNewImage = (newImage) => {
     if (newImage) {
-      dispatch(changeImageRecipe({id: item.id, image: newImage.uri}))
+      onImageChange(newImage.uri)
       setImage(newImage)
     } else {
-      dispatch(changeImageRecipe({id: item.id, image: null}))
+      onImageChange(null)
       setImage(defaultImage)
     }
   }
@@ -57,10 +57,8 @@ export default function DetailHeader ({
       style={[styles.coverImage, style]}>
       <Animated.Image
         source={image}
-        style={[StyleSheet.absoluteFillObject, {
-          transform: [
-            {translateY: imageTranslateY}
-          ]
+        style={[styles.image, {
+          transform: [{translateY: imageTranslateY}]
         }]} />
 
         <Animated.View
@@ -124,6 +122,10 @@ const styles = StyleSheet.create({
   coverImage: {
     width: '100%',
     height: detailsImageHeight,
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'cover'
   },
   headerContainer: {
     flex: 1,

@@ -3,7 +3,7 @@ import { Alert, Animated, StyleSheet, Text, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchRecipeById, deleteRecipe, updateRecipe } from '../../store/recipesSlice'
+import { deleteRecipe, recipeById, updateRecipe } from '../../store/recipesSlice'
 import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index'
@@ -13,25 +13,20 @@ import Select from '../../components/Select'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import IngredientsList from '../../components/IngredientsList'
 import { useNavigation } from '@react-navigation/native'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default function EditScreen ({ route }) {
   const navigation = useNavigation()
   const { recipeId } = route.params
+  const rowRecipe = useSelector(recipeById(recipeId))
   const catList = useSelector(categoriesListSelector)
   const dispatch = useDispatch()
-  const [loading, setLoading] = useState(true)
   const [item, setItem] = useState({})
   const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
-    setLoading(true)
-    dispatch(fetchRecipeById(recipeId))
-      .then(unwrapResult)
-      .then(recipe => {
-        setLoading(false)
-        setItem(recipe)
-      })
-  }, [recipeId])
+    setItem(cloneDeep(rowRecipe))
+  }, [rowRecipe])
 
   function confirmDeleteAlert () {
     return Alert.alert(
@@ -59,7 +54,7 @@ export default function EditScreen ({ route }) {
   }
 
   async function submitForm () {
-    const res = await dispatch(updateRecipe(item)).then(unwrapResult)
+    await dispatch(updateRecipe(item)).then(unwrapResult)
     navigation.goBack()
   }
 
@@ -68,9 +63,6 @@ export default function EditScreen ({ route }) {
   function focusNext(next) {
     if(next && next.current && next.current.focus) next.current.focus()
   }
-
-  if (loading) return <Text>Loading...</Text>
-
   return (
     <View style={styles.detailWrapper}>
       <Animated.ScrollView
@@ -82,7 +74,8 @@ export default function EditScreen ({ route }) {
         <DetailHeader
           item={item}
           style={styles.detailHeader} mode="edit"
-          imageOffset={scrollY} />
+          imageOffset={scrollY}
+          onImageChange={image => setItem(oldItem => ({...oldItem, image}))} />
 
         <View style={[globalStyle.screen, styles.detailContent]}>
           <View style={globalStyle.section}>

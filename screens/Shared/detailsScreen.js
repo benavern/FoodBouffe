@@ -30,16 +30,15 @@ export default function DetailsScreen ({ route }) {
           />
 
         <View style={[globalStyle.screen, styles.detailContent]}>
-
           <View style={[globalStyle.section, styles.detailHeaderSection]}>
-            <View>
+            <View style={styles.detailHeaderTitle}>
               <Text style={globalStyle.bigTitle}>{item.name}</Text>
 
               <Text style={globalStyle.subtitle}>{item.info}</Text>
             </View>
 
             <View>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={styles.detailHeaderInfo}>
                 <Ionicons name="md-clock" color={colors.secondary} size={24} />
 
                 <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>
@@ -86,6 +85,14 @@ const styles = StyleSheet.create({
   },
   detailHeader: {
     paddingBottom: detailsTopRadius + 10
+  },
+  detailHeaderTitle: {
+    flex: 1,
+    marginRight: 10
+  },
+  detailHeaderInfo: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   scroller: {
     flex: 1,

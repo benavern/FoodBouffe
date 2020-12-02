@@ -36,22 +36,6 @@ export const fetchRecipeById = createAsyncThunk(
   }
 )
 
-export const changeImageRecipe = createAsyncThunk(
-  'recipes/changeImageRecipe',
-  async ({id, image}) => {
-    const snap = await recipesRef.doc(id).get()
-
-    if (!snap.exists) {
-      throw new Error(`No recipe exists with the id "${id}"`)
-      return
-    }
-
-    await recipesRef.doc(id).set({ image }, { merge: true })
-
-    return { id: snap.id, image }
-  }
-)
-
 export const updateRecipe = createAsyncThunk(
   'recipes/updateRecipe',
   async ({id, ...recipe}) => {
@@ -122,12 +106,6 @@ const recipesSlice = createSlice({
     },
     [fetchRecipeById.rejected]: handleRejection,
 
-    [changeImageRecipe.fulfilled](state, { payload }) {
-      const recipe = state.find(rec => rec.id === payload.id)
-      recipe.image = payload.image
-    },
-    [changeImageRecipe.rejected]: handleRejection,
-
     [updateRecipe.fulfilled](state, { payload }) {
       const recipeIndex = state.findIndex(rec => rec.id === payload.id)
       state[recipeIndex] = payload
@@ -164,3 +142,5 @@ export const recipesByCatAppNameSelector = catAppName => state => {
   const {id: catRef} = categoryByAppNameSelector(catAppName)(state) || {}
   return state.recipes.filter(rec => rec.categoryRef === catRef)
 }
+
+export const recipeById = recipeId => state => state.recipes.find(rec => rec.id === recipeId)

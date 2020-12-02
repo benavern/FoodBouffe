@@ -98,20 +98,16 @@ const userSlice = createSlice({
   name: 'user',
 
   initialState: {
-    authReady: false,
     loggedIn: false,
     currentUserUid: '',
     users: []
   },
 
   reducers: {
-    setAuthReady(state, { payload = false }) {
-      return { ...state, authReady: payload }
-    },
-    setUser(state, { payload }) {
+    setCurrentUser(state, { payload }) {
       if (payload) {
         state.loggedIn = true
-        state.currentUserUid = payload.uid
+        state.currentUserUid = payload
       } else {
         state.loggedIn = false
         state.currentUserUid = ''
@@ -170,7 +166,7 @@ const userSlice = createSlice({
   }
 })
 
-export const { setAuthReady, setUser } = userSlice.actions
+export const { setCurrentUser } = userSlice.actions
 export default userSlice.reducer
 
 export const currentUserSelector = state => {

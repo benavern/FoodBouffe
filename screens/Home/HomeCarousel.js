@@ -2,26 +2,14 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import RecipesList from '../../components/recipesList'
 import EmptyList from '../../components/emptyList'
-import { useSelector } from 'react-redux'
-import { categoryByAppNameSelector } from '../../store/categoriesSlice'
-import { recipesByCatAppNameSelector } from '../../store/recipesSlice'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 
-export default function HomeCarousel({ categoryAppname, limit }) {
-  const category = useSelector(categoryByAppNameSelector(categoryAppname)) || {}
-  const recipes = useSelector(
-    recipesByCatAppNameSelector(categoryAppname))
-      //from most recent to older
-      .sort((a,b) => b.creationDate - a.creationDate)
-      // slice to homeLimit
-      .slice(0, limit)
-    || []
-
+export default function HomeCarousel({ category = {}, recipes = [] }) {
   return (
     <View style={styles.wrapper}>
       <View>
-        <Text style={globalStyle.bigTitle}>
+        <Text style={globalStyle.title}>
           Les dernières {
             category.longname
               ? <Text style={styles.categoryName(category.color)}>{category.longname}</Text>
@@ -39,7 +27,7 @@ export default function HomeCarousel({ categoryAppname, limit }) {
       <View style={styles.carousel}>
         {
           !recipes.length
-            ? <EmptyList subtitle={`La catégorie "${categoryAppname}" n'existe peut-être pas...`} />
+            ? <EmptyList subtitle={'Cette catégorie n\'existe peut-être pas...'} />
             : <RecipesList horizontal items={recipes} />
         }
       </View>

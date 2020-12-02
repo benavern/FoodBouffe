@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import MainNavigation from '../Main'
 import DetailsScreen from './detailsScreen'
 import EditScreen from './editScreen'
@@ -9,6 +9,9 @@ import { useDispatch } from 'react-redux'
 import { fetchUsers } from '../../store/userSlice'
 import { fetchCategories } from '../../store/categoriesSlice'
 import { fetchIngredients } from '../../store/ingredientsSlice'
+import { AppLoading } from 'expo'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { fetchRecipes } from '../../store/recipesSlice'
 
 const Stack = createStackNavigator()
 
@@ -20,12 +23,23 @@ const sharedStack = [
 
 export default function SharedStack() {
   const dispatch = useDispatch()
-  useEffect(() => {
+  const [dataReady, setDataReady] = useState(false)
+
+  const fetchData = () => {
     // here we fetch whatever won't be often refreshed on the app lifecycle
-    dispatch(fetchUsers()) // users
-    dispatch(fetchCategories()) // categories
-    dispatch(fetchIngredients()) // ingredients
-  }, [])
+    return Promise.all([
+      dispatch(fetchUsers()).then(unwrapResult), // users
+      dispatch(fetchCategories()).then(unwrapResult), // categories
+      dispatch(fetchIngredients()).then(unwrapResult), // ingredients
+      dispatch(fetchRecipes()).then(unwrapResult), // recipes
+    ])
+  }
+
+  if(!dataReady) {
+    return <AppLoading
+      startAsync={fetchData}
+      onFinish={() => setDataReady(true)} />
+  }
 
   return (
     <Stack.Navigator

@@ -3,11 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 
-import HomeScreen from '../Home'
-import FavoritesScreen from '../Favorites'
-import SearchScreen from '../Search'
-import CreateScreen from '../Create'
-import SettingsScreen from '../Settings'
+import HomeScreen from '../Home/homeScreen'
+import FavoritesScreen from '../Favorites/favoritesScreen'
+import SearchScreen from '../Search/searchScreen'
+import CreateScreen from '../Create/createScreen'
+import SettingsScreen from '../Settings/userSettingsScreen'
 
 const Tab = createBottomTabNavigator();
 
