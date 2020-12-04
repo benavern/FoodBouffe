@@ -141,7 +141,7 @@ export default function EditScreen ({ route }) {
 
             <Button
               style={{ backgroundColor: colors.success }}
-              title="Valider"
+              title="Enregistrer"
               onPress={() => submitForm()} />
             <Button
               style={{backgroundColor: colors.danger}}

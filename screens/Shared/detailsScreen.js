@@ -68,7 +68,7 @@ export default function DetailsScreen ({ route }) {
             <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
             <View>
-              <Text style={globalStyle.textAlt}>
+              <Text style={globalStyle.text}>
                 {item.details}
               </Text>
             </View>

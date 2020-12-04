@@ -1,4 +1,5 @@
 import { unwrapResult } from '@reduxjs/toolkit'
+import uniqId from 'lodash/uniqueId'
 import React, { useState } from 'react'
 import { Modal, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -29,7 +30,7 @@ export default function AddIngredient({ onAdd }) {
     }
 
     // notify that a new ingredient has been added
-    onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity })
+    onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity, id: uniqId() })
 
     // reset the form and close modal
     setIngredient(emptyIngredient)
@@ -46,7 +47,7 @@ export default function AddIngredient({ onAdd }) {
         onRequestClose={() => { setModalVisible(false) }}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalView}>
-            <Text style={[globalStyle.bigTitle, globalStyle.section]}>Hello World!</Text>
+            <Text style={[globalStyle.bigTitle, globalStyle.section]}>Ajouter un ingrédient</Text>
 
             <Select
               nullLabel="Nouvel ingrédient"
@@ -67,7 +68,7 @@ export default function AddIngredient({ onAdd }) {
               onChange={newQuantity => setQuantity(newQuantity)} />
 
             <Button
-              title="Valider"
+              title="Ajouter"
               onPress={() => handleNewIngredient()}/>
           </View>
         </View>

@@ -20,8 +20,8 @@ export default function IngredientItem({ ingredient, mode = 'display', onPress }
       }
 
       <Text style={[globalStyle.text, styles.ingredient]}>
-        <Text style={globalStyle.textBold}>{ingredientData.name}</Text> ({ingredient.quantity})
-      </Text>
+          <Text style={globalStyle.textBold}>{ingredientData.name}</Text> {ingredient.quantity && <Text>({ingredient.quantity})</Text>}
+        </Text>
     </TouchableOpacity>
   )
 }
