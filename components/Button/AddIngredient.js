@@ -1,5 +1,4 @@
 import { unwrapResult } from '@reduxjs/toolkit'
-import uniqId from 'lodash/uniqueId'
 import React, { useState } from 'react'
 import { Modal, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,7 +29,7 @@ export default function AddIngredient({ onAdd }) {
     }
 
     // notify that a new ingredient has been added
-    onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity, id: uniqId() })
+    onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity })
 
     // reset the form and close modal
     setIngredient(emptyIngredient)

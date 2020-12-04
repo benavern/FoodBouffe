@@ -9,7 +9,7 @@ export default function IngredientsList ({ingredients = [], mode='display', onAd
       <View style={styles.list}>
         {ingredients.map((ing, i) => (
             <IngredientItem
-              key={ing.id}
+              key={i.toString()}
               ingredient={ing}
               mode={mode}
               onPress={onRemove} />
