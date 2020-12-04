@@ -1,6 +1,6 @@
 import { Appearance } from "react-native-appearance";
 
-const colorScheme = Appearance.getColorScheme();
+export const colorScheme = Appearance.getColorScheme();
 
 export const darkmode = colorScheme === 'dark';
 
@@ -36,4 +36,4 @@ export const text = {
     s: 10
 }
 
-export const chipsSize = 24
+export const inputHeight = 48

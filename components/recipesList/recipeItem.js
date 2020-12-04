@@ -8,6 +8,7 @@ import { colors } from '../../styles/variables'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { userLikesRecipeSelector } from '../../store/userSlice'
+import Pill from '../Pill'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -33,9 +34,11 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const cardFooter = (
     <View style={styles.cardFooter}>
       <View>
-        { category && <Text style={[globalStyle.chips, {backgroundColor: category.color}]}>
-          {category.name}
-        </Text> }
+        { category &&
+          <Pill style={{backgroundColor: category.color}}>
+            {category.name}
+          </Pill>
+        }
       </View>
 
       <Ionicons

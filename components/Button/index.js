@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
-import { colors, text } from '../../styles/variables'
+import { colors, inputHeight, text } from '../../styles/variables'
 
 export default function Button({ title = 'bouton', style, buttonStyle, onPress, disabled = false }) {
   return (
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: colors.primary,
     borderRadius: 3,
-    height: 48,
+    height: inputHeight,
   },
   wrapperDisabled: {
     backgroundColor: colors.textAlt
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: colors.buttonText,
     fontSize: text.m,
-    lineHeight: 48,
+    lineHeight: inputHeight,
     textTransform: 'uppercase'
   }
 })

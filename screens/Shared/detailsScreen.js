@@ -8,6 +8,7 @@ import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
 import IngredientsList from '../../components/IngredientsList'
 import { formatDuration } from '../../helpers/date.helper'
+import Pill from '../../components/Pill'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
@@ -47,13 +48,10 @@ export default function DetailsScreen ({ route }) {
               </View>
 
               { category &&
-                <Text
-                  style={[
-                    globalStyle.chips,
-                    styles.category(category.color)
-                  ]}>
+                <Pill
+                  style={styles.category(category.color)}>
                   {category.name}
-                </Text>
+                </Pill>
               }
             </View>
           </View>
@@ -113,6 +111,6 @@ const styles = StyleSheet.create({
   category: (bg) => ({
     alignSelf: 'flex-end',
     marginTop: 10,
-    backgroundColor: bg || colors.primary
+    backgroundColor: bg || colors.textAlt
   })
 })

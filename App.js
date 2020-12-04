@@ -7,6 +7,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import Root from './Root'
 import store from './store'
 import { colors } from './styles/variables'
+import { TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native'
 
 export default function App() {
   return (
@@ -16,7 +17,13 @@ export default function App() {
         backgroundColor={colors.overlay}/>
 
       <ActionSheetProvider>
-        <Root />
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <Root />
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
       </ActionSheetProvider>
     </Provider>
   );

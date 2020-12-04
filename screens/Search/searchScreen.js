@@ -12,7 +12,8 @@ import Select from '../../components/Select'
 import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
-import { colors } from '../../styles/variables'
+import { colors, inputHeight } from '../../styles/variables'
+import Pill from '../../components/Pill'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
   if(searchTerm) {
@@ -74,19 +75,21 @@ export default function HomeScreen() {
           <View style={styles.categoryChoices}>
             {
               categories.map(cat => (
-                <Text
+                <Pill
                   key={cat.id}
-                  style={[globalStyle.chips, { backgroundColor: cat.color}, searchCategory === cat.id && styles.categoryChoiceSelected]}
+                  active={searchCategory === cat.id}
+                  style={{ backgroundColor: cat.color}}
                   onPress={() => setSearchCategory(cat.id)}>
                   {cat.name}
-                </Text>
+                </Pill>
               ))
             }
-            <Text
-              style={[globalStyle.chips, styles.categoryChoice]}
+            <Pill
+              style={styles.categoryChoice}
+              active={!searchCategory}
               onPress={() => setSearchCategory(null)}>
               Toutes
-            </Text>
+            </Pill>
           </View>
 
           <Select
@@ -125,7 +128,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   searchMoreBtn: {
-    width: 50
+    width: inputHeight
   },
   searchMore: visible => ({
     display: visible ? 'flex' : 'none',
@@ -140,9 +143,5 @@ const styles = StyleSheet.create({
   },
   categoryChoice: {
     backgroundColor: colors.textAlt,
-  },
-  categoryChoiceSelected: {
-    borderColor: colors.primary,
-    borderWidth: 2
   }
 })

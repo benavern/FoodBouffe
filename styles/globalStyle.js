@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, text, chipsSize } from './variables';
+import { colors, text } from './variables';
 
 export default StyleSheet.create({
   bigTitle: {
@@ -45,16 +45,6 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  chips: {
-    color: '#fff',
-    fontSize: chipsSize / 2,
-    height: chipsSize,
-    lineHeight: chipsSize,
-    fontFamily: 'Raleway-bold',
-    backgroundColor: colors.secondary,
-    paddingHorizontal: chipsSize / 2,
-    borderRadius: chipsSize / 2
   },
   section: {
     paddingTop: 10,

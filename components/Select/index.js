@@ -1,8 +1,8 @@
 import React, { forwardRef, useEffect, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Picker } from '@react-native-community/picker'
+import { StyleSheet, Text, View, Platform } from 'react-native'
+import { Picker } from '@react-native-picker/picker'
 import globalStyle from '../../styles/globalStyle'
-import { colors, text } from '../../styles/variables'
+import { colors, inputHeight, text } from '../../styles/variables'
 
 export default forwardRef(
   function Select({
@@ -30,10 +30,11 @@ export default forwardRef(
           <Picker
             ref={ref}
             style={styles.picker}
-            dropdownIconColor={inputActive ? colors.text : colors.textAlt}
+            dropdownIconColor={inputActive ? colors.primary : colors.textAlt}
             selectedValue={value}
             enabled={!disabled}
-            onValueChange={onChange}>
+            onValueChange={onChange}
+            prompt={label}>
             { !required && <Picker.Item label={`- ${nullLabel} -`} value={null} /> }
             {options.map(opt => <Picker.Item label={opt.name} value={opt.id} key={opt.id} />)}
           </Picker>
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     color: colors.text,
-    height: 48,
+    height: Platform.select({ ios: 200, android: inputHeight}),
     fontFamily: 'Raleway',
     fontSize: text.m,
   },

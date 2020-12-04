@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
-import { colors, text } from '../../styles/variables'
+import { colors, inputHeight, text } from '../../styles/variables'
 
 export default forwardRef(
   function Input({
@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginVertical: 10,
     color: colors.text,
-    fontFamily: 'Raleway'
+    fontFamily: 'Raleway',
+    minHeight: inputHeight
   },
   inputFocused: {
     borderColor: focusColor
