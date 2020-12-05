@@ -5,7 +5,7 @@ import { colors, text } from '../../styles/variables'
 
 const defaultAvatar = require('../../assets/default-avatar.jpg')
 
-export default function Author ({ user = { pseudo: 'Nobody' }, style }) {
+export default function Author ({ user = { pseudo: 'Nobody' }, avatarOnly, style }) {
 
   let avatar = defaultAvatar
 
@@ -16,7 +16,7 @@ export default function Author ({ user = { pseudo: 'Nobody' }, style }) {
   return (
     <View style={[styles.author, style]}>
       <Image source={avatar} style={styles.avatar} />
-      <Text style={[globalStyle.text, globalStyle.textBold, styles.pseudo]}>{user.pseudo}</Text>
+      {!avatarOnly && <Text style={[globalStyle.text, globalStyle.textBold, styles.pseudo]}>{user.pseudo}</Text>}
     </View>
   )
 }

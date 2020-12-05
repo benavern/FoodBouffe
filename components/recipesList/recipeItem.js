@@ -7,8 +7,9 @@ import Card from '../card'
 import { colors } from '../../styles/variables'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
-import { userLikesRecipeSelector } from '../../store/userSlice'
+import { userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import Pill from '../Pill'
+import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -17,6 +18,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 
   const category = useSelector(state => state.categories[item.categoryRef])
   const like = useSelector(userLikesRecipeSelector(item.id))
+  const author = useSelector(userByIdSelector(item.authorRef))
 
   if (item.hidden) {
     return (
@@ -25,10 +27,14 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   }
 
   const cardHeader = (
-    <Image
-      source={item.image ? { uri: item.image } : defaultImage}
-      style={styles.headerImage}
-      />
+    <>
+      <Image
+        source={item.image ? { uri: item.image } : defaultImage}
+        style={styles.headerImage}
+        />
+
+      <Author user={author} avatarOnly style={{ position: 'absolute', bottom: -5, alignSelf: 'center' }} />
+    </>
   )
 
   const cardFooter = (
@@ -65,10 +71,6 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
         <Text style={globalStyle.title} numberOfLines={2}>
           {item.name}
         </Text>
-
-        {/* <Text style={globalStyle.subtitle} numberOfLines={2}>
-          {item.info}
-        </Text> */}
       </Card>
     </TouchableOpacity>
   )
