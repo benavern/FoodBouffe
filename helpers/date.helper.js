@@ -9,3 +9,9 @@ export function formatDuration(duration) {
   }
   return `${duration} Mins`
 }
+
+export function formatDate(timestamp) {
+  if(!timestamp) return ''
+  const date = new Date(timestamp)
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+}

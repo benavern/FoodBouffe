@@ -9,6 +9,7 @@ import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import Input from '../Input'
 import Select from '../Select'
+import IconButton from './IconButton'
 
 const emptyIngredient = {
   name: '',
@@ -58,14 +59,11 @@ export default function AddIngredient({ onAdd }) {
         visible={modalVisible}
         onRequestClose={() => { closeModal() }}>
         <View style={styles.modalOverlay}>
-          <TouchableOpacity
-            style={styles.modalCloseBtn}
-            onPress={() => { closeModal() }}>
-            <Ionicons
-              name="md-close"
-              color={colors.text}
-              size={24} />
-          </TouchableOpacity>
+          <View style={styles.modalCloseBtn}>
+            <IconButton
+              iconName="md-close"
+              onPress={() => { closeModal() }} />
+          </View>
 
           <View style={styles.modalView}>
             <Text style={[globalStyle.bigTitle, globalStyle.section]}>Ajouter un ingrédient</Text>
@@ -109,22 +107,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.overlay,
     flex: 1,
     justifyContent: "center",
+    paddingHorizontal: 12,
+    paddingTop: 52,
+    paddingBottom: 10,
   },
   modalCloseBtn: {
     position: "absolute",
     top: 10,
-    right: 20,
-    backgroundColor: colors.background,
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
+    right: 12
   },
   modalView: {
     backgroundColor: colors.background,
-    margin: 20,
-    marginTop: 52,
     paddingVertical: 20,
     paddingHorizontal: 16,
     borderRadius: 20,

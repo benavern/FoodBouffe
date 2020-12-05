@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 10,
     backgroundColor: colors.primary,
-    borderRadius: 3,
+    borderRadius: 10,
     height: inputHeight,
   },
   wrapperDisabled: {

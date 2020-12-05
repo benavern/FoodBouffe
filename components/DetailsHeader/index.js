@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
 import Author from '../Author'
 import { detailsImageHeight } from '../../config/foodbouffe.json'
+import IconButton from '../Button/IconButton'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
@@ -66,39 +67,29 @@ export default function DetailHeader ({
 
       <SafeAreaView style={styles.headerContainer}>
         <View style={styles.headerLine}>
-          <TouchableOpacity
-            style={styles.coverBtn}
-            onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="ios-arrow-back"
-              color={colors.text}
-              size={24} />
-          </TouchableOpacity>
+          <IconButton
+            iconName="ios-arrow-back"
+            onPress={() => navigation.goBack()} />
 
-          { mode === 'display' && <TouchableOpacity
-            style={styles.coverBtn}
-            onPress={() => dispatch(toggleLikeRecipe(item.id))}>
-            <Ionicons
-              name={like ? 'md-heart' : 'md-heart-empty'}
-              color={colors.primary}
-              size={24} />
-          </TouchableOpacity> }
+          { mode === 'display' &&
+            <IconButton
+              iconName={like ? 'md-heart' : 'md-heart-empty'}
+              iconColor={colors.primary}
+              onPress={() => dispatch(toggleLikeRecipe(item.id))} />
+          }
         </View>
 
         { mode === 'display' && <View style={styles.headerLine}>
-          <Author user={author} style={styles.author}/>
+          <Author user={author} />
 
-          {author && currentUser.id === author.id && <TouchableOpacity
-            style={styles.coverBtn}
-            onPress={() => navigation.navigate('Edit', { recipeId: item.id })}>
-            <Ionicons
-              name="md-create"
-              color={colors.text}
-              size={24} />
-          </TouchableOpacity>}
+          {author && currentUser.id === author.id &&
+            <IconButton
+              iconName="md-create"
+              onPress={() => navigation.navigate('Edit', { recipeId: item.id })} />
+          }
         </View> }
 
-        { mode === 'edit' && <View style={styles.editImageLine}>
+        { mode === 'edit' && <View style={styles.editImageWrapper}>
           <ImagePicker
             style={styles.editImageBtn}
             directory="recipes"
@@ -115,7 +106,6 @@ export default function DetailHeader ({
   )
 }
 
-const coverBtnWidth = 32
 const editImageBtnWidth = 80
 
 const styles = StyleSheet.create({
@@ -129,33 +119,20 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingVertical: 10,
+    paddingHorizontal: 12
   },
   headerLine: {
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  author: {
-    marginVertical: 10,
-    marginHorizontal: 12
-  },
-  editImageLine: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  coverBtn: {
-    backgroundColor: colors.background,
-    width: coverBtnWidth,
-    height: coverBtnWidth,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    marginHorizontal: 12
+  editImageWrapper: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: "center"
   },
   editImageBtn: {
-    marginTop: -editImageBtnWidth / 2,
     backgroundColor: colors.overlay,
     width: editImageBtnWidth,
     height: editImageBtnWidth,

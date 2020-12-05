@@ -20,7 +20,9 @@ export default forwardRef(
     style,
     disabled,
     multiline,
-    error
+    error,
+    textAlign,
+    fontSize
   }, ref) {
     const [inputFocused, setInputFocused] = useState(false)
     const [inputActive, setInputActive] = useState(false)
@@ -35,8 +37,11 @@ export default forwardRef(
         {label && <Text style={[globalStyle.text, styles.label(inputTouched, inputActive, error)]}>{label}</Text>}
 
         <TextInput
+          allowFontScaling={true}
+          selectionColor={colors.primary}
+          textAlign={textAlign}
           ref={ref}
-          style={styles.input(inputTouched, inputActive, error, label, multiline)}
+          style={styles.input(error, label, multiline, fontSize)}
           value={(value||'').toString()}
           onChangeText={e => {
             setInputTouched(true)
@@ -68,10 +73,8 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
-  input: (touched, active, error, label, multiline) => ({
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: inputColor(touched, active, error),
+  input: (error, label, multiline, fontSize = text.m) => ({
+    borderRadius: 10,
     backgroundColor: colors.cardBackground,
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -79,6 +82,7 @@ const styles = StyleSheet.create({
     marginBottom: error ? (text.s / 2) : 10,
     color: colors.text,
     fontFamily: 'Raleway',
+    fontSize,
     minHeight: multiline ? inputHeight * 1.5 : inputHeight
   }),
   label: (touched, active, error) => ({

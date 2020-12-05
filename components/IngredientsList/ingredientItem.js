@@ -28,9 +28,9 @@ export default function IngredientItem({ ingredient, mode = 'display', onPress }
 
 const styles = StyleSheet.create({
   item: {
-    marginTop: 5,
+    marginTop: 10,
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: colors.overlay,
     flexDirection: 'row',
     justifyContent: 'space-between',

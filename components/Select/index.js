@@ -32,7 +32,6 @@ export default forwardRef(
           <Picker
             ref={ref}
             style={styles.picker}
-            dropdownIconColor={inputActive ? colors.primary : colors.textAlt}
             selectedValue={value}
             enabled={!disabled}
             onValueChange={e=> {
@@ -52,10 +51,8 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
-  input: (touched, active, error, label) => ({
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: inputColor(touched, active, error),
+  input: (error, label) => ({
+    borderRadius: 10,
     backgroundColor: colors.cardBackground,
     paddingHorizontal: 6,
     marginTop: label ? (text.s / 2) : 10,

@@ -2,12 +2,12 @@ import React, { useRef } from 'react'
 import { Animated, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import globalStyle from '../../styles/globalStyle'
-import { colors } from '../../styles/variables'
+import { colors, text } from '../../styles/variables'
 import { useSelector } from 'react-redux'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
 import IngredientsList from '../../components/IngredientsList'
-import { formatDuration } from '../../helpers/date.helper'
+import { formatDuration, formatDate } from '../../helpers/date.helper'
 import Pill from '../../components/Pill'
 import PullToRefresh from '../../components/PullToRefresh'
 
@@ -40,21 +40,27 @@ export default function DetailsScreen ({ route }) {
               <Text style={globalStyle.subtitle}>{item.info}</Text>
             </View>
 
-            <View>
-              <View style={styles.detailHeaderInfo}>
-                <Ionicons name="md-clock" color={colors.secondary} size={24} />
+            <View style={styles.detailHeaderInfo}>
+              <View style={styles.detailHeaderInfoLine}>
+                <Ionicons name="md-clock" color={colors.primary} size={text.l} />
 
-                <Text style={[{ marginLeft: 6 }, globalStyle.textAlt]}>
+                <Text style={[globalStyle.textAlt, { marginLeft: text.s }]}>
                   {formatDuration(item.prepDuration)}
                 </Text>
               </View>
 
               { category &&
-                <Pill
-                  style={styles.category(category.color)}>
-                  {category.name}
-                </Pill>
+                <View style={styles.detailHeaderInfoLine}>
+                  <Pill
+                    style={styles.category(category.color)}>
+                    {category.name}
+                  </Pill>
+                </View>
               }
+
+              <View style={styles.detailHeaderInfoLine}>
+                <Pill style={styles.creationDate}>{formatDate(item.creationDate)}</Pill>
+              </View>
             </View>
           </View>
 
@@ -87,13 +93,25 @@ const styles = StyleSheet.create({
   detailHeader: {
     paddingBottom: detailsTopRadius + 10
   },
-  detailHeaderTitle: {
-    flex: 1,
-    marginRight: 10
-  },
-  detailHeaderInfo: {
+  detailHeaderSection: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  detailHeaderTitle: {
+    flex: 1
+  },
+  detailHeaderInfo: {
+    marginLeft: 10
+  },
+  detailHeaderInfoLine: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end'
+  },
+  category: (bg) => ({
+    backgroundColor: bg || colors.textAlt
+  }),
+  creationDate: {
+    backgroundColor: colors.textAlt
   },
   scroller: {
     flex: 1
@@ -105,14 +123,5 @@ const styles = StyleSheet.create({
     borderTopRightRadius: detailsTopRadius,
     borderTopLeftRadius: detailsTopRadius,
     overflow: 'hidden'
-  },
-  detailHeaderSection: {
-    flexDirection: 'row',
-    justifyContent: "space-between"
-  },
-  category: (bg) => ({
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    backgroundColor: bg || colors.textAlt
-  })
+  }
 })

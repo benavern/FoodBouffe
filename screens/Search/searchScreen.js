@@ -71,34 +71,35 @@ export default function HomeScreen() {
             onPress={() => setSearchMore(!searchMore)} />
         </View>
 
-        <View style={styles.searchMore(searchMore)}>
-          <View style={styles.categoryChoices}>
-            {
-              categories.map(cat => (
-                <Pill
-                  key={cat.id}
-                  active={searchCategory === cat.id}
-                  style={{ backgroundColor: cat.color}}
-                  onPress={() => setSearchCategory(cat.id)}>
-                  {cat.name}
-                </Pill>
-              ))
-            }
-            <Pill
-              style={styles.categoryChoice}
-              active={!searchCategory}
-              onPress={() => setSearchCategory(null)}>
-              Toutes
-            </Pill>
-          </View>
+        {searchMore && <View>
+            <View style={styles.categoryChoices}>
+              {
+                categories.map(cat => (
+                  <Pill
+                    key={cat.id}
+                    active={searchCategory === cat.id}
+                    style={{ backgroundColor: cat.color}}
+                    onPress={() => setSearchCategory(cat.id)}>
+                    {cat.name}
+                  </Pill>
+                ))
+              }
+              <Pill
+                style={styles.categoryChoice}
+                active={!searchCategory}
+                onPress={() => setSearchCategory(null)}>
+                Toutes
+              </Pill>
+            </View>
 
-          <Select
-            value={searchAuthor}
-            onChange={newAuthor => setSearchAuthor(newAuthor)}
-            label="Autheur"
-            nullLabel="Tous"
-            options={usersList} />
-        </View>
+            <Select
+              value={searchAuthor}
+              onChange={newAuthor => setSearchAuthor(newAuthor)}
+              label="Autheur"
+              nullLabel="Tous"
+              options={usersList} />
+          </View>
+        }
       </View>
 
       <View style={styles.resultsWrapper}>
@@ -130,9 +131,6 @@ const styles = StyleSheet.create({
   searchMoreBtn: {
     width: inputHeight
   },
-  searchMore: visible => ({
-    display: visible ? 'flex' : 'none',
-  }),
   resultsWrapper: {
     flex: 1,
     marginTop: 10

@@ -82,12 +82,14 @@ export default function userSettingsScreen() {
             {editMode
               ? <Input
                   style={{width: avatarSize}}
+                  textAlign="center"
+                  fontSize={text.xl}
                   label="Pseudo"
                   placeholder="CookerDu35"
                   value={editedUser.pseudo}
                   onChange={newPseudo => setEditedUser(oldEditedUser => ({...oldEditedUser, pseudo: newPseudo}))}
                   error={getPseudoError()} />
-              : <Text style={[globalStyle.text, globalStyle.textBold, styles.pseudo]}>
+              : <Text style={[globalStyle.bigTitle, styles.pseudo]}>
                   {currentUser.pseudo}
                 </Text>}
           </View>
