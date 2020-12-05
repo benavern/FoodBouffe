@@ -9,10 +9,11 @@ import { detailsTopRadius } from '../../config/foodbouffe.json'
 import IngredientsList from '../../components/IngredientsList'
 import { formatDuration } from '../../helpers/date.helper'
 import Pill from '../../components/Pill'
+import PullToRefresh from '../../components/PullToRefresh'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
-  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId) || {})
+  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId))
   const category = useSelector(state => state.categories[item.categoryRef])
   const scrollY = useRef(new Animated.Value(0)).current
 
@@ -23,7 +24,8 @@ export default function DetailsScreen ({ route }) {
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           { useNativeDriver: true }
-        )}>
+        )}
+        refreshControl={<PullToRefresh />}>
         <DetailHeader
           item={item}
           style={styles.detailHeader}
@@ -80,6 +82,7 @@ export default function DetailsScreen ({ route }) {
 const styles = StyleSheet.create({
   detailWrapper: {
     flex: 1,
+    backgroundColor: colors.background
   },
   detailHeader: {
     paddingBottom: detailsTopRadius + 10
@@ -93,8 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   scroller: {
-    flex: 1,
-    backgroundColor: colors.background
+    flex: 1
   },
   detailContent: {
     flex: 1,

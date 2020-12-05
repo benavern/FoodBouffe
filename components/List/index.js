@@ -2,6 +2,7 @@ import React from 'react'
 import { Dimensions, View } from 'react-native'
 import { FlatList } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
+import PullToRefresh from '../PullToRefresh'
 
 const { width: screenWidth } = Dimensions.get('screen')
 const listWidth = screenWidth - (globalStyle.screen.paddingHorizontal * 2)
@@ -55,6 +56,7 @@ export default function List({
       bounces={horizontal}
       style={[{ marginHorizontal: -gutter }, style]}
       renderItem={(args) => _renderItem({ ...args, width: itemWidth, gutter })}
-      numColumns={horizontal ? undefined : nbPerRow} />
+      numColumns={horizontal ? undefined : nbPerRow}
+      refreshControl={horizontal ? null : <PullToRefresh offset={false} />}/>
   )
 }

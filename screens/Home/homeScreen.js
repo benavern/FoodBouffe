@@ -9,6 +9,7 @@ import { currentUserSelector } from '../../store/userSlice';
 import { colors } from '../../styles/variables';
 import { categoryByAppNameSelector } from '../../store/categoriesSlice';
 import { recipesByCatAppNameSelector } from '../../store/recipesSlice';
+import PullToRefresh from '../../components/PullToRefresh';
 
 export default function HomeScreen() {
   const user = useSelector(currentUserSelector)
@@ -22,7 +23,9 @@ export default function HomeScreen() {
     .slice(0, homeLimit) // slice to homeLimit
 
   return (
-    <ScrollView style={globalStyle.screen}>
+    <ScrollView
+      style={globalStyle.screen}
+      refreshControl={<PullToRefresh />}>
       <SafeAreaView>
         <View style={globalStyle.section}>
           <Text style={globalStyle.bigTitle}>
