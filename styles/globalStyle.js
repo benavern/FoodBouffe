@@ -35,6 +35,11 @@ export default StyleSheet.create({
     fontSize: text.m,
     fontFamily: 'Raleway'
   },
+  textDanger: {
+    color: colors.danger,
+    fontSize: text.m,
+    fontFamily: 'Raleway'
+  },
   screen: {
     flex: 1,
     paddingHorizontal: 16,

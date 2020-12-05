@@ -37,3 +37,9 @@ export const text = {
 }
 
 export const inputHeight = 48
+
+export const inputColor = (touched, active, error) => {
+  if(touched && error) return colors.danger
+  if(active) return colors.primary
+  return colors.textAlt
+}

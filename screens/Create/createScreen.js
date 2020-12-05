@@ -24,21 +24,30 @@ export default function createScreen () {
   const catList = useSelector(state => Object.keys(state.categories).map(id => ({id, ...state.categories[id]})))
   const dispatch = useDispatch()
   const [newRecipe, setnewRecipe] = useState(emptyRecipy)
-  const [formValid, setFormValid] = useState(false)
-
-  useEffect(() => {
-    const valid = newRecipe.name.length > 3
-      && !!newRecipe.info
-      && !!newRecipe.categoryRef
-      && newRecipe.prepDuration > 0
-      setFormValid(valid)
-  }, [newRecipe])
 
   const infoInput = useRef(null)
 
   function focusNext(next) {
     if(next && next.current && next.current.focus) next.current.focus()
   }
+
+  const getNameError = () => {
+    if (!newRecipe.name) return 'Vous devez donner un nom à la recette'
+    if (newRecipe.name.length < 3) return 'Le nom de la recette doit faire plus de 3 caractères'
+    return null
+  }
+
+  const getCategoryError = () => {
+    if (!newRecipe.categoryRef) return 'Vous devez choisir une catégorie'
+    return null
+  }
+
+  const getPrepDurationError = () => {
+    if (!newRecipe.prepDuration) return 'Un temps de préparation inférieur à 1 min? Je ne vous crois pas !'
+    return null
+  }
+
+  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError()
 
   return (
     <SafeAreaView style={globalStyle.screen}>
@@ -58,7 +67,8 @@ export default function createScreen () {
           value={newRecipe.name}
           returnKeyType="next"
           onChange={newName => setnewRecipe(oldRec => ({ ...oldRec, name: newName }))}
-          onSubmit={() => focusNext(infoInput)} />
+          onSubmit={() => focusNext(infoInput)}
+          error={getNameError()} />
 
         <Input
           ref={infoInput}
@@ -71,7 +81,8 @@ export default function createScreen () {
           label="Sélectionner une catégorie"
           value={newRecipe.categoryRef}
           onChange={newCatRef => setnewRecipe(oldRec => ({ ...oldRec, categoryRef: newCatRef }))}
-          options={catList} />
+          options={catList}
+          error={getCategoryError()} />
 
         <Input
           label="Temps de préparation (min)"
@@ -82,7 +93,8 @@ export default function createScreen () {
           onChange={newPrepDuration => setnewRecipe(oldRec => ({
             ...oldRec,
             prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
-          }))} />
+          }))}
+          error={getPrepDurationError()} />
 
         <Button
           title="Créer"
@@ -95,7 +107,7 @@ export default function createScreen () {
                 navigation.navigate('Edit', { recipeId: res.id })
               })
           }}
-          disabled={!formValid} />
+          disabled={!formValid()} />
       </ScrollView>
     </SafeAreaView>
   )

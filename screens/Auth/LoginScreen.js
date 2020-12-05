@@ -12,21 +12,28 @@ const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
 
 export default function LoginScreen () {
   const [formData, setFormData] = useState({email: '', password: '', error: ''})
-  const [formValid, setFormValid] = useState(false)
   const passwordField = useRef(null)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    const valid = emailRegex.test(formData.email)
-      && formData.password.length >= 6
-      setFormValid(valid)
-  }, [formData])
+  const getEmailError = () => {
+    if (!formData.email) return 'Votre email est requis pour pouvoir vous connecter'
+    if (!emailRegex.test(formData.email)) return 'Vous devez rentrer un email valide pour vous connecter'
+    return null
+  }
+
+  const getPasswordError = () => {
+    if (!formData.password) return 'Votre mot de passe est requis pour pouvoir vous connecter'
+    if (formData.password.length < 6) return 'Vous devez entrer un mot de passe d\'au moins 6 caractères'
+    return null
+  }
+
+  const formValid = () => !getEmailError() && !getPasswordError()
 
   function submitForm() {
     dispatch(loginUser({email: formData.email, password: formData.password}))
       .then(unwrapResult)
       .catch(() => {
-        setFormData({email: '', password: '', error: 'Mot de passe invalide ou et cet utilisateur n\'existe pas.' })
+        setFormData({email: '', password: '', error: 'Votre email ou mot de passe est invalide.' })
       })
   }
 
@@ -43,7 +50,7 @@ export default function LoginScreen () {
 
       <View style={styles.loginForm}>
         {formData.error !== '' &&
-          <Text style={globalStyle.textSecondary}>{formData.error}</Text>}
+          <Text style={globalStyle.textDanger}>{formData.error}</Text>}
 
         <Input
           label="Email"
@@ -52,7 +59,8 @@ export default function LoginScreen () {
           keyboardType="email-address"
           returnKeyType="next"
           onChange={newEmail => setFormData(oldData => ({ ...oldData, email: newEmail, error: '' }))}
-          onSubmit={() => passwordField.current.focus()} />
+          onSubmit={() => passwordField.current.focus()}
+          error={getEmailError()} />
 
         <Input
           ref={passwordField}
@@ -61,12 +69,13 @@ export default function LoginScreen () {
           secureTextEntry
           value={formData.password}
           onChange={newPassword => setFormData(oldData => ({ ...oldData, password: newPassword, error: '' }))}
-          onSubmit={() => submitForm()}/>
+          onSubmit={() => submitForm()}
+          error={getPasswordError()} />
 
         <Button
           title="Se connecter"
           onPress={() => submitForm()}
-          disabled={!formValid} />
+          disabled={!formValid()} />
       </View>
     </SafeAreaView>
   )
@@ -75,7 +84,6 @@ export default function LoginScreen () {
 const styles = StyleSheet.create({
   loginForm: {
     flex: 1,
-    // alignItems: "center",
     justifyContent: "center"
   }
 })

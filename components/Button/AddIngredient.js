@@ -1,6 +1,7 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
-import { Modal, StyleSheet, Text, View } from 'react-native'
+import { Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '.'
 import { createIngredient, ingredientsListSelector } from '../../store/ingredientsSlice'
@@ -21,6 +22,12 @@ export default function AddIngredient({ onAdd }) {
   const [ingredient, setIngredient] = useState(emptyIngredient)
   const [quantity, setQuantity] = useState('')
 
+  function closeModal() {
+    setIngredient(emptyIngredient)
+    setQuantity('')
+    setModalVisible(false);
+  }
+
   async function handleNewIngredient () {
     let ingredientToAdd = ingredient
     // create the ingredient if it doens not already exist
@@ -32,9 +39,15 @@ export default function AddIngredient({ onAdd }) {
     onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity })
 
     // reset the form and close modal
-    setIngredient(emptyIngredient)
-    setQuantity('')
-    setModalVisible(false);
+    closeModal()
+  }
+
+  const getNameError = () => {
+    if (!ingredient.name) return 'Vous devez donner un nom au nouvel ingredient'
+    if (!ingredient.id && ingredients.some(ing => ing.name.toLowerCase() === ingredient.name.toLowerCase())) {
+      return 'Cet ingrédient existe déjà'
+    }
+    return null
   }
 
   return (
@@ -43,8 +56,17 @@ export default function AddIngredient({ onAdd }) {
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => { setModalVisible(false) }}>
+        onRequestClose={() => { closeModal() }}>
         <View style={styles.modalOverlay}>
+          <TouchableOpacity
+            style={styles.modalCloseBtn}
+            onPress={() => { closeModal() }}>
+            <Ionicons
+              name="md-close"
+              color={colors.text}
+              size={24} />
+          </TouchableOpacity>
+
           <View style={styles.modalView}>
             <Text style={[globalStyle.bigTitle, globalStyle.section]}>Ajouter un ingrédient</Text>
 
@@ -58,7 +80,8 @@ export default function AddIngredient({ onAdd }) {
               label="Nom de l'ingrédient"
               placeholder="Chocolat"
               value={ingredient.name}
-              onChange={newName => setIngredient(ing => ({...ing, name: newName}))} /> }
+              onChange={newName => setIngredient(ing => ({...ing, name: newName}))}
+              error={getNameError()} /> }
 
             <Input
               label="Quantité"
@@ -68,6 +91,7 @@ export default function AddIngredient({ onAdd }) {
 
             <Button
               title="Ajouter"
+              disabled={getNameError()}
               onPress={() => handleNewIngredient()}/>
           </View>
         </View>
@@ -86,9 +110,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  modalCloseBtn: {
+    position: "absolute",
+    top: 10,
+    right: 20,
+    backgroundColor: colors.background,
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   modalView: {
     backgroundColor: colors.background,
     margin: 20,
+    marginTop: 52,
     paddingVertical: 20,
     paddingHorizontal: 16,
     borderRadius: 20,

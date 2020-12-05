@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, Platform } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import globalStyle from '../../styles/globalStyle'
-import { colors, inputHeight, text } from '../../styles/variables'
+import { colors, inputColor, inputHeight, text } from '../../styles/variables'
 
 export default forwardRef(
   function Select({
@@ -13,9 +13,11 @@ export default forwardRef(
     options = [],
     required,
     style,
-    disabled
+    disabled,
+    error
   }, ref) {
     const [inputActive, setinputActive] = useState(false)
+    const [inputTouched, setInputTouched] = useState(false)
 
     useEffect(() => {
       setinputActive(!!value && !disabled)
@@ -23,57 +25,56 @@ export default forwardRef(
 
     return (
       <View style={style}>
-        {label && <Text style={[globalStyle.text, styles.label, inputActive && styles.labelFocus]}>{label}</Text>}
+        {label && <Text style={[globalStyle.text, styles.label(inputTouched, inputActive, error)]}>{label}</Text>}
 
         <View
-          style={[styles.input, inputActive && styles.inputFocused, label && styles.inputWithLabel]}>
+          style={styles.input(inputTouched, inputActive, error, label)}>
           <Picker
             ref={ref}
             style={styles.picker}
             dropdownIconColor={inputActive ? colors.primary : colors.textAlt}
             selectedValue={value}
             enabled={!disabled}
-            onValueChange={onChange}
+            onValueChange={e=> {
+              setInputTouched(true)
+              onChange(e)
+            }}
             prompt={label}>
             { !required && <Picker.Item label={`- ${nullLabel} -`} value={null} /> }
             {options.map(opt => <Picker.Item label={opt.name} value={opt.id} key={opt.id} />)}
           </Picker>
         </View>
+
+        {error && inputTouched && <Text style={[globalStyle.text, styles.error]}>{error}</Text>}
       </View>
     );
   }
 )
 
-const blurColor = colors.textAlt
-const focusColor = colors.primary
-
 const styles = StyleSheet.create({
-  input: {
+  input: (touched, active, error, label) => ({
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: blurColor,
+    borderColor: inputColor(touched, active, error),
     backgroundColor: colors.cardBackground,
     paddingHorizontal: 6,
-    marginVertical: 10,
-  },
+    marginTop: label ? (text.s / 2) : 10,
+    marginBottom: error ? (text.s / 2) : 10,
+  }),
   picker: {
     color: colors.text,
     height: Platform.select({ ios: 200, android: inputHeight}),
     fontFamily: 'Raleway',
     fontSize: text.m,
   },
-  inputFocused: {
-    borderColor: focusColor
-  },
-  inputWithLabel: {
-    marginTop: text.s / 2
-  },
-  label: {
+  label: (touched, active, error) => ({
     marginTop: 10,
     fontSize: text.s,
-    color: blurColor
-  },
-  labelFocus: {
-    color: focusColor
-  },
+    color: inputColor(touched, active, error)
+  }),
+  error: {
+    marginBottom: 10,
+    fontSize: text.s,
+    color: colors.danger
+  }
 })

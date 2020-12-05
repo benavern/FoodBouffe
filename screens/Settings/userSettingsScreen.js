@@ -41,6 +41,12 @@ export default function userSettingsScreen() {
     setEditMode(false)
   }
 
+  const getPseudoError = () => {
+    if (!editedUser.pseudo) return 'Pour vous reconnaître, les autre utilisateurs auront besoin de votre pseudo!'
+    if (editedUser.pseudo.length < 3 || editedUser.pseudo.length > 25) return 'Votre pseudo doit faire entre 3 et 25 caractères'
+    return null
+  }
+
   return (
     <SafeAreaView style={globalStyle.screen}>
       <View>
@@ -79,7 +85,8 @@ export default function userSettingsScreen() {
                   label="Pseudo"
                   placeholder="CookerDu35"
                   value={editedUser.pseudo}
-                  onChange={newPseudo => setEditedUser(oldEditedUser => ({...oldEditedUser, pseudo: newPseudo}))} />
+                  onChange={newPseudo => setEditedUser(oldEditedUser => ({...oldEditedUser, pseudo: newPseudo}))}
+                  error={getPseudoError()} />
               : <Text style={[globalStyle.text, globalStyle.textBold, styles.pseudo]}>
                   {currentUser.pseudo}
                 </Text>}
@@ -91,7 +98,8 @@ export default function userSettingsScreen() {
                   <Button
                     title="Valider"
                     style={{ backgroundColor: colors.success }}
-                    onPress={() => submitUserChange()} />
+                    onPress={() => submitUserChange()}
+                    disabled={getPseudoError()} />
                   <Button
                     title="Annuler"
                     style={{ backgroundColor: colors.danger }}

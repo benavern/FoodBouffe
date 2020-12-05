@@ -58,6 +58,30 @@ export default function EditScreen ({ route }) {
     navigation.goBack()
   }
 
+  const getNameError = () => {
+    if (!item.name) return 'Vous devez donner un nom à la recette'
+    if (item.name.length < 3) return 'Le nom de la recette doit faire plus de 3 caractères'
+    return null
+  }
+
+  const getCategoryError = () => {
+    if (!item.categoryRef) return 'Vous devez choisir une catégorie'
+    return null
+  }
+
+  const getPrepDurationError = () => {
+    if (!item.prepDuration) return 'Un temps de préparation inférieur à 1 min? Je ne vous crois pas !'
+    return null
+  }
+
+  const getDetailsError = () => {
+    if (!item.details) return 'Pour rendre la recette plus facile à reproduire, pensez à décrire son exécution'
+    if (item.details.length < 15) return 'Les détails de la recette doivent faire plus de 15 caractères'
+    return null
+  }
+
+  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError() && !getDetailsError()
+
   const infoInput = useRef(null)
 
   function focusNext(next) {
@@ -85,7 +109,8 @@ export default function EditScreen ({ route }) {
               returnKeyType="next"
               value={item.name}
               onChange={name => setItem(oldItem => ({...oldItem, name}))}
-              onSubmit={() => focusNext(infoInput)} />
+              onSubmit={() => focusNext(infoInput)}
+              error={getNameError()} />
 
             <Input
               ref={infoInput}
@@ -98,7 +123,8 @@ export default function EditScreen ({ route }) {
               label="Sélectionner une catégorie"
               value={item.categoryRef}
               onChange={newCatRef => setItem(oldItem => ({ ...oldItem, categoryRef: newCatRef }))}
-              options={catList} />
+              options={catList}
+              error={getCategoryError()} />
 
             <Input
               label="Temps de préparation (min)"
@@ -109,7 +135,8 @@ export default function EditScreen ({ route }) {
               onChange={newPrepDuration => setItem(oldItem => ({
                 ...oldItem,
                 prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
-              }))} />
+              }))}
+              error={getPrepDurationError()} />
           </View>
 
           <View style={globalStyle.section}>
@@ -132,7 +159,8 @@ export default function EditScreen ({ route }) {
                 label="Contenu de la recette"
                 placeholder="Tout mettre dans la casserole et cuire 10 min"
                 value={item.details}
-                onChange={details => setItem(oldItem => ({...oldItem, details}))} />
+                onChange={details => setItem(oldItem => ({...oldItem, details}))}
+                error={getDetailsError()} />
             </View>
           </View>
 
@@ -142,6 +170,7 @@ export default function EditScreen ({ route }) {
             <Button
               style={{ backgroundColor: colors.success }}
               title="Enregistrer"
+              disabled={!formValid()}
               onPress={() => submitForm()} />
             <Button
               style={{backgroundColor: colors.danger}}
