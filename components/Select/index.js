@@ -28,7 +28,7 @@ export default forwardRef(
         {label && <Text style={[globalStyle.text, styles.label(inputTouched, inputActive, error)]}>{label}</Text>}
 
         <View
-          style={styles.input(inputTouched, inputActive, error, label)}>
+          style={styles.input(inputTouched, error, label)}>
           <Picker
             ref={ref}
             style={styles.picker}
@@ -51,12 +51,12 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
-  input: (error, label) => ({
+  input: (touched, error, label) => ({
     borderRadius: 10,
     backgroundColor: colors.cardBackground,
     paddingHorizontal: 6,
     marginTop: label ? (text.s / 2) : 10,
-    marginBottom: error ? (text.s / 2) : 10,
+    marginBottom: error && touched ? (text.s / 2) : 10,
   }),
   picker: {
     color: colors.text,

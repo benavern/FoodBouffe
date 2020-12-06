@@ -138,9 +138,20 @@ export const favoriteRecipesSelector = state => {
 
 export const recipesCountSelector = state => state.recipes.length
 
-export const recipesByCatAppNameSelector = catAppName => state => {
-  const {id: catRef} = categoryByAppNameSelector(catAppName)(state) || {}
-  return state.recipes.filter(rec => rec.categoryRef === catRef)
+export const latestRecipesSelector = ({ limit }) => state => {
+  const latestRecipes = [...state.recipes].sort((a,b) => b.creationDate - a.creationDate) //from most recent to older
+  if (limit) return latestRecipes.slice(0, limit)
+  return latestRecipes
+}
+
+export const latestRecipesByCatAppNameSelector = ({ catAppName, limit }) => state => {
+  const {id: catRef} = categoryByAppNameSelector(catAppName)(state)
+  if (!catRef) return []
+
+  const catRecipes = state.recipes.filter(rec => rec.categoryRef === catRef)
+  const sortedCatRecipes = [...catRecipes].sort((a,b) => b.creationDate - a.creationDate) //from most recent to older
+  if (limit) return sortedCatRecipes.slice(0, limit)
+  return sortedCatRecipes
 }
 
 export const recipeById = recipeId => state => state.recipes.find(rec => rec.id === recipeId)

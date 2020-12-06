@@ -22,7 +22,7 @@ export default function FavoritesScreen () {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View>
+      <View style={globalStyle.section}>
         <Text style={globalStyle.bigTitle}>
           Mes recettes favorites
         </Text>
@@ -31,14 +31,16 @@ export default function FavoritesScreen () {
         </Text>
       </View>
 
-      {
-        recipes.length
-          ? <RecipesList items={recipes} />
-          : <EmptyList
-              icon="md-heart-dislike"
-              title="Aucune recette favorite."
-              subtitle="Pensez à en ajouter pour les retrouver plus facilement!" />
-      }
+      <View style={globalStyle.section}>
+        {
+          recipes.length
+            ? <RecipesList items={recipes} />
+            : <EmptyList
+                icon="md-heart-dislike"
+                title="Aucune recette favorite."
+                subtitle="Pensez à en ajouter pour les retrouver plus facilement!" />
+        }
+      </View>
     </SafeAreaView>
   );
 }

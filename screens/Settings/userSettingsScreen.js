@@ -49,7 +49,7 @@ export default function userSettingsScreen() {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View>
+      <View style={globalStyle.section}>
         <Text style={globalStyle.bigTitle}>
           Préférences utilisateur
         </Text>

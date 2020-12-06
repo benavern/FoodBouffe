@@ -41,7 +41,7 @@ export default forwardRef(
           selectionColor={colors.primary}
           textAlign={textAlign}
           ref={ref}
-          style={styles.input(error, label, multiline, fontSize)}
+          style={styles.input(inputTouched, error, label, multiline, fontSize)}
           value={(value||'').toString()}
           onChangeText={e => {
             setInputTouched(true)
@@ -73,13 +73,13 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
-  input: (error, label, multiline, fontSize = text.m) => ({
+  input: (touched, error, label, multiline, fontSize = text.m) => ({
     borderRadius: 10,
     backgroundColor: colors.cardBackground,
     paddingVertical: 10,
     paddingHorizontal: 16,
     marginTop: label ? (text.s / 2) : 10,
-    marginBottom: error ? (text.s / 2) : 10,
+    marginBottom: error && touched ? (text.s / 2) : 10,
     color: colors.text,
     fontFamily: 'Raleway',
     fontSize,

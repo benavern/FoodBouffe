@@ -51,7 +51,7 @@ export default function createScreen () {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View>
+      <View style={globalStyle.section}>
         <Text style={globalStyle.bigTitle}>
           Créer une recette
         </Text>
@@ -116,6 +116,7 @@ export default function createScreen () {
 const styles = StyleSheet.create({
   scroller: {
     flex: 1,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    ...globalStyle.section
   }
 })

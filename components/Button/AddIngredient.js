@@ -1,7 +1,6 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
-import { Modal, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Modal, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '.'
 import { createIngredient, ingredientsListSelector } from '../../store/ingredientsSlice'
@@ -18,7 +17,8 @@ const emptyIngredient = {
 
 export default function AddIngredient({ onAdd }) {
   const dispatch = useDispatch()
-  const ingredients = useSelector(ingredientsListSelector)
+  const ingredients = [...useSelector(ingredientsListSelector)]
+    .sort((a, b) => a.name.localeCompare(b.name)) // alphabetical order so that it is easier to pick
   const [modalVisible, setModalVisible] = useState(false)
   const [ingredient, setIngredient] = useState(emptyIngredient)
   const [quantity, setQuantity] = useState('')
