@@ -59,10 +59,8 @@ const styles = StyleSheet.create({
     marginBottom: error && touched ? (text.s / 2) : 10,
   }),
   picker: {
-    color: colors.text,
+    ...globalStyle.text,
     height: Platform.select({ ios: 200, android: inputHeight}),
-    fontFamily: 'Raleway',
-    fontSize: text.m,
   },
   label: (touched, active, error) => ({
     marginTop: 10,

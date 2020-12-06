@@ -12,7 +12,7 @@ import Select from '../../components/Select'
 import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
-import { colors, inputHeight } from '../../styles/variables'
+import { colors, inputHeight, text } from '../../styles/variables'
 import Pill from '../../components/Pill'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
@@ -67,7 +67,7 @@ export default function HomeScreen() {
 
           <Button
             style={styles.searchMoreBtn}
-            title={<Ionicons name={searchMore ? 'md-remove' : 'md-add'} color={colors.buttonText} size={24} />}
+            title={<Ionicons name={searchMore ? 'md-remove' : 'md-add'} color={colors.buttonText} size={text.l} />}
             onPress={() => setSearchMore(!searchMore)} />
         </View>
 
@@ -103,7 +103,7 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.resultsWrapper}>
-        <Text style={globalStyle.title}>
+        <Text style={styles.resultsTitle}>
           {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
         </Text>
 
@@ -134,6 +134,10 @@ const styles = StyleSheet.create({
   resultsWrapper: {
     flex: 1,
     marginTop: 10
+  },
+  resultsTitle: {
+    ...globalStyle.title,
+    marginBottom: 10
   },
   categoryChoices: {
     flexDirection: 'row',

@@ -4,10 +4,10 @@ export function formatDuration(duration) {
     const hrs = Math.floor(duration / 60);
     const mins = duration - hrs * 60
     return mins
-      ? `${hrs} Heures ${mins} Mins`
-      : `${hrs} Heures`
+      ? `${hrs} H ${mins}`
+      : `${hrs} H`
   }
-  return `${duration} Mins`
+  return `${duration} min`
 }
 
 export function formatDate(timestamp) {

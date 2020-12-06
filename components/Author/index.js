@@ -16,7 +16,7 @@ export default function Author ({ user = { pseudo: 'Nobody' }, avatarOnly, style
   return (
     <View style={[styles.author, style]}>
       <Image source={avatar} style={styles.avatar} />
-      {!avatarOnly && <Text style={[globalStyle.text, globalStyle.textBold, styles.pseudo]}>{user.pseudo}</Text>}
+      {!avatarOnly && <Text style={styles.pseudo}>{user.pseudo}</Text>}
     </View>
   )
 }
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   pseudo: {
-    fontSize: text.l,
+    ...globalStyle.title,
     paddingHorizontal: 16
   }
 })

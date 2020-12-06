@@ -12,6 +12,7 @@ const ITEM_WIDTH = width * 0.9 - 24 // 90% of the screen minus the screen paddin
 const ITEM_HEIGHT = ITEM_WIDTH * 0.56
 const ITEM_GUTTER = 12
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
+const TITLE_MAX_LINES = 2
 
 function Item ({ item, index, scrollX }) {
   const navigation = useNavigation()
@@ -30,7 +31,11 @@ function Item ({ item, index, scrollX }) {
 
   const textTranslateY = scrollX.interpolate({
     inputRange,
-    outputRange: [ text.l + 20, 0, text.l + 20 ],
+    outputRange: [
+      text.l * TITLE_MAX_LINES + 20,
+      0,
+      text.l * TITLE_MAX_LINES + 20
+    ],
     extrapolate: Extrapolate.CLAMP
   })
 
@@ -49,7 +54,7 @@ function Item ({ item, index, scrollX }) {
           style={styles.itemGradient}/>
 
         <Animated.Text
-          numberOfLines={1}
+          numberOfLines={TITLE_MAX_LINES}
           style={[styles.itemTitle, {
             transform: [{translateY: textTranslateY}]
           }]}>
@@ -93,7 +98,7 @@ export default function BigCarousel ({ data, title, ...carouselProps }) {
 
 const styles = StyleSheet.create({
   carouselTitleWrapper: {
-    marginBottom: 10
+    marginBottom: 20
   },
   carouselTitle: {
     ...globalStyle.title
@@ -122,7 +127,7 @@ const styles = StyleSheet.create({
     opacity: 0.5
   },
   itemTitle: {
-    ...globalStyle.title,
+    ...globalStyle.bigTitle,
     color: colors.buttonText
   }
 })

@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { Ionicons } from '@expo/vector-icons'
 import Card from '../card'
-import { colors } from '../../styles/variables'
+import { colors, text } from '../../styles/variables'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
@@ -49,7 +49,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 
       <Ionicons
         name={like ? 'md-heart' : 'md-heart-empty'}
-        size={24}
+        size={text.l}
         color={colors.primary} />
     </View>
   )
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "center"
   }
 })

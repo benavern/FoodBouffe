@@ -75,7 +75,7 @@ export default function userSettingsScreen() {
                   <Ionicons
                     name="md-create"
                     color={colors.buttonText}
-                    size={32} />
+                    size={text.xl} />
                 </ImagePicker>}
             </ImageBackground>
 

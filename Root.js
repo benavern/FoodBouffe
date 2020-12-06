@@ -7,14 +7,15 @@ import { setCurrentUser } from './store/userSlice'
 import { AppLoading } from 'expo'
 
 import { loadAsync as loadFontAsync } from 'expo-font'
-import { Raleway_400Regular, Raleway_700Bold } from '@expo-google-fonts/raleway'
-import { Lobster_400Regular } from '@expo-google-fonts/lobster'
+import { Quicksand_400Regular, Quicksand_700Bold } from '@expo-google-fonts/quicksand'
+import { LondrinaSolid_400Regular } from '@expo-google-fonts/londrina-solid'
+
 import { NavigationContainer } from '@react-navigation/native'
 
 const getFonts = () => loadFontAsync({
-  Raleway: Raleway_400Regular,
-  'Raleway-bold': Raleway_700Bold,
-  Lobster: Lobster_400Regular
+  Quicksand: Quicksand_400Regular,
+  'Quicksand-bold': Quicksand_700Bold,
+  Londrina: LondrinaSolid_400Regular
 })
 
 let resolveAppReadyPromise = () => {}

@@ -3,9 +3,8 @@ import MainNavigation from '../Main'
 import DetailsScreen from './detailsScreen'
 import EditScreen from './editScreen'
 
-import { createStackNavigator } from '@react-navigation/stack'
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack'
 
-import { AppLoading } from 'expo'
 import { refreshAppData } from '../../components/PullToRefresh'
 import LoadingScreen from '../../components/LoadingScreen'
 
@@ -28,6 +27,9 @@ export default function SharedStack() {
 
   return (
     <Stack.Navigator
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+      }}
       headerMode="none">
       {sharedStack.map((screen, index) => (
         <Stack.Screen

@@ -1,44 +1,48 @@
 import { StyleSheet } from 'react-native';
 import { colors, text } from './variables';
 
+const titleFont = 'Londrina'
+const normalFont = 'Quicksand'
+const normalBoldFont = 'Quicksand-bold'
+
 export default StyleSheet.create({
   bigTitle: {
     color: colors.text,
     fontSize: text.xl,
-    fontFamily: 'Lobster'
+    fontFamily: titleFont
   },
   title: {
     color: colors.text,
     fontSize: text.l,
-    fontFamily: 'Lobster'
+    fontFamily: titleFont
   },
   subtitle: {
     color: colors.textAlt,
     fontSize: text.m,
-    fontFamily: 'Raleway'
+    fontFamily: normalFont
   },
   textBold: {
-    fontFamily: 'Raleway-bold'
+    fontFamily: normalBoldFont
   },
   text: {
     color: colors.text,
     fontSize: text.m,
-    fontFamily: 'Raleway'
+    fontFamily: normalFont
   },
   textAlt: {
     color: colors.textAlt,
     fontSize: text.m,
-    fontFamily: 'Raleway'
+    fontFamily: normalFont
   },
   textSecondary: {
     color: colors.secondary,
     fontSize: text.m,
-    fontFamily: 'Raleway'
+    fontFamily: normalFont
   },
   textDanger: {
     color: colors.danger,
     fontSize: text.m,
-    fontFamily: 'Raleway'
+    fontFamily: normalFont
   },
   screen: {
     flex: 1,
@@ -54,6 +58,7 @@ export default StyleSheet.create({
   section: {
     paddingTop: 10,
     paddingBottom: 20,
+    marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.cardBackground
   }

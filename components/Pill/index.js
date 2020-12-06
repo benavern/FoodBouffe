@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
-import { colors } from '../../styles/variables'
+import globalStyle from '../../styles/globalStyle'
+import { colors, text } from '../../styles/variables'
 
 export default function Pill ({children, style, onPress, active = false, activeBorderColor = colors.primary}) {
   return (
@@ -27,18 +28,18 @@ const styles = StyleSheet.create({
     padding: activeBorderWidth,
     borderWidth: activeBorderWidth,
     borderColor: active ? activeColor : 'transparent',
-    borderRadius: (pillSize + activeBorderWidth * 4) / 2
+    borderRadius: (pillSize + activeBorderWidth * 4)
   }),
   pillWrapper: {
-    height: pillSize,
     backgroundColor: colors.secondary,
+    paddingVertical: (pillSize - text.s) / 2,
     paddingHorizontal: pillSize / 2,
-    borderRadius: pillSize / 2
+    borderRadius: pillSize
   },
   pillText: {
-    color: '#fff',
-    fontSize: pillSize / 2,
-    lineHeight: pillSize,
-    fontFamily: 'Raleway-bold',
+    ...globalStyle.text,
+    ...globalStyle.textBold,
+    color: colors.buttonText,
+    fontSize: text.s
   },
 })

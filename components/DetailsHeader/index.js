@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
-import { colors } from '../../styles/variables'
+import { colors, text } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
@@ -98,7 +98,7 @@ export default function DetailHeader ({
             <Ionicons
               name="md-create"
               color={colors.buttonText}
-              size={32} />
+              size={text.xl} />
           </ImagePicker>
         </View> }
       </SafeAreaView>

@@ -27,7 +27,7 @@ export default function Carousel({ data, title, subtitle, ...carouselProps }) {
 
 const styles = StyleSheet.create({
   carouselTitleWrapper: {
-    marginBottom: 10
+    marginBottom: 20
   },
   carousel: {}
 })

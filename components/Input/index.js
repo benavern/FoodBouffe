@@ -80,8 +80,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: label ? (text.s / 2) : 10,
     marginBottom: error && touched ? (text.s / 2) : 10,
-    color: colors.text,
-    fontFamily: 'Raleway',
+    ...globalStyle.text,
     fontSize,
     minHeight: multiline ? inputHeight * 1.5 : inputHeight
   }),

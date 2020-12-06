@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
         <BigCarousel
           style={globalStyle.section}
-          title="Les toutes dernières recettes"
+          // title="Les toutes dernières recettes"
           data={latestRecipes} />
 
         {

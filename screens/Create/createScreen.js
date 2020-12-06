@@ -115,8 +115,8 @@ export default function createScreen () {
 
 const styles = StyleSheet.create({
   scroller: {
+    ...globalStyle.section,
     flex: 1,
-    backgroundColor: colors.background,
-    ...globalStyle.section
+    backgroundColor: colors.background
   }
 })
