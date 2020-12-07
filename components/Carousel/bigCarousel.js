@@ -3,8 +3,11 @@ import { LinearGradient } from 'expo-linear-gradient'
 import React, { useRef } from 'react'
 import { Animated, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Extrapolate } from 'react-native-reanimated'
+import { useSelector } from 'react-redux'
+import { userByIdSelector } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
+import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 const { width } = Dimensions.get('screen')
@@ -16,6 +19,8 @@ const TITLE_MAX_LINES = 2
 
 function Item ({ item, index, scrollX }) {
   const navigation = useNavigation()
+  const author = useSelector(userByIdSelector(item.authorRef))
+
   const img = item.image ? { uri: item.image } : defaultImage
   const inputRange = [
     (index - 1) * (ITEM_WIDTH + ITEM_GUTTER),
@@ -25,7 +30,7 @@ function Item ({ item, index, scrollX }) {
 
   const imageTranslateX = scrollX.interpolate({
     inputRange,
-    outputRange: [ -ITEM_MAX_TRANSLATE_X, 0, ITEM_MAX_TRANSLATE_X ],
+    outputRange: [ -ITEM_MAX_TRANSLATE_X * 2, 0, ITEM_MAX_TRANSLATE_X * 2 ],
     extrapolate: Extrapolate.CLAMP
   })
 
@@ -39,6 +44,11 @@ function Item ({ item, index, scrollX }) {
     extrapolate: Extrapolate.CLAMP
   })
 
+  const authorTranslateY = scrollX.interpolate({
+    inputRange,
+    outputRange: [-55, 0, -55]
+  })
+
   return (
     <TouchableOpacity
       onPress={() => { navigation.navigate('Details', { recipeId: item.id }) }}>
@@ -49,17 +59,30 @@ function Item ({ item, index, scrollX }) {
             transform: [{ translateX: imageTranslateX }]
           }]} />
 
-        <LinearGradient
-          colors={['transparent', '#000']}
-          style={styles.itemGradient}/>
+        <Animated.View
+          style={[
+            styles.itemAuthor,
+            { transform: [{translateY: authorTranslateY}] }
+          ]}>
+          <Author avatarOnly user={author} />
+        </Animated.View>
 
-        <Animated.Text
-          numberOfLines={TITLE_MAX_LINES}
-          style={[styles.itemTitle, {
-            transform: [{translateY: textTranslateY}]
-          }]}>
-          {item.name}
-        </Animated.Text>
+
+        <Animated.View
+          style={[
+            styles.itemTitleWrapper,
+            { transform: [{translateY: textTranslateY}] }
+          ]}>
+          <LinearGradient
+            colors={['transparent', '#000']}
+            style={styles.itemGradient}/>
+
+          <Text
+            numberOfLines={TITLE_MAX_LINES}
+            style={[styles.itemTitle, ]}>
+            {item.name}
+          </Text>
+        </Animated.View>
       </View>
     </TouchableOpacity>
   )
@@ -109,9 +132,7 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     marginRight: ITEM_GUTTER,
     borderRadius: 20,
-    overflow: "hidden",
-    padding: 10,
-    justifyContent: 'flex-end'
+    overflow: "hidden"
   },
   itemImage: {
     ...StyleSheet.absoluteFillObject,
@@ -121,9 +142,19 @@ const styles = StyleSheet.create({
     height: ITEM_HEIGHT,
     resizeMode: "cover"
   },
-  itemGradient: {
+  itemAuthor: {
+    position: 'absolute',
+    top: 15,
+    right: 10
+  },
+  itemTitleWrapper: {
     ...StyleSheet.absoluteFillObject,
     top: '50%',
+    padding: 10,
+    justifyContent: 'flex-end'
+  },
+  itemGradient: {
+    ...StyleSheet.absoluteFill,
     opacity: 0.5
   },
   itemTitle: {
