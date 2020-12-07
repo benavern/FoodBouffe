@@ -83,7 +83,7 @@ export default function userSettingsScreen() {
               ? <Input
                   style={{width: avatarSize}}
                   textAlign="center"
-                  fontSize={text.xl}
+                  fontSize={text.l}
                   label="Pseudo"
                   placeholder="CookerDu35"
                   value={editedUser.pseudo}
