@@ -17,7 +17,7 @@ const ITEM_GUTTER = 12
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
 const TITLE_MAX_LINES = 2
 
-function Item ({ item, index, scrollX }) {
+function Item ({ item, index, scrollX, last }) {
   const navigation = useNavigation()
   const author = useSelector(userByIdSelector(item.authorRef))
 
@@ -52,7 +52,7 @@ function Item ({ item, index, scrollX }) {
   return (
     <TouchableOpacity
       onPress={() => { navigation.navigate('Details', { recipeId: item.id }) }}>
-      <View style={styles.item}>
+      <View style={styles.item(last)}>
         <Animated.Image
           source={img}
           style={[styles.itemImage, {
@@ -114,7 +114,7 @@ export default function BigCarousel ({ data, title, ...carouselProps }) {
           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
           { useNativeDriver: true }
         )}
-        renderItem={({ item, index,  }) => (<Item item={item} index={index} scrollX={scrollX} />)} />
+        renderItem={({ item, index }) => (<Item item={item} index={index} scrollX={scrollX} last={data.length - 1 === index} />)} />
     </View>
   )
 }
@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
     ...globalStyle.title
   },
   carouselList: {},
-  item: {
+  item: (last) => ({
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
-    marginRight: ITEM_GUTTER,
+    marginRight: last ? 0 : ITEM_GUTTER,
     borderRadius: 20,
     overflow: "hidden"
-  },
+  }),
   itemImage: {
     ...StyleSheet.absoluteFillObject,
     left: -ITEM_MAX_TRANSLATE_X,
