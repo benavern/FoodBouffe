@@ -48,7 +48,7 @@ export default function HomeScreen() {
     <SafeAreaView style={globalStyle.screen}>
       <View>
         <Text style={globalStyle.bigTitle}>
-          Rechercher une recettes
+          Rechercher une recette
         </Text>
         <Text style={globalStyle.subtitle}>
           Commencez à taper puis sélectionnez celle qui convient
@@ -95,7 +95,7 @@ export default function HomeScreen() {
             <Select
               value={searchAuthor}
               onChange={newAuthor => setSearchAuthor(newAuthor)}
-              label="Autheur"
+              label="Auteur"
               nullLabel="Tous"
               options={usersList} />
           </View>
