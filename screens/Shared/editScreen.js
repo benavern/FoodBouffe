@@ -12,6 +12,7 @@ import Input from '../../components/Input'
 import Select from '../../components/Select'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import IngredientsList from '../../components/IngredientsList'
+import RecipeSteps from '../../components/RecipeSteps'
 import { useNavigation } from '@react-navigation/native'
 import cloneDeep from 'lodash/cloneDeep'
 
@@ -74,13 +75,7 @@ export default function EditScreen ({ route }) {
     return null
   }
 
-  const getDetailsError = () => {
-    if (!item.details) return 'Pour rendre la recette plus facile à reproduire, pensez à décrire son exécution'
-    if (item.details.length < 15) return 'Les détails de la recette doivent faire plus de 15 caractères'
-    return null
-  }
-
-  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError() && !getDetailsError()
+  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError()
 
   const infoInput = useRef(null)
 
@@ -152,16 +147,15 @@ export default function EditScreen ({ route }) {
           <View style={globalStyle.section}>
             <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
-            <View>
-              <Input
-                multiline
-                style={{ maxHeight: 300 }}
-                label="Contenu de la recette"
-                placeholder="Tout mettre dans la casserole et cuire 10 min"
-                value={item.details}
-                onChange={details => setItem(oldItem => ({...oldItem, details}))}
-                error={getDetailsError()} />
-            </View>
+            <RecipeSteps
+              steps={item.steps}
+              onAdd={newStep => setItem(oldItem => ({...oldItem, steps: [...(oldItem.steps || []), newStep]}))}
+              onEdit={(index, editedStep) => setItem(oldItem => {
+                const steps = oldItem.steps
+                steps[index] = editedStep
+                return {...oldItem, steps}
+              })}
+              onRemove={stepIndex => setItem(oldItem => ({...oldItem, steps: (oldItem.steps || []).filter((_, i) => i !== stepIndex)}))} />
           </View>
 
           <View style={globalStyle.section}>
@@ -172,6 +166,7 @@ export default function EditScreen ({ route }) {
               title="Enregistrer"
               disabled={!formValid()}
               onPress={() => submitForm()} />
+
             <Button
               style={{backgroundColor: colors.danger}}
               title="Supprimer"

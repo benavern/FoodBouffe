@@ -10,6 +10,7 @@ import IngredientsList from '../../components/IngredientsList'
 import { formatDuration, formatDate } from '../../helpers/date.helper'
 import Pill from '../../components/Pill'
 import PullToRefresh from '../../components/PullToRefresh'
+import RecipeSteps from '../../components/RecipeSteps'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
@@ -64,21 +65,21 @@ export default function DetailsScreen ({ route }) {
             </View>
           </View>
 
-          <View style={globalStyle.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
+          { item.ingredients?.length &&
+            <View style={globalStyle.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
-            <IngredientsList ingredients={item.ingredients} />
-          </View>
-
-          <View style={globalStyle.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
-
-            <View>
-              <Text style={globalStyle.text}>
-                {item.details}
-              </Text>
+              <IngredientsList ingredients={item.ingredients} />
             </View>
-          </View>
+          }
+
+          { item.steps?.length &&
+            <View style={globalStyle.section}>
+              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
+
+              <RecipeSteps steps={item.steps} />
+            </View>
+          }
         </View>
       </Animated.ScrollView>
     </View>
