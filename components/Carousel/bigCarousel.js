@@ -12,7 +12,7 @@ import Author from '../Author'
 const defaultImage = require('../../assets/default-background.jpg')
 const { width } = Dimensions.get('screen')
 const ITEM_WIDTH = width * 0.9 - 24 // 90% of the screen minus the screen padding
-const ITEM_HEIGHT = ITEM_WIDTH * 0.56
+const ITEM_HEIGHT = ITEM_WIDTH * 0.625 // 16:10 ratio
 const ITEM_GUTTER = 12
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
 const TITLE_MAX_LINES = 2
@@ -149,16 +149,17 @@ const styles = StyleSheet.create({
   },
   itemTitleWrapper: {
     ...StyleSheet.absoluteFillObject,
-    top: '50%',
+    top: '30%',
     padding: 10,
     justifyContent: 'flex-end'
   },
   itemGradient: {
     ...StyleSheet.absoluteFill,
-    opacity: 0.5
+    opacity: 0.9
   },
   itemTitle: {
     ...globalStyle.bigTitle,
-    color: colors.buttonText
+    color: colors.buttonText,
+    opacity: 0.77
   }
 })

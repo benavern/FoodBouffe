@@ -12,7 +12,7 @@ import Select from '../../components/Select'
 import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
-import { colors, inputHeight, text } from '../../styles/variables'
+import { categoryColor, colors, inputHeight, text } from '../../styles/variables'
 import Pill from '../../components/Pill'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
@@ -78,7 +78,7 @@ export default function HomeScreen() {
                   <Pill
                     key={cat.id}
                     active={searchCategory === cat.id}
-                    style={{ backgroundColor: cat.color}}
+                    style={{ backgroundColor: categoryColor(cat)}}
                     onPress={() => setSearchCategory(cat.id)}>
                     {cat.name}
                   </Pill>

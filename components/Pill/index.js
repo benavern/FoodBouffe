@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     borderRadius: (pillSize + activeBorderWidth * 4)
   }),
   pillWrapper: {
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.primary,
     paddingVertical: (pillSize - text.s) / 2,
     paddingHorizontal: pillSize / 2,
     borderRadius: pillSize

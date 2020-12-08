@@ -7,6 +7,7 @@ import Button from '../../components/Button'
 import Input from '../../components/Input'
 import { loginUser } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
+import { colors } from '../../styles/variables'
 
 const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
 
@@ -50,7 +51,7 @@ export default function LoginScreen () {
 
       <View style={styles.loginForm}>
         {formData.error !== '' &&
-          <Text style={globalStyle.textDanger}>{formData.error}</Text>}
+          <Text style={styles.loginFormError}>{formData.error}</Text>}
 
         <Input
           label="Email"
@@ -85,5 +86,9 @@ const styles = StyleSheet.create({
   loginForm: {
     flex: 1,
     justifyContent: "center"
+  },
+  loginFormError: {
+    ...globalStyle.text,
+    color: colors.danger
   }
 })

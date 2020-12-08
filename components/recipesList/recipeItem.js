@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { Ionicons } from '@expo/vector-icons'
 import Card from '../card'
-import { colors, text } from '../../styles/variables'
+import { categoryColor, colors, text } from '../../styles/variables'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
@@ -41,7 +41,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
     <View style={styles.cardFooter}>
       <View>
         { category &&
-          <Pill style={{backgroundColor: category.color}}>
+          <Pill style={{backgroundColor: categoryColor(category)}}>
             {category.name}
           </Pill>
         }

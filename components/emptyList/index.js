@@ -23,7 +23,7 @@ export default function EmptyList({ icon = 'md-sad', title = 'Aucune recette ici
 const styles = StyleSheet.create({
   title: {
     textAlign: "center",
-    color: colors.secondary,
+    color: colors.warning,
     marginVertical: 20
   },
   subtitle: {

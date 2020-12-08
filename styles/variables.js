@@ -6,14 +6,14 @@ export const darkmode = colorScheme === 'dark';
 
 const originalColors = {
   primary: '#f1c40f',
-  secondary: '#FE724C',
   text: '#272D2F',
-  textAlt: '#A7A7A7',
+  textAlt: '#979797',
   background: '#F4F4F4',
   cardBackground: '#FFF',
   buttonText: '#F4F4F4',
   overlay: 'rgba(200, 200, 200, 0.5)',
   success: '#1EAA30',
+  warning: '#FE724C',
   danger: '#CB2431',
   info: '#1E6FAA'
 }
@@ -21,11 +21,16 @@ const originalColors = {
 export const colors = darkmode
 ? {
     ...originalColors,
-    text: '#ECECEC',
-    textAlt: '#6B778D',
-    background: '#202040',
-    cardBackground: '#2c2c58',
-    overlay: 'rgba(64, 64, 128, 0.5)'
+    primary: '#a08b2b',
+    text: '#b6b7b8',
+    textAlt: '#7a7d7f',
+    background: '#16191c',
+    cardBackground: '#1e2126',
+    overlay: 'rgba(40, 41, 48, 0.5)',
+    success: '#3c5c3d',
+    warning: '#754718',
+    danger: '#803535',
+    info: '#187175'
   }
   : originalColors
 
@@ -42,4 +47,9 @@ export const inputColor = (touched, active, error) => {
   if(touched && error) return colors.danger
   if(active) return colors.primary
   return colors.textAlt
+}
+
+export const categoryColor = ({color, darkColor}) => {
+  if(darkmode) return darkColor || color || colors.primary
+  return color || colors.primary
 }

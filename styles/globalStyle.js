@@ -34,16 +34,6 @@ export default StyleSheet.create({
     fontSize: text.m,
     fontFamily: normalFont
   },
-  textSecondary: {
-    color: colors.secondary,
-    fontSize: text.m,
-    fontFamily: normalFont
-  },
-  textDanger: {
-    color: colors.danger,
-    fontSize: text.m,
-    fontFamily: normalFont
-  },
   screen: {
     flex: 1,
     paddingHorizontal: 16,

@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { Animated, StyleSheet, Text, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import globalStyle from '../../styles/globalStyle'
-import { colors, text } from '../../styles/variables'
+import { categoryColor, colors, text } from '../../styles/variables'
 import { useSelector } from 'react-redux'
 import DetailHeader from '../../components/DetailsHeader/index'
 import { detailsTopRadius } from '../../config/foodbouffe.json'
@@ -53,7 +53,7 @@ export default function DetailsScreen ({ route }) {
               { category &&
                 <View style={styles.detailHeaderInfoLine}>
                   <Pill
-                    style={styles.category(category.color)}>
+                    style={styles.category(category)}>
                     {category.name}
                   </Pill>
                 </View>
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
-  category: (bg) => ({
-    backgroundColor: bg || colors.textAlt
+  category: (category) => ({
+    backgroundColor: categoryColor(category)
   }),
   creationDate: {
     backgroundColor: colors.textAlt

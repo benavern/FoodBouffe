@@ -2,11 +2,11 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
-import { homeLimit } from '../../config/foodbouffe.json'
+import { homeCategoriesLimit, homeTrendingsLimit } from '../../config/foodbouffe.json'
 import Carousel from '../../components/Carousel'
 import { useSelector } from 'react-redux'
 import { currentUserSelector } from '../../store/userSlice'
-import { colors } from '../../styles/variables'
+import { categoryColor, colors } from '../../styles/variables'
 import { categoryByAppNameSelector } from '../../store/categoriesSlice'
 import { latestRecipesByCatAppNameSelector, latestRecipesSelector } from '../../store/recipesSlice'
 import PullToRefresh from '../../components/PullToRefresh'
@@ -17,10 +17,10 @@ export default function HomeScreen() {
 
   const latestByCatAppName = ['sweet', 'salted'].map(categoryAppName => ({
     category: useSelector(categoryByAppNameSelector(categoryAppName)),
-    recipes: useSelector(latestRecipesByCatAppNameSelector({catAppName: categoryAppName, limit: homeLimit}))
+    recipes: useSelector(latestRecipesByCatAppNameSelector({catAppName: categoryAppName, limit: homeCategoriesLimit}))
   }))
 
-  const latestRecipes = useSelector(latestRecipesSelector({ limit: homeLimit }))
+  const latestRecipes = useSelector(latestRecipesSelector({ limit: homeTrendingsLimit }))
 
   return (
     <ScrollView
@@ -49,7 +49,7 @@ export default function HomeScreen() {
               style={globalStyle.section}
               title={<Text>
                 Les dernières { category.longname
-                  ? <Text style={styles.categoryName(category.color)}>{category.longname}</Text>
+                  ? <Text style={styles.categoryName(category)}>{category.longname}</Text>
                   : <Text style={styles.categoryName()}>recettes ???</Text>}
               </Text>}
               subtitle={category.description}
@@ -62,7 +62,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  categoryName: (nameColor) => ({
-    color: nameColor || colors.primary
-  })
+  categoryName: (category) => {
+    return { color: categoryColor(category) }
+  }
 })

@@ -1,5 +1,6 @@
 {
-  "homeLimit": 10,
+  "homeTrendingsLimit": 6,
+  "homeCategoriesLimit": 10,
   "searchEmptyLimit": 6,
   "detailsTopRadius": 40,
   "detailsImageHeight": 320

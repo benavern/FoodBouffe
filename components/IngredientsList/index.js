@@ -86,6 +86,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   addBtn: {
-    margin: 10
+    marginTop: 10
   }
 })
