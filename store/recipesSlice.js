@@ -154,4 +154,6 @@ export const latestRecipesByCatAppNameSelector = ({ catAppName, limit }) => stat
   return sortedCatRecipes
 }
 
+export const recipesAlphabeticSelector = state => [...state.recipes].sort((a, b) => a.name.localeCompare(b.name)) // alphabetical order
+
 export const recipeById = recipeId => state => state.recipes.find(rec => rec.id === recipeId)

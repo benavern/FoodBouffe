@@ -2,6 +2,7 @@ import React from 'react'
 import { Dimensions, View } from 'react-native'
 import { FlatList } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
+import EmptyList from '../emptyList'
 import PullToRefresh from '../PullToRefresh'
 
 const { width: screenWidth } = Dimensions.get('screen')
@@ -13,7 +14,11 @@ export default function List({
   gutter = 10,
   horizontal,
   style,
-  renderItem
+  renderItem,
+  header,
+  emptyIcon,
+  emptyTitle,
+  emptySubtitle
 }) {
 
   // when horizontal, display 1/4 extra of an item so that it is obvious that the user can scroll
@@ -57,6 +62,12 @@ export default function List({
       style={[{ marginHorizontal: -gutter }, style]}
       renderItem={(args) => _renderItem({ ...args, width: itemWidth, gutter })}
       numColumns={horizontal ? undefined : nbPerRow}
-      refreshControl={horizontal ? null : <PullToRefresh offset={false} />}/>
+      refreshControl={horizontal ? null : <PullToRefresh offset={false} />}
+      ListHeaderComponent={header}
+      ListHeaderComponentStyle={{paddingHorizontal: gutter}}
+      ListEmptyComponent={<EmptyList
+        icon={emptyIcon}
+        title={emptyTitle}
+        subtitle={emptySubtitle} />}/>
   )
 }

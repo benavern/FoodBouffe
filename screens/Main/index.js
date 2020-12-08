@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 
 import HomeScreen from '../Home/homeScreen'
-import FavoritesScreen from '../Favorites/favoritesScreen'
+import FullList from '../FullList/FullListScreen'
 import SearchScreen from '../Search/searchScreen'
 import CreateScreen from '../Create/createScreen'
 import SettingsScreen from '../Settings/userSettingsScreen'
@@ -13,10 +13,10 @@ const Tab = createBottomTabNavigator();
 
 const screens = [
   { name: 'Home', icon: 'md-home', component: HomeScreen },
-  { name: 'Favorites', icon: 'md-heart-empty', component: FavoritesScreen },
+  { name: 'All Recipes', icon: 'md-apps', component: FullList },
   { name: 'Search', icon: 'md-search', component: SearchScreen },
   { name: 'Create', icon: 'md-add', component: CreateScreen },
-  { name: 'Settings', icon: 'md-settings', component: SettingsScreen}
+  { name: 'Settings', icon: 'md-person', component: SettingsScreen}
 ]
 
 export default function() {
