@@ -1,125 +1,115 @@
-import { unwrapResult } from '@reduxjs/toolkit'
-import React, { useState } from 'react'
-import { Modal, StyleSheet, Text, View } from 'react-native'
+import React, { Children, cloneElement, useState } from 'react'
+import { Text, View } from 'react-native'
+import Modal from '../Modal'
 import { useDispatch, useSelector } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
 import Button from '.'
 import { createIngredient, ingredientsListSelector } from '../../store/ingredientsSlice'
 import globalStyle from '../../styles/globalStyle'
-import { colors } from '../../styles/variables'
 import Input from '../Input'
 import Select from '../Select'
-import IconButton from './IconButton'
 
 const emptyIngredient = {
   name: '',
   id: null
 }
 
-export default function AddIngredient({ onAdd }) {
+export default function AddIngredient({
+  onSubmit,
+  ingredient = null,
+  title = 'Ajouter un ingrédient',
+  buttonText = "Ajouter",
+  disabled,
+  children,
+  ...attrs
+}) {
   const dispatch = useDispatch()
   const ingredients = [...useSelector(ingredientsListSelector)]
     .sort((a, b) => a.name.localeCompare(b.name)) // alphabetical order so that it is easier to pick
   const [modalVisible, setModalVisible] = useState(false)
-  const [ingredient, setIngredient] = useState(emptyIngredient)
-  const [quantity, setQuantity] = useState('')
+  const [ingredientValue, setIngredientValue] = useState(emptyIngredient)
+  const [quantityValue, setQuantityValue] = useState('')
 
   function closeModal() {
-    setIngredient(emptyIngredient)
-    setQuantity('')
+    setIngredientValue(emptyIngredient)
+    setQuantityValue('')
     setModalVisible(false);
   }
 
   async function handleNewIngredient () {
-    let ingredientToAdd = ingredient
+    let ingredientToAdd = ingredientValue
     // create the ingredient if it doens not already exist
-    if (!ingredient.id) {
-      ingredientToAdd = await dispatch(createIngredient({name: ingredient.name})).then(unwrapResult)
+    if (!ingredientValue.id) {
+      ingredientToAdd = await dispatch(createIngredient({name: ingredientValue.name})).then(unwrapResult)
     }
-
     // notify that a new ingredient has been added
-    onAdd && onAdd({ ingredientRef: ingredientToAdd.id, quantity })
+    onSubmit && onSubmit({ ingredientRef: ingredientToAdd.id, quantity: quantityValue })
 
     // reset the form and close modal
     closeModal()
   }
 
   const getNameError = () => {
-    if (!ingredient.name) return 'Vous devez donner un nom au nouvel ingredient'
-    if (!ingredient.id && ingredients.some(ing => ing.name.toLowerCase() === ingredient.name.toLowerCase())) {
+    if (!ingredientValue.name) return 'Vous devez donner un nom au nouvel ingredient'
+    if (!ingredientValue.id && ingredients.some(ing => ing.name.toLowerCase() === ingredientValue.name.toLowerCase())) {
       return 'Cet ingrédient existe déjà'
     }
     return null
   }
 
   return (
-    <View>
+    <View {...attrs}>
       <Modal
-        animationType="fade"
-        transparent={true}
         visible={modalVisible}
-        onRequestClose={() => { closeModal() }}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalCloseBtn}>
-            <IconButton
-              iconName="md-close"
-              onPress={() => { closeModal() }} />
-          </View>
+        close={() => { closeModal() }}>
+        <Text style={[globalStyle.bigTitle, globalStyle.section]}>
+          {title}
+        </Text>
 
-          <View style={styles.modalView}>
-            <Text style={[globalStyle.bigTitle, globalStyle.section]}>Ajouter un ingrédient</Text>
+        <Select
+          nullLabel="Nouvel ingrédient"
+          value={ingredientValue.id}
+          onChange={val => setIngredientValue(ingredients.find(ing => ing.id === val) || emptyIngredient)}
+          options={ingredients} />
 
-            <Select
-              nullLabel="Nouvel ingrédient"
-              value={ingredient.id}
-              onChange={val => setIngredient(ingredients.find(ing => ing.id === val) || emptyIngredient)}
-              options={ingredients} />
+        {!ingredientValue.id && <Input
+          label="Nom de l'ingrédient"
+          placeholder="Chocolat"
+          value={ingredientValue.name}
+          onChange={newName => setIngredientValue(ing => ({...ing, name: newName}))}
+          error={getNameError()} /> }
 
-            {!ingredient.id && <Input
-              label="Nom de l'ingrédient"
-              placeholder="Chocolat"
-              value={ingredient.name}
-              onChange={newName => setIngredient(ing => ({...ing, name: newName}))}
-              error={getNameError()} /> }
+        <Input
+          label="Quantité"
+          placeholder="1 tablette"
+          value={quantityValue}
+          onChange={newQuantityValue => setQuantityValue(newQuantityValue)} />
 
-            <Input
-              label="Quantité"
-              placeholder="1 tablette"
-              value={quantity}
-              onChange={newQuantity => setQuantity(newQuantity)} />
-
-            <Button
-              title="Ajouter"
-              disabled={getNameError()}
-              onPress={() => handleNewIngredient()}/>
-          </View>
-        </View>
+        <Button
+          title={buttonText}
+          disabled={getNameError()}
+          onPress={() => handleNewIngredient()}/>
       </Modal>
 
-      <Button
-        onPress={() => setModalVisible(true) }
-        title="Ajouter un ingrédient" />
+
+      { Children.map(
+        children,
+        child => cloneElement(child, {
+          onPress: () => {
+            if(disabled) return
+
+            if(ingredient?.ingredientRef) {
+              setIngredientValue({ id: ingredient.ingredientRef, name: 'dummy ingredient name' })
+              setQuantityValue(ingredient.quantity)
+            } else {
+              setIngredientValue(emptyIngredient)
+              setQuantityValue('')
+            }
+
+            setModalVisible(true)
+          }
+        }))
+      }
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  modalOverlay: {
-    backgroundColor: colors.overlay,
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 12,
-    paddingTop: 52,
-    paddingBottom: 10,
-  },
-  modalCloseBtn: {
-    position: "absolute",
-    top: 10,
-    right: 12
-  },
-  modalView: {
-    backgroundColor: colors.background,
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-  }
-})

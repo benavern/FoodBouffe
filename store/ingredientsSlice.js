@@ -55,4 +55,4 @@ export const { } = ingredientsSlice.actions
 export default ingredientsSlice.reducer
 
 export const ingredientsListSelector = state => state.ingredients
-export const ingredientByIdSelector = ingredientId => state => state.ingredients.find(ing => ing.id === ingredientId)
+export const ingredientByIdSelector = state => ingredientId => state.ingredients.find(ing => ing.id === ingredientId)

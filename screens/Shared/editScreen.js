@@ -139,9 +139,13 @@ export default function EditScreen ({ route }) {
 
             <IngredientsList
               ingredients={item.ingredients}
-              mode="edit"
               onAdd={newIngredient => setItem(oldItem => ({...oldItem, ingredients: [...(oldItem.ingredients || []), newIngredient]}))}
-              onRemove={ingredientToRemove => setItem(oldItem => ({ ...oldItem, ingredients: (oldItem.ingredients || []).filter(ing => ing.ingredientRef !== ingredientToRemove) }))} />
+              onEdit={(index, editedIngredient) => setItem(oldItem => {
+                const ingredients = oldItem.ingredients
+                ingredients[index] = editedIngredient
+                return {...oldItem, ingredients}
+              })}
+              onRemove={ingredientIndex => setItem(oldItem => ({ ...oldItem, ingredients: (oldItem.ingredients || []).filter((ingredient, index) => index !== ingredientIndex) }))} />
           </View>
 
           <View style={globalStyle.section}>
