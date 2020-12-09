@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import RecipesList from '../../components/recipesList';
 import globalStyle from '../../styles/globalStyle';
@@ -21,23 +21,24 @@ export default function FullList () {
   )
 
   return (
-    <View style={styles.pageContainer}>
-      <RecipesList
-        items={recipes}
-        header={pageHeader} />
-    </View>
+    <RecipesList
+      style={styles.pageContainer}
+      contentContainerStyle={styles.pageContent}
+      items={recipes}
+      header={pageHeader} />
   );
 }
 
 const styles = StyleSheet.create({
   pageContainer: {
-    ...globalStyle.screen,
-    paddingTop: 0,
     flex: 1
+  },
+  pageContent: {
+    ...globalStyle.screen
   },
   pageHeader: {
     ...globalStyle.section,
-    paddingTop: globalStyle.section.paddingTop + globalStyle.screen.paddingTop,
+    marginBottom: 20
   },
   pageEmpty: {
     flex: 1

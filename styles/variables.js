@@ -53,3 +53,7 @@ export const categoryColor = ({color, darkColor}) => {
   if(darkmode) return darkColor || color || colors.primary
   return color || colors.primary
 }
+
+export const randomColor = () => {
+  return `hsl( ${Math.floor(Math.random() * 360)}, 100%, 50%)`
+}

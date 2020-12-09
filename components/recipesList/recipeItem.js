@@ -20,12 +20,6 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const like = useSelector(userLikesRecipeSelector(item.id))
   const author = useSelector(userByIdSelector(item.authorRef))
 
-  if (item.hidden) {
-    return (
-      <Card style={[style, styles.item, styles.hiddenItem]} />
-    )
-  }
-
   const cardHeader = (
     <>
       <Image
@@ -78,10 +72,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 
 const styles = StyleSheet.create({
   item: {
-    flex: 1
-  },
-  hiddenItem: {
-    opacity: 0
+    // flex: 1
   },
   cardHeader: {
     paddingHorizontal: 0,

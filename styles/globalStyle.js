@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, text } from './variables';
+import { colors, randomColor, text } from './variables';
 
 const titleFont = 'Londrina'
 const normalFont = 'Quicksand'
@@ -51,5 +51,9 @@ export default StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.cardBackground
-  }
+  },
+  debug: (forcedColor) => ({
+    borderColor: forcedColor || randomColor(),
+    borderWidth: 5
+  })
 })
