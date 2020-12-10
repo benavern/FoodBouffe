@@ -11,7 +11,8 @@ import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 const { width } = Dimensions.get('screen')
-const ITEM_WIDTH = width * 0.9 - 24 // 90% of the screen minus the screen padding
+const pagePadding = globalStyle.screen.paddingHorizontal
+const ITEM_WIDTH = width * 0.9 - pagePadding * 2 // 90% of the screen minus the screen padding
 const ITEM_HEIGHT = ITEM_WIDTH * 0.625 // 16:10 ratio
 const ITEM_GUTTER = 12
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
