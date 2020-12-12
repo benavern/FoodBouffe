@@ -28,7 +28,7 @@ export default function SharedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid
+        cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
       }}
       headerMode="none">
       {sharedStack.map((screen, index) => (

@@ -22,6 +22,7 @@ export default function DetailsScreen ({ route }) {
     <View style={styles.detailWrapper}>
       <Animated.ScrollView
         style={styles.scroller}
+        contentContainerStyle={styles.scrollerContent}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           { useNativeDriver: true }
@@ -116,6 +117,9 @@ const styles = StyleSheet.create({
   },
   scroller: {
     flex: 1
+  },
+  scrollerContent: {
+    flexGrow: 1
   },
   detailContent: {
     flex: 1,
