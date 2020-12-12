@@ -163,7 +163,7 @@ export default function EditScreen ({ route }) {
               onRemove={stepIndex => setItem(oldItem => ({...oldItem, steps: (oldItem.steps || []).filter((_, i) => i !== stepIndex)}))} />
           </View>
 
-          <View style={globalStyle.section}>
+          <View style={globalStyle.bottomSection}>
             <Text style={[globalStyle.title, { marginBottom: 10 }]}>Actions</Text>
 
             <Button

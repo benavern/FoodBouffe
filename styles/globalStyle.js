@@ -59,6 +59,10 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.cardBackground
   },
+  bottomSection: {
+    paddingVertical: 10,
+    paddingHorizontal: pageHorizontalPadding,
+  },
   debug: (forcedColor) => ({
     borderColor: forcedColor || randomColor(),
     borderWidth: 5

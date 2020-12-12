@@ -69,7 +69,7 @@ export default function DetailsScreen ({ route }) {
           </View>
 
           { item.ingredients?.length &&
-            <View style={globalStyle.section}>
+            <View style={item.steps?.length ? globalStyle.section : globalStyle.bottomSection}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
 
               <IngredientsList ingredients={item.ingredients} />
@@ -77,7 +77,7 @@ export default function DetailsScreen ({ route }) {
           }
 
           { item.steps?.length &&
-            <View style={globalStyle.section}>
+            <View style={globalStyle.bottomSection}>
               <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
 
               <RecipeSteps steps={item.steps} />

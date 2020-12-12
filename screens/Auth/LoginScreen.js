@@ -84,7 +84,7 @@ export default function LoginScreen () {
 
 const styles = StyleSheet.create({
   loginForm: {
-    ...globalStyle.section,
+    ...globalStyle.bottomSection,
     flex: 1,
     justifyContent: "center"
   },
