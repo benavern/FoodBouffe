@@ -40,7 +40,7 @@ export default function LoginScreen () {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View>
+      <View style={globalStyle.section}>
         <Text style={globalStyle.bigTitle}>
           Connection
         </Text>
@@ -84,6 +84,7 @@ export default function LoginScreen () {
 
 const styles = StyleSheet.create({
   loginForm: {
+    ...globalStyle.section,
     flex: 1,
     justifyContent: "center"
   },

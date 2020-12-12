@@ -12,7 +12,7 @@ import Select from '../../components/Select'
 import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
-import { categoryColor, colors, inputHeight, text } from '../../styles/variables'
+import { categoryColor, colors, inputHeight, pageHorizontalPadding, text } from '../../styles/variables'
 import Pill from '../../components/Pill'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
@@ -46,16 +46,16 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View>
-        <Text style={globalStyle.bigTitle}>
-          Rechercher une recette
-        </Text>
-        <Text style={globalStyle.subtitle}>
-          Commencez à taper puis sélectionnez celle qui convient
-        </Text>
-      </View>
-
       <View style={globalStyle.section}>
+        <View style={styles.searchTitle}>
+          <Text style={globalStyle.bigTitle}>
+            Rechercher une recette
+          </Text>
+          <Text style={globalStyle.subtitle}>
+            Commencez à taper puis sélectionnez celle qui convient
+          </Text>
+        </View>
+
         <View style={styles.searchMain}>
           <Input
             style={styles.searchField}
@@ -103,24 +103,25 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.resultsWrapper}>
-        <Text style={styles.resultsTitle}>
-          {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
-        </Text>
-
-        {
-          searchResults.length
-            ? <RecipesList items={searchResults} />
-            : <EmptyList
-                icon="md-search"
-                title="Aucune recette ne correspond à votre recherche"
-                subtitle="Tentez un autre mot..." />
-        }
+        <RecipesList
+          items={searchResults}
+          header={
+            <Text style={styles.resultsTitle}>
+              {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
+            </Text>
+          }
+          emptyIcon="md-search"
+          emptyTitle="Aucune recette ne correspond à votre recherche"
+          emptySubtitle="Tentez un autre mot..." />
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  searchTitle: {
+    marginBottom: 20
+  },
   searchMain: {
     flexDirection: 'row'
   },

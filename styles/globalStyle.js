@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, randomColor, text } from './variables';
+import { colors, pageHorizontalPadding, randomColor, text } from './variables';
 
 const titleFont = 'Londrina'
 const normalFont = 'Quicksand'
@@ -36,7 +36,6 @@ export default StyleSheet.create({
   },
   screen: {
     flex: 1,
-    paddingHorizontal: 16,
     paddingTop: 10,
     backgroundColor: colors.background
   },
@@ -46,6 +45,14 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   section: {
+    paddingTop: 10,
+    paddingBottom: 20,
+    paddingHorizontal: pageHorizontalPadding,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.cardBackground
+  },
+  carouselSection: {
     paddingTop: 10,
     paddingBottom: 20,
     marginBottom: 10,

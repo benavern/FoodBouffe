@@ -125,7 +125,7 @@ export default function userSettingsScreen() {
 
 const styles = StyleSheet.create({
   userInfoWrapper: {
-    paddingVertical: 10,
+    ...globalStyle.section,
     flex: 1
   },
   scrollView: {

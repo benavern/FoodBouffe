@@ -57,3 +57,5 @@ export const categoryColor = ({color, darkColor}) => {
 export const randomColor = () => {
   return `hsl( ${Math.floor(Math.random() * 360)}, 100%, 50%)`
 }
+
+export const pageHorizontalPadding = 10

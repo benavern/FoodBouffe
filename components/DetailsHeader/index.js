@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
-import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
-import { colors, text } from '../../styles/variables'
+import { colors, pageHorizontalPadding, text } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
@@ -121,7 +120,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     paddingVertical: 10,
-    paddingHorizontal: 12
+    paddingHorizontal: pageHorizontalPadding
   },
   headerLine: {
     flexDirection: "row",

@@ -1,19 +1,18 @@
 import React from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { FlatList } from 'react-native'
-import globalStyle from '../../styles/globalStyle'
 import RecipeItem from './recipeItem'
 import EmptyList from '../emptyList'
 import PullToRefresh from '../PullToRefresh'
+import { pageHorizontalPadding } from '../../styles/variables'
 
-const pagePadding = globalStyle.screen.paddingHorizontal
 const { width: screenWidth } = Dimensions.get('screen')
-const listWidth = screenWidth - 2 * pagePadding
+const listWidth = screenWidth - 2 * pageHorizontalPadding
 
-export default function List({
+export default function RecipesList({
   items,
   nbPerRow = 2,
-  gutter = 10,
+  gutter = pageHorizontalPadding,
   horizontal,
   style,
   contentContainerStyle,
@@ -67,6 +66,7 @@ export default function List({
 
 const styles = StyleSheet.create({
   contentContainerStyle: (empty) => ({
-    flex: empty ? 1 : undefined // because it is a flatlist, it can be heigher than the screen!
+    flex: empty ? 1 : undefined, // because it is a flatlist, it can be heigher than the screen!
+    paddingHorizontal: pageHorizontalPadding
   })
 })

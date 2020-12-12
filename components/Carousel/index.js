@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import RecipesList from '../recipesList'
 import EmptyList from '../emptyList'
 import globalStyle from '../../styles/globalStyle'
+import { pageHorizontalPadding } from '../../styles/variables'
 
 export default function Carousel({ data, title, subtitle, ...carouselProps }) {
   return (
@@ -27,7 +28,8 @@ export default function Carousel({ data, title, subtitle, ...carouselProps }) {
 
 const styles = StyleSheet.create({
   carouselTitleWrapper: {
-    marginBottom: 20
+    marginBottom: 20,
+    paddingHorizontal: pageHorizontalPadding
   },
   carousel: {}
 })

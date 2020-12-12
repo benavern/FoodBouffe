@@ -6,13 +6,12 @@ import { Extrapolate } from 'react-native-reanimated'
 import { useSelector } from 'react-redux'
 import { userByIdSelector } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
-import { colors, text } from '../../styles/variables'
+import { colors, pageHorizontalPadding, text } from '../../styles/variables'
 import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 const { width } = Dimensions.get('screen')
-const pagePadding = globalStyle.screen.paddingHorizontal
-const ITEM_WIDTH = width * 0.9 - pagePadding * 2 // 90% of the screen minus the screen padding
+const ITEM_WIDTH = width * 0.9 - pageHorizontalPadding * 2 // 90% of the screen minus the screen padding
 const ITEM_HEIGHT = ITEM_WIDTH * 0.625 // 16:10 ratio
 const ITEM_GUTTER = 12
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
@@ -101,7 +100,7 @@ export default function BigCarousel ({ data, title, ...carouselProps }) {
       }
 
       <Animated.FlatList
-        style={styles.carouselList}
+        contentContainerStyle={styles.carouselList}
         data={data}
         keyExtractor={item => item.id}
         horizontal
@@ -127,7 +126,9 @@ const styles = StyleSheet.create({
   carouselTitle: {
     ...globalStyle.title
   },
-  carouselList: {},
+  carouselList: {
+    paddingHorizontal: pageHorizontalPadding
+  },
   item: (last) => ({
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
