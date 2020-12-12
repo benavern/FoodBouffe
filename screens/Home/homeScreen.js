@@ -6,7 +6,7 @@ import { homeCategoriesLimit, homeTrendingsLimit } from '../../config/foodbouffe
 import Carousel from '../../components/Carousel'
 import { useSelector } from 'react-redux'
 import { currentUserSelector } from '../../store/userSlice'
-import { categoryColor, colors } from '../../styles/variables'
+import { categoryColor, colors, pageHorizontalPadding } from '../../styles/variables'
 import { categoryByAppNameSelector } from '../../store/categoriesSlice'
 import { latestRecipesByCatAppNameSelector, latestRecipesSelector } from '../../store/recipesSlice'
 import PullToRefresh from '../../components/PullToRefresh'
@@ -38,7 +38,7 @@ export default function HomeScreen() {
         </View>
 
         <BigCarousel
-          style={globalStyle.section}
+          style={globalStyle.carouselSection}
           // title="Les toutes dernières recettes"
           data={latestRecipes} />
 
@@ -46,7 +46,7 @@ export default function HomeScreen() {
           latestByCatAppName.map(({ category, recipes }, i) => (
             <Carousel
               key={i.toString()}
-              style={globalStyle.section}
+              style={globalStyle.carouselSection}
               title={<Text>
                 Les dernières { category.longname
                   ? <Text style={styles.categoryName(category)}>{category.longname}</Text>

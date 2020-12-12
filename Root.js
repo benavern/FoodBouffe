@@ -12,8 +12,8 @@ import { LondrinaSolid_400Regular } from '@expo-google-fonts/londrina-solid'
 
 import { NavigationContainer } from '@react-navigation/native'
 
-import { enableScreens } from 'react-native-screens';
-enableScreens();
+import { enableScreens } from 'react-native-screens'
+enableScreens()
 
 const getFonts = () => loadFontAsync({
   Quicksand: Quicksand_400Regular,
