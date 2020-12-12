@@ -11,6 +11,7 @@ import { colors } from '../../styles/variables'
 import { createRecipe } from '../../store/recipesSlice'
 import { useNavigation } from '@react-navigation/native'
 import { unwrapResult } from '@reduxjs/toolkit'
+import { categoriesListSelector } from '../../store/categoriesSlice'
 const emptyRecipy = {
   name: '',
   info: '',
@@ -21,7 +22,7 @@ const emptyRecipy = {
 
 export default function createScreen () {
   const navigation = useNavigation()
-  const catList = useSelector(state => Object.keys(state.categories).map(id => ({id, ...state.categories[id]})))
+  const catList = useSelector(categoriesListSelector)
   const dispatch = useDispatch()
   const [newRecipe, setnewRecipe] = useState(emptyRecipy)
 

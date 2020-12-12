@@ -4,7 +4,7 @@ import Modal from '../Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
 import Button from '.'
-import { createIngredient, ingredientsListSelector } from '../../store/ingredientsSlice'
+import { alphabeticalIngredientsListSelector, createIngredient } from '../../store/ingredientsSlice'
 import globalStyle from '../../styles/globalStyle'
 import Input from '../Input'
 import Select from '../Select'
@@ -24,8 +24,8 @@ export default function AddIngredient({
   ...attrs
 }) {
   const dispatch = useDispatch()
-  const ingredients = [...useSelector(ingredientsListSelector)]
-    .sort((a, b) => a.name.localeCompare(b.name)) // alphabetical order so that it is easier to pick
+  const ingredients = useSelector(alphabeticalIngredientsListSelector)
+
   const [modalVisible, setModalVisible] = useState(false)
   const [ingredientValue, setIngredientValue] = useState(emptyIngredient)
   const [quantityValue, setQuantityValue] = useState('')

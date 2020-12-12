@@ -11,11 +11,13 @@ import { formatDuration, formatDate } from '../../helpers/date.helper'
 import Pill from '../../components/Pill'
 import PullToRefresh from '../../components/PullToRefresh'
 import RecipeSteps from '../../components/RecipeSteps'
+import { recipeByIdSelector } from '../../store/recipesSlice'
+import { categoryByIdSelector } from '../../store/categoriesSlice'
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
-  const item = useSelector(state => state.recipes.find(rec => rec.id === recipeId))
-  const category = useSelector(state => state.categories[item.categoryRef])
+  const item = useSelector(recipeByIdSelector(recipeId))
+  const category = useSelector(categoryByIdSelector(item.categoryRef))
   const scrollY = useRef(new Animated.Value(0)).current
 
   return (

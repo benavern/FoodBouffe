@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { db } from '../firebase'
 
 const categoriesRef = db.collection('categories')
@@ -67,9 +67,17 @@ const categoriesSlice = createSlice({
 export const { addCategory, removeCategory } = categoriesSlice.actions
 export default categoriesSlice.reducer
 
-export const categoriesListSelector = state => Object.keys(state.categories).map(id => ({id, ...state.categories[id]}))
+export const categoryByIdSelector = categoryId => createSelector(
+  state => state.categories,
+  categories => categories[categoryId]
+)
 
-export const categoryByAppNameSelector = appName => state => {
-    const categories = categoriesListSelector(state)
-    return categories.find(cat => cat.appname === appName)
-}
+export const categoriesListSelector = createSelector(
+  state => state.categories,
+  categories => Object.keys(categories).map(id => ({id, ...categories[id]}))
+)
+
+export const categoryByAppNameSelector = appName => createSelector(
+  categoriesListSelector,
+  categories => categories.find(cat => cat.appname === appName)
+)

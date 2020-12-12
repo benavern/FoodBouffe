@@ -10,13 +10,14 @@ import { useSelector } from 'react-redux'
 import { userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import Pill from '../Pill'
 import Author from '../Author'
+import { categoryByIdSelector } from '../../store/categoriesSlice'
 
 const defaultImage = require('../../assets/default-background.jpg')
 
 export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
   const navigation = useNavigation()
 
-  const category = useSelector(state => state.categories[item.categoryRef])
+  const category = useSelector(categoryByIdSelector(item.categoryRef))
   const like = useSelector(userLikesRecipeSelector(item.id))
   const author = useSelector(userByIdSelector(item.authorRef))
 

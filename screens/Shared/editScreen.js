@@ -3,7 +3,7 @@ import { Alert, Animated, StyleSheet, Text, View } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteRecipe, recipeById, updateRecipe } from '../../store/recipesSlice'
+import { deleteRecipe, recipeByIdSelector, updateRecipe } from '../../store/recipesSlice'
 import Button from '../../components/Button'
 import { unwrapResult } from '@reduxjs/toolkit'
 import DetailHeader from '../../components/DetailsHeader/index'
@@ -19,7 +19,7 @@ import cloneDeep from 'lodash/cloneDeep'
 export default function EditScreen ({ route }) {
   const navigation = useNavigation()
   const { recipeId } = route.params
-  const rowRecipe = useSelector(recipeById(recipeId))
+  const rowRecipe = useSelector(recipeByIdSelector(recipeId))
   const catList = useSelector(categoriesListSelector)
   const dispatch = useDispatch()
   const [item, setItem] = useState({})

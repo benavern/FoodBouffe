@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { db } from '../firebase'
 
 const ingredientsRef = db.collection('ingredients')
@@ -50,9 +50,11 @@ const ingredientsSlice = createSlice({
     [createIngredient.rejected]: handleRejection,
   }
 })
-
-export const { } = ingredientsSlice.actions
 export default ingredientsSlice.reducer
 
 export const ingredientsListSelector = state => state.ingredients
+export const alphabeticalIngredientsListSelector = createSelector(
+  ingredientsListSelector,
+  ingredients => [...ingredients].sort((a, b) => a.name.localeCompare(b.name), 'fr') // alphabetical order
+)
 export const ingredientByIdSelector = state => ingredientId => state.ingredients.find(ing => ing.id === ingredientId)

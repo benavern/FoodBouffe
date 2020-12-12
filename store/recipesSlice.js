@@ -1,6 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { db } from '../firebase'
 import { categoryByAppNameSelector } from "./categoriesSlice"
+import { currentUserSelector } from "./userSlice"
 
 const recipesRef = db.collection('recipes')
 
@@ -127,33 +128,53 @@ const recipesSlice = createSlice({
 export const { removeRecipe } = recipesSlice.actions
 export default recipesSlice.reducer
 
-export const favoriteRecipesSelector = state => {
-  const uid = state.user.currentUserUid
-  const user = state.user.users.find(user => user.uid === uid)
+export const favoriteRecipesSelector = createSelector(
+  currentUserSelector,
+  state => state.recipes,
+  (currentUser, recipes) => {
+    if(!currentUser || !currentUser.favorites) return []
+    return recipes.filter(rec => user.favorites.some(fav => fav === rec.id))
+  }
+)
 
-  if(!user || !user.favorites) return []
+export const recipesCountSelector = createSelector(
+  [state => state.recipes], // memoization
+  recipes => recipes.length
+)
 
-  return state.recipes.filter(rec => user.favorites.some(fav => fav === rec.id))
-}
+export const latestRecipesSelector = ({ limit }) => createSelector(
+  state => state.recipes,
+  recipes => {
+    const latestRecipes = [...recipes].sort((a,b) => b.creationDate - a.creationDate) // from most recent to older
+    if (limit) return latestRecipes.slice(0, limit)
+    return latestRecipes
+  }
+)
 
-export const recipesCountSelector = state => state.recipes.length
+const recipesByCatAppNameSelector = catAppName => createSelector(
+  categoryByAppNameSelector(catAppName),
+  state => state.recipes,
+  (category, recipes) => {
+    if (!category) return []
+    return recipes.filter(rec => rec.categoryRef === category.id)
+  }
+)
 
-export const latestRecipesSelector = ({ limit }) => state => {
-  const latestRecipes = [...state.recipes].sort((a,b) => b.creationDate - a.creationDate) //from most recent to older
-  if (limit) return latestRecipes.slice(0, limit)
-  return latestRecipes
-}
+export const latestRecipesByCatAppNameSelector = ({ catAppName, limit }) => createSelector(
+  recipesByCatAppNameSelector(catAppName),
+  recipes => {
+    const sortedCatRecipes = [...recipes].sort((a,b) => b.creationDate - a.creationDate) // from most recent to older
+    if (limit) return sortedCatRecipes.slice(0, limit)
+    return sortedCatRecipes
+  }
+)
 
-export const latestRecipesByCatAppNameSelector = ({ catAppName, limit }) => state => {
-  const {id: catRef} = categoryByAppNameSelector(catAppName)(state)
-  if (!catRef) return []
+export const recipesAlphabeticSelector = createSelector(
+  state => state.recipes,
+  recipes => [...recipes].sort((a, b) => a.name.localeCompare(b.name, 'fr')) // alphabetical order
+)
 
-  const catRecipes = state.recipes.filter(rec => rec.categoryRef === catRef)
-  const sortedCatRecipes = [...catRecipes].sort((a,b) => b.creationDate - a.creationDate) //from most recent to older
-  if (limit) return sortedCatRecipes.slice(0, limit)
-  return sortedCatRecipes
-}
-
-export const recipesAlphabeticSelector = state => [...state.recipes].sort((a, b) => a.name.localeCompare(b.name)) // alphabetical order
-
-export const recipeById = recipeId => state => state.recipes.find(rec => rec.id === recipeId)
+export const recipeByIdSelector = recipeId => createSelector(
+  state => state.recipes,
+  recipes => recipes.find(rec => rec.id === recipeId)
+)

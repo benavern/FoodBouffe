@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { db, auth } from '../firebase'
 
 const usersRef = db.collection('users')
@@ -169,18 +169,21 @@ const userSlice = createSlice({
 export const { setCurrentUser } = userSlice.actions
 export default userSlice.reducer
 
-export const currentUserSelector = state => {
-  const uid = state.user.currentUserUid
-  return state.user.users.find(user => user.uid === uid)
-}
+export const currentUserSelector = createSelector(
+  state => state.user.users,
+  state => state.user.currentUserUid,
+  (users, uid) => users.find(user => user.uid === uid)
+)
 
-export const userLikesRecipeSelector = recipeId => state => {
-  const uid = state.user.currentUserUid
-  const user = state.user.users.find(user => user.uid === uid)
+export const userLikesRecipeSelector = recipeId => createSelector(
+  currentUserSelector,
+  currentUser => {
+    if(!currentUser || !currentUser.favorites) return false
+    return currentUser.favorites.some(fav => fav === recipeId)
+  }
+)
 
-  if(!user || !user.favorites) return false
-
-  return user.favorites.some(fav => fav === recipeId)
-}
-
-export const userByIdSelector = id => state => state.user.users.find(user => user.id === id)
+export const userByIdSelector = id => createSelector(
+  state => state.user.users,
+  users => users.find(user => user.id === id)
+)
