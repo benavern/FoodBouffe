@@ -5,7 +5,6 @@ import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecip
 import { useNavigation } from '@react-navigation/native'
 import { colors, pageHorizontalPadding, text } from '../../styles/variables'
 import { useDispatch, useSelector } from 'react-redux'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import ImagePicker from '../ImagePicker'
 import Author from '../Author'
 import { detailsImageHeight } from '../../config/foodbouffe.json'
@@ -64,7 +63,7 @@ export default function DetailHeader ({
         <Animated.View
           style={[StyleSheet.absoluteFillObject, {backgroundColor: colors.background, opacity: imageOverlay }]}/>
 
-      <SafeAreaView style={styles.headerContainer}>
+      <View style={styles.headerContainer}>
         <View style={styles.headerLine}>
           <IconButton
             iconName="ios-arrow-back"
@@ -79,7 +78,7 @@ export default function DetailHeader ({
         </View>
 
         { mode === 'display' && <View style={styles.headerLine}>
-          <Author user={author} />
+          <Author user={author} canGoToProfile/>
 
           {author && currentUser.id === author.id &&
             <IconButton
@@ -100,7 +99,7 @@ export default function DetailHeader ({
               size={text.xl} />
           </ImagePicker>
         </View> }
-      </SafeAreaView>
+      </View>
     </View>
   )
 }

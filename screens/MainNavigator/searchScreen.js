@@ -6,21 +6,21 @@ import globalStyle from '../../styles/globalStyle'
 import { useSelector } from 'react-redux'
 import { searchEmptyLimit } from '../../config/foodbouffe.json'
 import useDebounce from '../../utils/useDebounce'
-import EmptyList from '../../components/emptyList'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
 import { Ionicons } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
-import { categoryColor, colors, inputHeight, pageHorizontalPadding, text } from '../../styles/variables'
+import { categoryColor, colors, inputHeight, text } from '../../styles/variables'
 import Pill from '../../components/Pill'
+import Header from '../../components/Header'
 
 function getResults(recipes, searchTerm, searchCategory, searchAuthor) {
   if(searchTerm) {
     return recipes
-    .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
-    .filter(rec => !searchAuthor || rec.authorRef === searchAuthor)
-    .filter(rec => rec.name.match(new RegExp(searchTerm, 'i')))
+      .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
+      .filter(rec => !searchAuthor || rec.authorRef === searchAuthor)
+      .filter(rec => rec.name.match(new RegExp(searchTerm, 'i')))
   } else {
     return recipes
       .filter(rec => !searchCategory || rec.categoryRef === searchCategory)
@@ -46,16 +46,9 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View style={globalStyle.section}>
-        <View style={styles.searchTitle}>
-          <Text style={globalStyle.bigTitle}>
-            Rechercher une recette
-          </Text>
-          <Text style={globalStyle.subtitle}>
-            Commencez à taper puis sélectionnez celle qui convient
-          </Text>
-        </View>
-
+      <Header
+        title="Rechercher une recette"
+        subtitle="Commencez à taper puis sélectionnez celle qui convient">
         <View style={styles.searchMain}>
           <Input
             style={styles.searchField}
@@ -100,7 +93,7 @@ export default function HomeScreen() {
               options={usersList} />
           </View>
         }
-      </View>
+      </Header>
 
       <View style={styles.resultsWrapper}>
         <RecipesList
@@ -119,18 +112,16 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  searchTitle: {
-    marginBottom: 20
-  },
   searchMain: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 20
   },
   searchField: {
-    flex: 1,
-    marginRight: 10
+    flex: 1
   },
   searchMoreBtn: {
-    width: inputHeight
+    width: inputHeight,
+    marginLeft: 10
   },
   resultsWrapper: {
     flex: 1,

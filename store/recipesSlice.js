@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit"
 import { db } from '../firebase'
 import { categoryByAppNameSelector } from "./categoriesSlice"
-import { currentUserSelector } from "./userSlice"
+import { currentUserSelector, userByIdSelector } from "./userSlice"
 
 const recipesRef = db.collection('recipes')
 
@@ -133,7 +133,7 @@ export const favoriteRecipesSelector = createSelector(
   state => state.recipes,
   (currentUser, recipes) => {
     if(!currentUser || !currentUser.favorites) return []
-    return recipes.filter(rec => user.favorites.some(fav => fav === rec.id))
+    return recipes.filter(rec => currentUser.favorites.some(fav => fav === rec.id))
   }
 )
 
@@ -172,6 +172,15 @@ export const latestRecipesByCatAppNameSelector = ({ catAppName, limit }) => crea
 export const recipesAlphabeticSelector = createSelector(
   state => state.recipes,
   recipes => [...recipes].sort((a, b) => a.name.localeCompare(b.name, 'fr')) // alphabetical order
+)
+
+export const recipesFavoritesAlphabeticSelector = userId => createSelector(
+  userByIdSelector(userId),
+  recipesAlphabeticSelector,
+  (user, recipes) => {
+    if(!user || !user.favorites) return []
+    return recipes.filter(rec => user.favorites.some(fav => fav === rec.id))
+  }
 )
 
 export const recipeByIdSelector = recipeId => createSelector(

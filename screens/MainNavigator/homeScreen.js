@@ -6,11 +6,12 @@ import { homeCategoriesLimit, homeTrendingsLimit } from '../../config/foodbouffe
 import Carousel from '../../components/Carousel'
 import { useSelector } from 'react-redux'
 import { currentUserSelector } from '../../store/userSlice'
-import { categoryColor, colors, pageHorizontalPadding } from '../../styles/variables'
+import { categoryColor, colors } from '../../styles/variables'
 import { categoryByAppNameSelector } from '../../store/categoriesSlice'
 import { latestRecipesByCatAppNameSelector, latestRecipesSelector } from '../../store/recipesSlice'
 import PullToRefresh from '../../components/PullToRefresh'
 import BigCarousel from '../../components/Carousel/bigCarousel'
+import Header from '../../components/Header'
 
 export default function HomeScreen() {
   const user = useSelector(currentUserSelector)
@@ -27,19 +28,14 @@ export default function HomeScreen() {
       style={globalStyle.screen}
       refreshControl={<PullToRefresh />}>
       <SafeAreaView>
-        <View style={globalStyle.section}>
-          <Text style={globalStyle.bigTitle}>
-            Bonjour <Text style={{color: colors.primary}}>{user.pseudo}</Text>
-          </Text>
-
-          <Text style={globalStyle.subtitle}>
-            Voici ce qui s'est passé récemment sur foodbouffe
-          </Text>
-        </View>
+        <Header
+          title={<Text>Bonjour <Text style={{color: colors.primary}}>{user.pseudo}</Text> !!!</Text>}
+          subtitle="Voici ce qui s'est passé récemment sur foodbouffe" />
 
         <BigCarousel
           style={globalStyle.carouselSection}
           // title="Les toutes dernières recettes"
+          // subtitle="Celles qui ont été ajoutées récement"
           data={latestRecipes} />
 
         {

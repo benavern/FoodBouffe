@@ -38,9 +38,9 @@ function Item ({ item, index, scrollX, last }) {
   const textTranslateY = scrollX.interpolate({
     inputRange,
     outputRange: [
-      text.l * TITLE_MAX_LINES + 20,
+      text.xl * TITLE_MAX_LINES + 20,
       0,
-      text.l * TITLE_MAX_LINES + 20
+      text.xl * TITLE_MAX_LINES + 20
     ],
     extrapolate: Extrapolate.CLAMP
   })
@@ -89,14 +89,15 @@ function Item ({ item, index, scrollX, last }) {
   )
 }
 
-export default function BigCarousel ({ data, title, ...carouselProps }) {
+export default function BigCarousel ({ data, title, subtitle, ...carouselProps }) {
   const scrollX = useRef(new Animated.Value(0)).current
 
   return (
     <View {...carouselProps}>
-      {title &&
+      {(title || subtitle) &&
         <View style={styles.carouselTitleWrapper}>
-          <Text style={styles.carouselTitle}>{title}</Text>
+          {title && <Text style={globalStyle.title}>{title}</Text>}
+          {subtitle && <Text style={globalStyle.subtitle}>{subtitle}</Text>}
         </View>
       }
 
@@ -122,10 +123,8 @@ export default function BigCarousel ({ data, title, ...carouselProps }) {
 
 const styles = StyleSheet.create({
   carouselTitleWrapper: {
-    marginBottom: 20
-  },
-  carouselTitle: {
-    ...globalStyle.title
+    marginBottom: 20,
+    paddingHorizontal: pageHorizontalPadding
   },
   carouselList: {
     paddingHorizontal: pageHorizontalPadding

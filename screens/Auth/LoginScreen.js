@@ -1,5 +1,5 @@
 import { unwrapResult } from '@reduxjs/toolkit'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -9,7 +9,7 @@ import { loginUser } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
 import { colors } from '../../styles/variables'
 
-const emailRegex = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
+const emailRegex = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$/
 
 export default function LoginScreen () {
   const [formData, setFormData] = useState({email: '', password: '', error: ''})

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
@@ -12,6 +12,7 @@ import { createRecipe } from '../../store/recipesSlice'
 import { useNavigation } from '@react-navigation/native'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { categoriesListSelector } from '../../store/categoriesSlice'
+import Header from '../../components/Header'
 const emptyRecipy = {
   name: '',
   info: '',
@@ -52,14 +53,9 @@ export default function createScreen () {
 
   return (
     <SafeAreaView style={globalStyle.screen}>
-      <View style={globalStyle.section}>
-        <Text style={globalStyle.bigTitle}>
-          Créer une recette
-        </Text>
-        <Text style={globalStyle.subtitle}>
-          Miam, on s'en lèche les babines!
-        </Text>
-      </View>
+      <Header
+        title="Créer une recette"
+        subtitle="Miam, on s'en lèche les babines!" />
 
       <ScrollView style={styles.scroller}>
         <Input
@@ -105,6 +101,7 @@ export default function createScreen () {
               .then(unwrapResult)
               .then((res) => {
                 setnewRecipe(emptyRecipy)
+                navigation.jumpTo('Home')
                 navigation.navigate('Edit', { recipeId: res.id })
               })
           }}

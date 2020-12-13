@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import MainNavigation from '../Main'
+import MainNavigation from '../MainNavigator'
 import DetailsScreen from './detailsScreen'
 import EditScreen from './editScreen'
+import UserScreen from './userScreen'
+import FavoritesScreen from './FavoritesScreen'
 
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack'
 
@@ -13,7 +15,9 @@ const Stack = createStackNavigator()
 const sharedStack = [
   { name: 'Main', component: MainNavigation },
   { name: 'Details', component: DetailsScreen },
-  { name: 'Edit', component: EditScreen }
+  { name: 'Edit', component: EditScreen },
+  { name: 'User', component: UserScreen },
+  { name: 'Favorites', component: FavoritesScreen }
 ]
 
 export default function SharedStack() {
@@ -28,7 +32,7 @@ export default function SharedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS
+        cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS
       }}
       headerMode="none">
       {sharedStack.map((screen, index) => (

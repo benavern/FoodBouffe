@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Login from './screens/Auth/LoginScreen'
-import SharedStack from './screens/Shared'
+import SharedStack from './screens/SharedNavigator'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './firebase'
 import { setCurrentUser } from './store/userSlice'

@@ -1,43 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import { ImageBackground, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import ImagePicker from '../../components/ImagePicker'
 import { Ionicons } from '@expo/vector-icons'
-import { editUser, currentUserSelector, logoutUser } from '../../store/userSlice'
+import { editUser, currentUserSelector, logoutUser, userByIdSelector } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import Header from '../../components/Header'
 
 const defaultImage = require('../../assets/default-avatar.jpg')
 const avatarSize = 250
 const editImageBtnWidth = 80
 
-export default function userSettingsScreen() {
+export default function UserScreen() {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const { params = {} } = useRoute()
+  const { userId } = params
+
   const currentUser = useSelector(currentUserSelector)
+  const user = useSelector(userByIdSelector(userId || currentUser.id)) // @TOFIX: this will get 2 references to the same user when userId does not exist...
+
   const [image, setImage] = useState(defaultImage)
   const [editMode, setEditMode] = useState(false)
-  const [editedUser, setEditedUser] = useState({ pseudo: currentUser.pseudo, avatar: currentUser.avatar })
+  const [editedUser, setEditedUser] = useState({ pseudo: user.pseudo, avatar: user.avatar })
 
   useEffect(() => {
     let img
     if (editMode) {
       img = editedUser.avatar ? { uri: editedUser.avatar } : defaultImage
     } else {
-      img = currentUser.avatar ? { uri: currentUser.avatar } : defaultImage
+      img = user.avatar ? { uri: user.avatar } : defaultImage
     }
     setImage(img)
-  },[editMode, editedUser.avatar, currentUser.avatar])
+  },[editMode, editedUser.avatar, user.avatar])
 
   function activateEditMode () {
-    setEditedUser({ pseudo: currentUser.pseudo, avatar: currentUser.avatar })
+    setEditedUser({ pseudo: user.pseudo, avatar: user.avatar })
     setEditMode(true)
   }
 
   function submitUserChange() {
-    dispatch(editUser({id: currentUser.id, avatar: editedUser.avatar || null, pseudo: editedUser.pseudo }))
+    dispatch(editUser({id: user.id, avatar: editedUser.avatar || null, pseudo: editedUser.pseudo }))
     setEditMode(false)
   }
 
@@ -48,15 +55,11 @@ export default function userSettingsScreen() {
   }
 
   return (
-    <SafeAreaView style={globalStyle.screen}>
-      <View style={globalStyle.section}>
-        <Text style={globalStyle.bigTitle}>
-          Préférences utilisateur
-        </Text>
-        <Text style={globalStyle.subtitle}>
-          Personnaliser mon compte utilisateur
-        </Text>
-      </View>
+    <View style={globalStyle.screen}>
+      <Header
+        title="Informations utilisateur"
+        subtitle={ user.id === currentUser.id ? 'Modifiez votre profil ou consultez vos favoris' : 'Apprenez à connaitre les autres foodBouffe!'}
+        canGoBack />
 
       <View style={styles.userInfoWrapper}>
         <ScrollView contentContainerStyle={styles.scrollView}>
@@ -90,36 +93,46 @@ export default function userSettingsScreen() {
                   onChange={newPseudo => setEditedUser(oldEditedUser => ({...oldEditedUser, pseudo: newPseudo}))}
                   error={getPseudoError()} />
               : <Text style={[globalStyle.bigTitle, styles.pseudo]}>
-                  {currentUser.pseudo}
+                  {user.pseudo}
                 </Text>}
-          </View>
 
-          <View>
-            {editMode
-              ? <>
-                  <Button
-                    title="Valider"
-                    style={{ backgroundColor: colors.success }}
-                    onPress={() => submitUserChange()}
-                    disabled={getPseudoError()} />
-                  <Button
-                    title="Annuler"
-                    style={{ backgroundColor: colors.danger }}
-                    onPress={() => setEditMode(false)} />
-                </>
-              : <>
-                  <Button
-                    title="Modifier"
-                    onPress={() => activateEditMode()} />
-                  <Button
-                    title="Déconnexion"
-                    style={{ backgroundColor: colors.danger }}
-                    onPress={() => { dispatch(logoutUser()) }} />
-                </>}
+            {!editMode &&
+              <View style={styles.aditionalInformation}>
+                <Button
+                  title={ `Favoris (${user.favorites.length})` }
+                  style={{ backgroundColor: colors.info }}
+                  onPress={() => navigation.navigate('Favorites', { userId: user.id })} />
+              </View>
+            }
           </View>
+          { currentUser.id === user.id &&
+            <View>
+              {editMode
+                ? <>
+                    <Button
+                      title="Valider"
+                      style={{ backgroundColor: colors.success }}
+                      onPress={() => submitUserChange()}
+                      disabled={getPseudoError()} />
+                    <Button
+                      title="Annuler"
+                      style={{ backgroundColor: colors.danger }}
+                      onPress={() => setEditMode(false)} />
+                  </>
+                : <>
+                    <Button
+                      title="Modifier"
+                      onPress={() => activateEditMode()} />
+                    <Button
+                      title="Déconnexion"
+                      style={{ backgroundColor: colors.danger }}
+                      onPress={() => { dispatch(logoutUser()) }} />
+                  </>}
+            </View>
+          }
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </View>
   )
 }
 
@@ -159,5 +172,9 @@ const styles = StyleSheet.create({
   pseudo: {
     marginTop: 20,
     fontSize: text.xl
+  },
+  aditionalInformation: {
+    marginTop: 20,
+    width: avatarSize
   }
 })

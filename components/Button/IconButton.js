@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 
-export default function ({ onPress, iconName = 'md-hand', iconColor = colors.text, size = 32 }) {
+export default function ({ onPress, iconName = 'md-hand', iconColor = colors.text, backgroundColor = colors.background, size = 32 }) {
   return (
     <TouchableOpacity
-      style={styles.iconButton(size)}
+      style={styles.iconButton(size, backgroundColor)}
       onPress={onPress}
       disabled={!onPress}>
       <Ionicons
@@ -19,8 +19,8 @@ export default function ({ onPress, iconName = 'md-hand', iconColor = colors.tex
 
 
 const styles = StyleSheet.create({
-  iconButton: size => ({
-    backgroundColor: colors.background,
+  iconButton: (size, backgroundColor) => ({
+    backgroundColor,
     width: size,
     height: size,
     borderRadius: 10,
