@@ -15,6 +15,7 @@ import IngredientsList from '../../components/IngredientsList'
 import RecipeSteps from '../../components/RecipeSteps'
 import { useNavigation } from '@react-navigation/native'
 import cloneDeep from 'lodash/cloneDeep'
+import Header from '../../components/Header'
 
 export default function EditScreen ({ route }) {
   const navigation = useNavigation()
@@ -82,6 +83,16 @@ export default function EditScreen ({ route }) {
   function focusNext(next) {
     if(next && next.current && next.current.focus) next.current.focus()
   }
+
+  if (!item) return (
+    <View>
+      <Header
+        title="Rien à voir ici"
+        subtitle="La recette que vous voudriez modifier n'existe pas ou a été supprimée"
+        canGoBack />
+    </View>
+  )
+
   return (
     <View style={styles.detailWrapper}>
       <Animated.ScrollView

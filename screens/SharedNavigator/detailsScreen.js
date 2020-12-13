@@ -13,12 +13,23 @@ import PullToRefresh from '../../components/PullToRefresh'
 import RecipeSteps from '../../components/RecipeSteps'
 import { recipeByIdSelector } from '../../store/recipesSlice'
 import { categoryByIdSelector } from '../../store/categoriesSlice'
+import Header from '../../components/Header'
+
 
 export default function DetailsScreen ({ route }) {
   const { recipeId } = route.params
   const item = useSelector(recipeByIdSelector(recipeId))
-  const category = useSelector(categoryByIdSelector(item.categoryRef))
+  const category = useSelector(categoryByIdSelector(item?.categoryRef))
   const scrollY = useRef(new Animated.Value(0)).current
+
+  if (!item) return (
+    <View>
+      <Header
+        title="Rien à voir ici"
+        subtitle="La recette que vous voudriez voir n'existe pas ou a été supprimée"
+        canGoBack />
+    </View>
+  )
 
   return (
     <View style={styles.detailWrapper}>
