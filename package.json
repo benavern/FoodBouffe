@@ -12,6 +12,7 @@
     "@expo-google-fonts/quicksand": "^0.1.0",
     "@expo/react-native-action-sheet": "^3.8.0",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/slider": "3.0.3",
     "@react-native-picker/picker": "^1.9.4",
     "@react-navigation/bottom-tabs": "^5.10.2",
     "@react-navigation/native": "^5.8.2",

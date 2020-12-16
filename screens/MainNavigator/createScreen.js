@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,11 +13,13 @@ import { useNavigation } from '@react-navigation/native'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import Header from '../../components/Header'
+import DurationPicker from '../../components/DurationPicker'
+
 const emptyRecipy = {
   name: '',
   info: '',
   categoryRef: null,
-  prepDuration: 0,
+  prepDuration: 1,
   image: null
 }
 
@@ -44,12 +46,7 @@ export default function createScreen () {
     return null
   }
 
-  const getPrepDurationError = () => {
-    if (!newRecipe.prepDuration) return 'Un temps de préparation inférieur à 1 min? Je ne vous crois pas !'
-    return null
-  }
-
-  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError()
+  const formValid = () => !getNameError() && !getCategoryError()
 
   return (
     <SafeAreaView style={globalStyle.screen}>
@@ -81,17 +78,10 @@ export default function createScreen () {
           options={catList}
           error={getCategoryError()} />
 
-        <Input
-          label="Temps de préparation (min)"
-          placeholder="10"
-          keyboardType="numeric"
-          maxLength={3}
+        <DurationPicker
+          label="Durée de préparation"
           value={newRecipe.prepDuration}
-          onChange={newPrepDuration => setnewRecipe(oldRec => ({
-            ...oldRec,
-            prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
-          }))}
-          error={getPrepDurationError()} />
+          onChange={newPrepDuration => setnewRecipe(oldRec => ({ ...oldRec, prepDuration: newPrepDuration }))} />
 
         <Button
           title="Créer"

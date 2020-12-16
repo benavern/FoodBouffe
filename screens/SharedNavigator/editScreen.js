@@ -16,6 +16,7 @@ import RecipeSteps from '../../components/RecipeSteps'
 import { useNavigation } from '@react-navigation/native'
 import cloneDeep from 'lodash/cloneDeep'
 import Header from '../../components/Header'
+import DurationPicker from '../../components/DurationPicker'
 
 export default function EditScreen ({ route }) {
   const navigation = useNavigation()
@@ -71,12 +72,7 @@ export default function EditScreen ({ route }) {
     return null
   }
 
-  const getPrepDurationError = () => {
-    if (!item.prepDuration) return 'Un temps de préparation inférieur à 1 min? Je ne vous crois pas !'
-    return null
-  }
-
-  const formValid = () => !getNameError() && !getCategoryError() && !getPrepDurationError()
+  const formValid = () => !getNameError() && !getCategoryError()
 
   const infoInput = useRef(null)
 
@@ -133,17 +129,10 @@ export default function EditScreen ({ route }) {
               options={catList}
               error={getCategoryError()} />
 
-            <Input
-              label="Temps de préparation (min)"
-              placeholder="10"
-              keyboardType="numeric"
-              maxLength={3}
+            <DurationPicker
+              label="Durée de préparation"
               value={item.prepDuration}
-              onChange={newPrepDuration => setItem(oldItem => ({
-                ...oldItem,
-                prepDuration: parseInt(newPrepDuration.replace(/[^0-9]/g, ''), 10) || 0
-              }))}
-              error={getPrepDurationError()} />
+              onChange={newPrepDuration => setItem(oldItem => ({ ...oldItem, prepDuration: newPrepDuration }))} />
           </View>
 
           <View style={globalStyle.section}>

@@ -4,8 +4,8 @@ export function formatDuration(duration) {
     const hrs = Math.floor(duration / 60);
     const mins = duration - hrs * 60
     return mins
-      ? `${hrs} H ${mins}`
-      : `${hrs} H`
+      ? `${hrs} h ${mins.toString().padStart(2, '0')}`
+      : `${hrs} h `
   }
   return `${duration} min`
 }
