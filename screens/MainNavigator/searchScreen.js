@@ -9,7 +9,7 @@ import useDebounce from '../../utils/useDebounce'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { categoriesListSelector } from '../../store/categoriesSlice'
 import { categoryColor, colors, inputHeight, text } from '../../styles/variables'
 import Pill from '../../components/Pill'
@@ -60,7 +60,7 @@ export default function HomeScreen() {
 
           <Button
             style={styles.searchMoreBtn}
-            title={<Ionicons name={searchMore ? 'md-remove' : 'md-add'} color={colors.buttonText} size={text.l} />}
+            title={<Entypo name={searchMore ? 'minus' : 'plus'} color={colors.buttonText} size={text.l} />}
             onPress={() => setSearchMore(!searchMore)} />
         </View>
 
@@ -103,7 +103,7 @@ export default function HomeScreen() {
               {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
             </Text>
           }
-          emptyIcon="md-search"
+          emptyIcon="magnifying-glass"
           emptyTitle="Aucune recette ne correspond à votre recherche"
           emptySubtitle="Tentez un autre mot..." />
       </View>

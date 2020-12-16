@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '../../components/Button'
 import Input from '../../components/Input'
 import ImagePicker from '../../components/ImagePicker'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { editUser, currentUserSelector, logoutUser, userByIdSelector } from '../../store/userSlice'
 import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
@@ -75,8 +75,8 @@ export default function UserScreen() {
                   width={avatarSize}
                   onImage={newImage => setEditedUser(oldEditedUser => ({...oldEditedUser, avatar: newImage.uri}))}
                   onDelete={() => setEditedUser(oldEditedUser => ({...oldEditedUser, avatar: null}))}>
-                  <Ionicons
-                    name="md-create"
+                  <Entypo
+                    name="brush"
                     color={colors.buttonText}
                     size={text.xl} />
                 </ImagePicker>}

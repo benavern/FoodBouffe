@@ -4,7 +4,7 @@ import SharedStack from './screens/SharedNavigator'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth } from './firebase'
 import { setCurrentUser } from './store/userSlice'
-import { AppLoading } from 'expo'
+import AppLoading from 'expo-app-loading'
 
 import { loadAsync as loadFontAsync } from 'expo-font'
 import { Quicksand_400Regular, Quicksand_700Bold } from '@expo-google-fonts/quicksand'
@@ -47,7 +47,8 @@ export default function RootNavigation() {
   if (!appReady) {
     return <AppLoading
       startAsync={prepareApp}
-      onFinish={() => setAppReady(true)} />
+      onFinish={() => setAppReady(true)}
+      onError={e => console.log('error!!!', e)} />
   }
 
   if (!loggedIn) {

@@ -13,7 +13,7 @@ export default function ({ children, close, visible }) {
       <View style={styles.modalOverlay}>
         <View style={styles.modalCloseBtn}>
           <IconButton
-            iconName="md-close"
+            iconName="cross"
             onPress={() => { close() }} />
         </View>
 

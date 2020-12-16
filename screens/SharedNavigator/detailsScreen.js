@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Animated, StyleSheet, Text, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import globalStyle from '../../styles/globalStyle'
 import { categoryColor, colors, text } from '../../styles/variables'
 import { useSelector } from 'react-redux'
@@ -57,7 +57,7 @@ export default function DetailsScreen ({ route }) {
 
             <View style={styles.detailHeaderInfo}>
               <View style={styles.detailHeaderInfoLine}>
-                <Ionicons name="md-clock" color={colors.primary} size={text.l} />
+                <Entypo name="clock" color={colors.primary} size={text.l} />
 
                 <Text style={[globalStyle.textAlt, { marginLeft: text.s }]}>
                   {formatDuration(item.prepDuration)}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, StyleSheet, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { currentUserSelector, toggleLikeRecipe, userByIdSelector, userLikesRecipeSelector } from '../../store/userSlice'
 import { useNavigation } from '@react-navigation/native'
 import { colors, pageHorizontalPadding, text } from '../../styles/variables'
@@ -66,12 +66,12 @@ export default function DetailHeader ({
       <View style={styles.headerContainer}>
         <View style={styles.headerLine}>
           <IconButton
-            iconName="ios-arrow-back"
+            iconName="chevron-left"
             onPress={() => navigation.goBack()} />
 
           { mode === 'display' &&
             <IconButton
-              iconName={like ? 'md-heart' : 'md-heart-empty'}
+              iconName={like ? 'heart' : 'heart-outlined'}
               iconColor={colors.primary}
               onPress={() => dispatch(toggleLikeRecipe(item.id))} />
           }
@@ -82,7 +82,7 @@ export default function DetailHeader ({
 
           {author && currentUser.id === author.id &&
             <IconButton
-              iconName="md-create"
+              iconName="edit"
               onPress={() => navigation.navigate('Edit', { recipeId: item.id })} />
           }
         </View> }
@@ -93,8 +93,8 @@ export default function DetailHeader ({
             directory="recipes"
             onImage={newImage => handleNewImage(newImage)}
             onDelete={() => handleNewImage(null)}>
-            <Ionicons
-              name="md-create"
+            <Entypo
+              name="brush"
               color={colors.buttonText}
               size={text.xl} />
           </ImagePicker>

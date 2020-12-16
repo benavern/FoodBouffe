@@ -2,7 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 import globalStyle from '../../styles/globalStyle'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import Card from '../card'
 import { categoryColor, colors, text } from '../../styles/variables'
 import { useNavigation } from '@react-navigation/native'
@@ -42,8 +42,8 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
         }
       </View>
 
-      <Ionicons
-        name={like ? 'md-heart' : 'md-heart-empty'}
+      <Entypo
+        name={like ? 'heart' : 'heart-outlined'}
         size={text.l}
         color={colors.primary} />
     </View>

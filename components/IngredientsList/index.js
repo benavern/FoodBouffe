@@ -35,7 +35,7 @@ export default function IngredientsList ({ ingredients = [], onAdd, onEdit, onRe
             { onRemove &&
               <View style={styles.ingredientActions}>
                 <IconButton
-                  iconName="md-trash"
+                  iconName="trash"
                   iconColor={colors.danger}
                   onPress={() => { onRemove(index) }} />
               </View>

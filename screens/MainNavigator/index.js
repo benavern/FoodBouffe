@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 import TabBar from './TabBar'
 
@@ -11,13 +11,13 @@ import CreateScreen from './createScreen'
 
 const Tab = createBottomTabNavigator();
 
-const makeIcon = iconName => ({ color, size }) => (<Ionicons name={iconName} size={size} color={color} />)
+const makeIcon = iconName => ({ color, size }) => (<Entypo name={iconName} size={size} color={color} />)
 
 const screens = [
-  { name: 'Home', component: HomeScreen, options: { tabBarIcon: makeIcon('md-home')} },
-  { name: 'All Recipes', component: FullList, options: { tabBarIcon: makeIcon('md-apps')} },
-  { name: 'Search', component: SearchScreen, options: { tabBarIcon: makeIcon('md-search')} },
-  { name: 'Create', component: CreateScreen, options: { tabBarIcon: makeIcon('md-add')} }
+  { name: 'Home', component: HomeScreen, options: { tabBarIcon: makeIcon('home')} }, // hand ?
+  { name: 'All Recipes', component: FullList, options: { tabBarIcon: makeIcon('list')} }, // bowl ?
+  { name: 'Search', component: SearchScreen, options: { tabBarIcon: makeIcon('magnifying-glass')} },
+  { name: 'Create', component: CreateScreen, options: { tabBarIcon: makeIcon('add-to-list')} }
 ]
 
 export default function MainNavigator() {

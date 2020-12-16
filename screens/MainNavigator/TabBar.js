@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 
-const makeIcon = ({ name, size, color }) => <Ionicons name={name} size={size} color={color} />
+const makeIcon = ({ name, size, color }) => <Entypo name={name} size={size} color={color} />
 
 export default function({
   activeTintColor,
@@ -47,7 +47,7 @@ export default function({
         activeOpacity={0.9}
         style={[tabStyle, styles.tabButton]}
         onPress={() => {navigation.navigate('User')}}>
-        {makeIcon({ name: 'md-person', color: inactiveTintColor, size: ICON_SIZE })}
+        {makeIcon({ name: 'tools', color: inactiveTintColor, size: ICON_SIZE })}
       </TouchableOpacity>
     </View>
   )

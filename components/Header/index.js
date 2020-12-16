@@ -15,7 +15,7 @@ export default function Header({ canGoBack, title, subtitle, style, children, ..
           <View style={styles.backBtn}>
             <IconButton
               backgroundColor={colors.overlay}
-              iconName="ios-arrow-back"
+              iconName="chevron-left"
               onPress={() => navigation.goBack()} />
           </View>
         }

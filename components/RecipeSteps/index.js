@@ -28,7 +28,7 @@ export default function RecipeSteps ({ steps = [], onAdd, onEdit, onRemove, ...a
           {onRemove &&
             <View style={styles.stepActions}>
               <IconButton
-                iconName="md-trash"
+                iconName="trash"
                 iconColor={colors.danger}
                 onPress={() => { onRemove(index) }} />
             </View>
