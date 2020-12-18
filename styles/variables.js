@@ -58,4 +58,4 @@ export const randomColor = () => {
   return `hsl( ${Math.floor(Math.random() * 360)}, 100%, 50%)`
 }
 
-export const pageHorizontalPadding = 10
+export const pageHorizontalPadding = 15

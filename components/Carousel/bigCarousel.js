@@ -11,10 +11,9 @@ import Author from '../Author'
 
 const defaultImage = require('../../assets/default-background.jpg')
 const { width } = Dimensions.get('screen')
-const ITEM_WIDTH = width * 0.9 - pageHorizontalPadding * 2 // 90% of the screen minus the screen padding
-const ITEM_REST = width - ITEM_WIDTH - pageHorizontalPadding * 2
+const ITEM_WIDTH = width - pageHorizontalPadding * 2
 const ITEM_HEIGHT = ITEM_WIDTH * 0.625 // 16:10 ratio
-const ITEM_GUTTER = pageHorizontalPadding
+const ITEM_GUTTER = 8
 const ITEM_MAX_TRANSLATE_X = (width - ITEM_WIDTH) / 2
 const TITLE_MAX_LINES = 2
 
@@ -47,7 +46,8 @@ function Item ({ item, index, scrollX, last }) {
 
   const authorTranslateY = scrollX.interpolate({
     inputRange,
-    outputRange: [-55, 0, -55]
+    outputRange: [-55, 0, -55],
+    extrapolate: Extrapolate.CLAMP
   })
 
   return (
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   item: (last) => ({
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT,
-    marginRight: last ? ITEM_REST : ITEM_GUTTER,
+    marginRight: last ? 0 : ITEM_GUTTER,
     borderRadius: 20,
     overflow: "hidden"
   }),

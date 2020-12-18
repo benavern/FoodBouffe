@@ -20,7 +20,7 @@ export default function({
   return (
     <View style={[style, styles.container]}>
       {routes.map((route, routeIndex) => {
-        const { options, ...rest } = descriptors[route.key]
+        const { options } = descriptors[route.key]
         const isRouteActive = routeIndex === activeRouteIndex
         const tintColor = isRouteActive ? activeTintColor : inactiveTintColor
         const onPress = () => {
@@ -47,7 +47,7 @@ export default function({
         activeOpacity={0.9}
         style={[tabStyle, styles.tabButton]}
         onPress={() => {navigation.navigate('User')}}>
-        {makeIcon({ name: 'tools', color: inactiveTintColor, size: ICON_SIZE })}
+        {makeIcon({ name: 'v-card', color: inactiveTintColor, size: ICON_SIZE })}
       </TouchableOpacity>
     </View>
   )

@@ -12,11 +12,12 @@ const listWidth = screenWidth - 2 * pageHorizontalPadding
 export default function RecipesList({
   items,
   nbPerRow = 2,
-  gutter = pageHorizontalPadding,
+  gutter = 8,
   horizontal,
   style,
   contentContainerStyle,
   header,
+  onTouch,
   emptyIcon,
   emptyTitle,
   emptySubtitle
@@ -36,7 +37,9 @@ export default function RecipesList({
       pagingEnabled={horizontal}
       snapToInterval={horizontal && itemWidth + gutter}
       bounces={horizontal}
+      disableIntervalMomentum={horizontal}
       style={style}
+      onScrollBeginDrag={onTouch}
       contentContainerStyle={[contentContainerStyle, styles.contentContainerStyle(isEmpty)]}
       renderItem={({ item, index }) => {
         const indexOnLine = horizontal ? index : index % nbPerRow

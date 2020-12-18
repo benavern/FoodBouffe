@@ -103,6 +103,7 @@ export default function HomeScreen() {
               {debouncedSearchTerm ? 'Résultats' : 'Suggestions'} :
             </Text>
           }
+          onTouch={() => setSearchMore(false)}
           emptyIcon="magnifying-glass"
           emptyTitle="Aucune recette ne correspond à votre recherche"
           emptySubtitle="Tentez un autre mot..." />
