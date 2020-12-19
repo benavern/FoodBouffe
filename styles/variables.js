@@ -4,8 +4,8 @@ export const colorScheme = Appearance.getColorScheme();
 
 export const darkmode = colorScheme === 'dark';
 
-const originalColors = {
-  primary: '#f1c40f',
+const lightColors = {
+  primary: '#f1c422',
   text: '#272D2F',
   textAlt: '#979797',
   background: '#F4F4F4',
@@ -18,21 +18,21 @@ const originalColors = {
   info: '#1E6FAA'
 }
 
-export const colors = darkmode
-? {
-    ...originalColors,
-    primary: '#a08b2b',
-    text: '#b6b7b8',
-    textAlt: '#7a7d7f',
-    background: '#16191c',
-    cardBackground: '#1e2126',
-    overlay: 'rgba(40, 41, 48, 0.5)',
-    success: '#3c5c3d',
-    warning: '#754718',
-    danger: '#803535',
-    info: '#187175'
-  }
-  : originalColors
+const darkColors = {
+  primary: '#a78818',
+  text: '#b6b7b8',
+  textAlt: '#7a7d7f',
+  background: '#16191c',
+  cardBackground: '#1e2126',
+  buttonText: '#F4F4F4',
+  overlay: 'rgba(40, 41, 48, 0.5)',
+  success: '#3c5c3d',
+  warning: '#754718',
+  danger: '#803535',
+  info: '#187175'
+}
+
+export const colors = darkmode ? darkColors : lightColors
 
 export const text = {
     xl: 32,

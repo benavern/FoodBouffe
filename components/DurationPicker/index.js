@@ -6,7 +6,7 @@ import { colors, inputColor, text } from '../../styles/variables'
 import globalStyle from '../../styles/globalStyle'
 
 const MIN_VAL = 1
-const MAX_VAL = 240
+const MAX_VAL = 180
 
 export default function DurationPicker({
   value = MIN_VAL,

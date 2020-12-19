@@ -10,6 +10,7 @@ import globalStyle from '../../styles/globalStyle'
 import { colors, text } from '../../styles/variables'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import Header from '../../components/Header'
+import { userByIdfavoriteRecipesCountSelector } from '../../store/recipesSlice'
 
 const defaultImage = require('../../assets/default-avatar.jpg')
 const avatarSize = 250
@@ -23,6 +24,7 @@ export default function UserScreen() {
 
   const currentUser = useSelector(currentUserSelector)
   const user = useSelector(userByIdSelector(userId || currentUser.id)) // @TOFIX: this will get 2 references to the same user when userId does not exist...
+  const favoritesCount = useSelector(userByIdfavoriteRecipesCountSelector(user.id))
 
   const [image, setImage] = useState(defaultImage)
   const [editMode, setEditMode] = useState(false)
@@ -99,7 +101,7 @@ export default function UserScreen() {
             {!editMode &&
               <View style={styles.aditionalInformation}>
                 <Button
-                  title={ `Favoris (${user.favorites.length})` }
+                  title={ `Favoris (${favoritesCount})` }
                   style={{ backgroundColor: colors.info }}
                   onPress={() => navigation.navigate('Favorites', { userId: user.id })} />
               </View>

@@ -35,21 +35,6 @@ export const fetchUsers = createAsyncThunk(
   }
 )
 
-export const fetchUserById = createAsyncThunk(
-  'user/fetchUserById',
-  async id => {
-    const snap = await usersRef.doc(id).get()
-
-
-    if (!snap.exists) {
-      throw new Error(`No user exists with the id "${id}"`)
-      return
-    }
-
-    return { id: snap.id, ...snap.data() }
-  }
-)
-
 export const editUser = createAsyncThunk(
   'user/editUser',
   async ({ id, avatar, pseudo }) => {
@@ -135,17 +120,6 @@ const userSlice = createSlice({
       state.users = payload
     },
     [fetchUsers.rejected]: handleRejection,
-
-    [fetchUserById.fulfilled](state, { payload }) {
-      let userFromState = state.users.find(u => u.id === payload.id)
-
-      if(userFromState) {
-        userFromState = payload
-      } else {
-        state.push(payload)
-      }
-    },
-    [fetchUserById.rejected]: handleRejection,
 
     [editUser.fulfilled](state, { payload }) {
       const currentUser = state.users.find(user => user.id === payload.id)

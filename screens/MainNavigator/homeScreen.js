@@ -34,8 +34,8 @@ export default function HomeScreen() {
 
         <BigCarousel
           style={globalStyle.carouselSection}
-          // title="Les toutes dernières recettes"
-          // subtitle="Celles qui ont été ajoutées récement"
+          title="Les toutes dernières recettes"
+          subtitle="Celles qui ont été ajoutées récement"
           data={latestRecipes} />
 
         {

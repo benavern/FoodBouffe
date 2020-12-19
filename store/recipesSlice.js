@@ -20,23 +20,6 @@ export const fetchRecipes = createAsyncThunk(
   }
 )
 
-export const fetchRecipeById = createAsyncThunk(
-  'recipes/fetchRecipeById',
-  async id => {
-    const snap = await recipesRef.doc(id).get()
-
-    if (!snap.exists) {
-      throw new Error(`No recipe exists with the id "${id}"`)
-      return
-    }
-
-    return {
-      id: snap.id,
-      ...snap.data()
-    }
-  }
-)
-
 export const updateRecipe = createAsyncThunk(
   'recipes/updateRecipe',
   async ({id, ...recipe}) => {
@@ -59,15 +42,16 @@ export const createRecipe = createAsyncThunk(
     const creationDate = Date.now()
     const state = getState()
     const currentUser = state.user.users.find(u => u.uid === state.user.currentUserUid)
-    const newRecipe = await recipesRef.add({
+    const newRecipe = {
       ...recipe,
       creationDate,
       authorRef: currentUser.id
-    })
+    }
+    const newRecipeDoc = await recipesRef.add(newRecipe)
 
     return {
-      id: newRecipe.id,
-      ...recipe
+      id: newRecipeDoc.id,
+      ...newRecipe
     }
   }
 )
@@ -96,17 +80,6 @@ const recipesSlice = createSlice({
     },
     [fetchRecipes.rejected]: handleRejection,
 
-    [fetchRecipeById.fulfilled](state, { payload }) {
-      let recipeFromState = state.find(rec => rec.id === payload.id)
-
-      if (recipeFromState) {
-        recipeFromState = payload
-      } else {
-        state.push(payload)
-      }
-    },
-    [fetchRecipeById.rejected]: handleRejection,
-
     [updateRecipe.fulfilled](state, { payload }) {
       const recipeIndex = state.findIndex(rec => rec.id === payload.id)
       state[recipeIndex] = payload
@@ -127,20 +100,6 @@ const recipesSlice = createSlice({
 
 export const { removeRecipe } = recipesSlice.actions
 export default recipesSlice.reducer
-
-export const favoriteRecipesSelector = createSelector(
-  currentUserSelector,
-  state => state.recipes,
-  (currentUser, recipes) => {
-    if(!currentUser || !currentUser.favorites) return []
-    return recipes.filter(rec => currentUser.favorites.some(fav => fav === rec.id))
-  }
-)
-
-export const recipesCountSelector = createSelector(
-  [state => state.recipes], // memoization
-  recipes => recipes.length
-)
 
 export const latestRecipesSelector = ({ limit }) => createSelector(
   state => state.recipes,
@@ -186,4 +145,13 @@ export const recipesFavoritesAlphabeticSelector = userId => createSelector(
 export const recipeByIdSelector = recipeId => createSelector(
   state => state.recipes,
   recipes => recipes.find(rec => rec.id === recipeId)
+)
+
+export const userByIdfavoriteRecipesCountSelector = userId => createSelector(
+  userByIdSelector(userId),
+  state => state.recipes,
+  (user, recipes) => {
+    if(!user || !user.favorites) return 0
+    return user.favorites.filter(fav => recipes.some(rec => rec.id === fav)).length
+  }
 )
