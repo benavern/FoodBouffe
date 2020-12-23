@@ -139,44 +139,44 @@ export default function UserScreen() {
 }
 
 const styles = StyleSheet.create({
-  userInfoWrapper: {
-    ...globalStyle.bottomSection,
-    flex: 1
+  aditionalInformation: {
+    marginTop: 20,
+    width: avatarSize
+  },
+  avatar: {
+    alignItems: "center",
+    borderColor: colors.overlay,
+    borderRadius: avatarSize / 2,
+    borderWidth: 5,
+    height: avatarSize,
+    justifyContent: 'center',
+    overflow: "hidden",
+    resizeMode: "cover",
+    width: avatarSize
+  },
+  imagePicker: {
+    alignItems: "center",
+    backgroundColor: colors.overlay,
+    borderRadius: editImageBtnWidth,
+    height: editImageBtnWidth,
+    justifyContent: "center",
+    width: editImageBtnWidth
+  },
+  pseudo: {
+    fontSize: text.xl,
+    marginTop: 20
   },
   scrollView: {
     flexGrow: 1,
     justifyContent: 'space-between',
   },
   userInfo: {
+    alignItems: "center",
     flex: 1,
-    alignItems: "center",
     justifyContent: 'center'
   },
-  avatar: {
-    width: avatarSize,
-    height: avatarSize,
-    borderRadius: avatarSize / 2,
-    borderColor: colors.overlay,
-    borderWidth: 5,
-    resizeMode: "cover",
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: 'center'
-  },
-  imagePicker: {
-    backgroundColor: colors.overlay,
-    width: editImageBtnWidth,
-    height: editImageBtnWidth,
-    borderRadius: editImageBtnWidth,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  pseudo: {
-    marginTop: 20,
-    fontSize: text.xl
-  },
-  aditionalInformation: {
-    marginTop: 20,
-    width: avatarSize
+  userInfoWrapper: {
+    ...globalStyle.bottomSection,
+    flex: 1
   }
 })

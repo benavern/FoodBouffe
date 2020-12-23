@@ -80,7 +80,7 @@ function Item ({ item, index, scrollX, last }) {
 
           <Text
             numberOfLines={TITLE_MAX_LINES}
-            style={[styles.itemTitle, ]}>
+            style={styles.itemTitle}>
             {item.name}
           </Text>
         </Animated.View>
@@ -122,11 +122,11 @@ export default function BigCarousel ({ data, title, subtitle, ...carouselProps }
 }
 
 const styles = StyleSheet.create({
-  carouselTitleWrapper: {
-    marginBottom: 20,
+  carouselList: {
     paddingHorizontal: pageHorizontalPadding
   },
-  carouselList: {
+  carouselTitleWrapper: {
+    marginBottom: 20,
     paddingHorizontal: pageHorizontalPadding
   },
   item: (last) => ({
@@ -136,32 +136,32 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: "hidden"
   }),
-  itemImage: {
-    ...StyleSheet.absoluteFillObject,
-    left: -ITEM_MAX_TRANSLATE_X,
-    right: -ITEM_MAX_TRANSLATE_X,
-    width,
-    height: ITEM_HEIGHT,
-    resizeMode: "cover"
-  },
   itemAuthor: {
     position: 'absolute',
-    top: 15,
-    right: 10
-  },
-  itemTitleWrapper: {
-    ...StyleSheet.absoluteFillObject,
-    top: '30%',
-    padding: 10,
-    justifyContent: 'flex-end'
+    right: 10,
+    top: 15
   },
   itemGradient: {
     ...StyleSheet.absoluteFill,
     opacity: 0.9
   },
+  itemImage: {
+    ...StyleSheet.absoluteFillObject,
+    height: ITEM_HEIGHT,
+    left: -ITEM_MAX_TRANSLATE_X,
+    resizeMode: "cover",
+    right: -ITEM_MAX_TRANSLATE_X,
+    width
+  },
   itemTitle: {
     ...globalStyle.bigTitle,
     color: colors.buttonText,
     opacity: 0.77
+  },
+  itemTitleWrapper: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    padding: 10,
+    top: '30%'
   }
 })

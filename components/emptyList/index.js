@@ -21,12 +21,12 @@ export default function EmptyList({ icon = 'emoji-sad', title = 'Aucune recette 
 }
 
 const styles = StyleSheet.create({
-  title: {
-    textAlign: "center",
-    color: colors.warning,
-    marginVertical: 20
-  },
   subtitle: {
+    textAlign: "center"
+  },
+  title: {
+    color: colors.warning,
+    marginVertical: 20,
     textAlign: "center"
   }
 })

@@ -45,15 +45,15 @@ export default function Header({ canGoBack, title, subtitle, style, children, ..
 }
 
 const styles = StyleSheet.create({
-  headerWrapper: {
-    ...globalStyle.section
-  },
-  headerContentWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   backBtn: {
     marginRight: 10
+  },
+  headerContentWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  headerWrapper: {
+    ...globalStyle.section
   },
   titleWrapper: {
     flex: 1

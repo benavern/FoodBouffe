@@ -28,17 +28,17 @@ export default function Author ({ user = { pseudo: 'Nobody' }, avatarOnly, style
 
 const styles = StyleSheet.create({
   author: {
+    alignItems: "center",
     backgroundColor: colors.background,
-    height: 32,
     borderRadius: 8,
     flexDirection: "row",
-    alignItems: "center",
+    height: 32,
     justifyContent: "space-between"
   },
   avatar: {
-    width: 45,
+    borderRadius: 10,
     height: 45,
-    borderRadius: 10
+    width: 45
   },
   pseudo: {
     ...globalStyle.title,

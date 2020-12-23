@@ -48,27 +48,27 @@ export default function RecipeSteps ({ steps = [], onAdd, onEdit, onRemove, ...a
 }
 
 const styles = StyleSheet.create({
+  addBtn: {
+    marginTop: 10
+  },
   step: {
     flexDirection: "row",
     marginTop: 15
   },
-  stepIndex: {
-    ...globalStyle.title,
-    width: 32,
-    color: colors.primary
+  stepActions: {
+    alignItems: "flex-end",
+    justifyContent: 'center',
+    width: 48
   },
   stepContent: {
     flex: 1
   },
+  stepIndex: {
+    ...globalStyle.title,
+    color: colors.primary,
+    width: 32
+  },
   stepText: {
     ...globalStyle.text
-  },
-  stepActions: {
-    width: 48,
-    alignItems: "flex-end",
-    justifyContent: 'center'
-  },
-  addBtn: {
-    marginTop: 10
   }
 })

@@ -29,14 +29,14 @@ export default function FullList () {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: 0,
+    paddingTop: 0
+  },
   pageContainer: {
     flex: 1
   },
   pageContent: {
     ...globalStyle.screen
-  },
-  header: {
-    paddingTop: 0,
-    paddingHorizontal: 0
   }
 })

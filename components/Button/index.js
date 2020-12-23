@@ -21,20 +21,20 @@ export default function Button({ title = 'bouton', style, buttonStyle, onPress, 
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: 10,
-    paddingVertical: (inputHeight - globalStyle.title.fontSize) / 2,
-    marginVertical: 10,
     backgroundColor: colors.primary,
     borderRadius: 10,
+    marginVertical: 10,
     minHeight: inputHeight,
+    paddingHorizontal: 10,
+    paddingVertical: (inputHeight - globalStyle.title.fontSize) / 2,
   },
   buttonDisabled: {
     backgroundColor: colors.textAlt
   },
   buttonText: {
     ...globalStyle.title,
-    textAlign: 'center',
     color: colors.buttonText,
+    textAlign: 'center',
     textTransform: 'uppercase',
   }
 })

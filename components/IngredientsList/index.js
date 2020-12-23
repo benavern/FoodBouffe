@@ -56,15 +56,23 @@ export default function IngredientsList ({ ingredients = [], onAdd, onEdit, onRe
 }
 
 const styles = StyleSheet.create({
+  addBtn: {
+    marginTop: 10
+  },
   ingredient: {
-    flexDirection: "row",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 10,
-    marginTop: 5,
+    alignItems: "center",
     borderBottomColor: colors.overlay,
     borderBottomWidth: 1,
-    alignItems: "center"
+    borderRadius: 10,
+    flexDirection: "row",
+    marginTop: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5
+  },
+  ingredientActions: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+    width: 48
   },
   ingredientContent: {
     flex: 1,
@@ -79,13 +87,5 @@ const styles = StyleSheet.create({
     ...globalStyle.text,
     textAlign: 'right',
     width: 80
-  },
-  ingredientActions: {
-    width: 48,
-    alignItems: "flex-end",
-    justifyContent: "center"
-  },
-  addBtn: {
-    marginTop: 10
   }
 })

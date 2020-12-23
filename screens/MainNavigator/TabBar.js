@@ -55,14 +55,14 @@ export default function({
 
 const styles = StyleSheet.create({
   container: {
-    borderTopWidth: 0.5,
     borderTopColor: colors.textAlt,
+    borderTopWidth: 0.5,
     flexDirection: "row",
     height: 52
   },
   tabButton: {
+    alignItems: "center",
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "center"
   }
 });

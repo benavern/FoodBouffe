@@ -5,7 +5,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint components/ firebase/ helpers/ screens/"
   },
   "dependencies": {
     "@expo-google-fonts/londrina-solid": "^0.1.0",
@@ -18,6 +19,9 @@
     "@react-navigation/native": "^5.8.2",
     "@react-navigation/stack": "^5.11.1",
     "@reduxjs/toolkit": "^1.4.0",
+    "eslint": "^7.16.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-native": "^3.10.0",
     "expo": "^40.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-font": "~8.4.0",

@@ -77,12 +77,15 @@ export default function HomeScreen() {
                   </Pill>
                 ))
               }
-              <Pill
+
+              {/* <Pill
+                key="xxx"
                 style={styles.categoryChoice}
                 active={!searchCategory}
-                onPress={() => setSearchCategory(null)}>
+                onPress={() => setSearchCategory(null)}
+                >
                 Toutes
-              </Pill>
+              </Pill> */}
             </View>
 
             <Select
@@ -113,30 +116,30 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  searchMain: {
-    flexDirection: 'row',
-    marginTop: 20
-  },
-  searchField: {
-    flex: 1
-  },
-  searchMoreBtn: {
-    width: inputHeight,
-    marginLeft: 10
-  },
-  resultsWrapper: {
-    flex: 1,
-    marginTop: 10
-  },
-  resultsTitle: {
-    ...globalStyle.title,
-    marginBottom: 10
+  categoryChoice: {
+    backgroundColor: colors.textAlt,
   },
   categoryChoices: {
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
-  categoryChoice: {
-    backgroundColor: colors.textAlt,
+  resultsTitle: {
+    ...globalStyle.title,
+    marginBottom: 10
+  },
+  resultsWrapper: {
+    flex: 1,
+    marginTop: 10
+  },
+  searchField: {
+    flex: 1
+  },
+  searchMain: {
+    flexDirection: 'row',
+    marginTop: 20
+  },
+  searchMoreBtn: {
+    marginLeft: 10,
+    width: inputHeight
   }
 })

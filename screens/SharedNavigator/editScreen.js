@@ -184,25 +184,25 @@ export default function EditScreen ({ route }) {
 }
 
 const styles = StyleSheet.create({
-  detailWrapper: {
+  detailContent: {
+    borderTopLeftRadius: detailsTopRadius,
+    borderTopRightRadius: detailsTopRadius,
     flex: 1,
+    marginTop: -detailsTopRadius,
+    overflow: 'hidden',
+    paddingTop: detailsTopRadius/2
   },
   detailHeader: {
     paddingBottom: detailsTopRadius + 10
   },
-  scroller: {
+  detailWrapper: {
     flex: 1,
-    backgroundColor: colors.background
+  },
+  scroller: {
+    backgroundColor: colors.background,
+    flex: 1
   },
   scrollerContent: {
     flexGrow: 1
-  },
-  detailContent: {
-    flex: 1,
-    paddingTop: detailsTopRadius/2,
-    marginTop: -detailsTopRadius,
-    borderTopRightRadius: detailsTopRadius,
-    borderTopLeftRadius: detailsTopRadius,
-    overflow: 'hidden'
   }
 })

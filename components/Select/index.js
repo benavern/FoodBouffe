@@ -51,6 +51,11 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
+  error: {
+    color: colors.danger,
+    fontSize: text.s,
+    marginBottom: 10
+  },
   input: (touched, error, label) => ({
     borderRadius: 10,
     backgroundColor: colors.cardBackground,
@@ -58,18 +63,13 @@ const styles = StyleSheet.create({
     marginTop: label ? (text.s / 2) : 10,
     marginBottom: error && touched ? (text.s / 2) : 10,
   }),
-  picker: {
-    ...globalStyle.text,
-    height: Platform.select({ ios: 200, android: inputHeight}),
-  },
   label: (touched, active, error) => ({
     marginTop: 10,
     fontSize: text.s,
     color: inputColor(touched, active, error)
   }),
-  error: {
-    marginBottom: 10,
-    fontSize: text.s,
-    color: colors.danger
+  picker: {
+    ...globalStyle.text,
+    height: Platform.select({ ios: 200, android: inputHeight}),
   }
 })

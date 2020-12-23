@@ -20,8 +20,8 @@ export default function LoadingScreen({ startAsync, onFinish }) {
 
 const styles = StyleSheet.create({
   loadingWrapper: {
-    paddingTop: 0,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 0
   }
 })

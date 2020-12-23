@@ -108,34 +108,34 @@ const editImageBtnWidth = 80
 
 const styles = StyleSheet.create({
   coverImage: {
-    width: '100%',
     height: detailsImageHeight,
+    width: '100%',
   },
-  image: {
+  editImageBtn: {
+    alignItems: "center",
+    backgroundColor: colors.overlay,
+    borderRadius: editImageBtnWidth,
+    height: editImageBtnWidth,
+    justifyContent: "center",
+    width: editImageBtnWidth
+  },
+  editImageWrapper: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: 'cover'
+    alignItems: "center",
+    justifyContent: 'center'
   },
   headerContainer: {
     flex: 1,
     justifyContent: 'space-between',
-    paddingVertical: 10,
-    paddingHorizontal: pageHorizontalPadding
+    paddingHorizontal: pageHorizontalPadding,
+    paddingVertical: 10
   },
   headerLine: {
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  editImageWrapper: {
+  image: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
-    alignItems: "center"
-  },
-  editImageBtn: {
-    backgroundColor: colors.overlay,
-    width: editImageBtnWidth,
-    height: editImageBtnWidth,
-    borderRadius: editImageBtnWidth,
-    alignItems: "center",
-    justifyContent: "center"
+    resizeMode: 'cover'
   }
 })

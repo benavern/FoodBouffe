@@ -27,23 +27,23 @@ export default function Card ({ style, children, header, headerStyle, footer, fo
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: colors.cardBackground,
-    borderRadius: 10,
-    overflow: "hidden"
-  },
   content: {
+    flex: 1,
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    flex: 1
+    paddingVertical: 10
+  },
+  footer: {
+    paddingBottom: 10,
+    paddingHorizontal: 15,
   },
   header: {
     paddingHorizontal: 15,
     paddingTop: 10,
   },
-  footer: {
-    paddingHorizontal: 15,
-    paddingBottom: 10,
+  wrapper: {
+    backgroundColor: colors.cardBackground,
+    borderRadius: 10,
+    flex: 1,
+    overflow: "hidden"
   }
 })

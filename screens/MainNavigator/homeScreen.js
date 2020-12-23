@@ -23,13 +23,16 @@ export default function HomeScreen() {
 
   const latestRecipes = useSelector(latestRecipesSelector({ limit: homeTrendingsLimit }))
 
+  const headerUserName = <Text style={{color: colors.primary}}>{user.pseudo}</Text>
+  const headerTitle = <Text>Bonjour {headerUserName} !!!</Text>
+
   return (
     <ScrollView
       style={globalStyle.screen}
       refreshControl={<PullToRefresh />}>
       <SafeAreaView>
         <Header
-          title={<Text>Bonjour <Text style={{color: colors.primary}}>{user.pseudo}</Text> !!!</Text>}
+          title={headerTitle}
           subtitle="Voici ce qui s'est passé récemment sur foodbouffe" />
 
         <BigCarousel
@@ -39,18 +42,20 @@ export default function HomeScreen() {
           data={latestRecipes} />
 
         {
-          latestByCatAppName.map(({ category, recipes }, i) => (
-            <Carousel
-              key={i.toString()}
-              style={globalStyle.carouselSection}
-              title={<Text>
-                Les dernières { category.longname
-                  ? <Text style={styles.categoryName(category)}>{category.longname}</Text>
-                  : <Text style={styles.categoryName()}>recettes ???</Text>}
-              </Text>}
-              subtitle={category.description}
-              data={recipes} />
-          ))
+          latestByCatAppName.map(({ category, recipes }, i) => {
+            const carouselTitleCatName = category.longname
+            ? <Text style={styles.categoryName(category)}>{category.longname}</Text>
+            : <Text style={styles.categoryName()}>recettes ???</Text>
+            const carouselTitle = <Text>Les dernières { carouselTitleCatName }</Text>
+            return (
+              <Carousel
+                key={i.toString()}
+                style={globalStyle.carouselSection}
+                title={carouselTitle}
+                subtitle={category.description}
+                data={recipes} />
+            )
+          })
         }
       </SafeAreaView>
     </ScrollView>

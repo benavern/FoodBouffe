@@ -73,6 +73,11 @@ export default forwardRef(
 )
 
 const styles = StyleSheet.create({
+  error: {
+    color: colors.danger,
+    fontSize: text.s,
+    marginBottom: 10
+  },
   input: (touched, error, label, multiline, fontSize = text.m) => ({
     borderRadius: 10,
     backgroundColor: colors.cardBackground,
@@ -88,10 +93,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: text.s,
     color: inputColor(touched, active, error)
-  }),
-  error: {
-    marginBottom: 10,
-    fontSize: text.s,
-    color: colors.danger
-  }
+  })
 })

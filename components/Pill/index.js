@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
     borderColor: active ? activeColor : 'transparent',
     borderRadius: (pillSize + activeBorderWidth * 4)
   }),
-  pillWrapper: {
-    backgroundColor: colors.primary,
-    paddingVertical: (pillSize - text.s) / 2,
-    paddingHorizontal: pillSize / 2,
-    borderRadius: pillSize
-  },
   pillText: {
     ...globalStyle.text,
     ...globalStyle.textBold,
     color: colors.buttonText,
     fontSize: text.s
+  },
+  pillWrapper: {
+    backgroundColor: colors.primary,
+    borderRadius: pillSize,
+    paddingHorizontal: pillSize / 2,
+    paddingVertical: (pillSize - text.s) / 2
   },
 })

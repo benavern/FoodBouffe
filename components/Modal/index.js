@@ -26,23 +26,23 @@ export default function ({ children, close, visible }) {
 }
 
 const styles = StyleSheet.create({
+  modalCloseBtn: {
+    position: "absolute",
+    right: 12,
+    top: 10
+  },
   modalOverlay: {
     backgroundColor: colors.overlay,
     flex: 1,
     justifyContent: "center",
+    paddingBottom: 10,
     paddingHorizontal: 12,
     paddingTop: 52,
-    paddingBottom: 10,
-  },
-  modalCloseBtn: {
-    position: "absolute",
-    top: 10,
-    right: 12
   },
   modalView: {
     backgroundColor: colors.background,
-    paddingVertical: 20,
-    paddingHorizontal: 16,
     borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 20,
   }
 })

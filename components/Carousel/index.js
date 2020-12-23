@@ -27,9 +27,9 @@ export default function Carousel({ data, title, subtitle, ...carouselProps }) {
 }
 
 const styles = StyleSheet.create({
+  carousel: {},
   carouselTitleWrapper: {
     marginBottom: 20,
     paddingHorizontal: pageHorizontalPadding
-  },
-  carousel: {}
+  }
 })

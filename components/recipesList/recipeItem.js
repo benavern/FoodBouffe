@@ -72,21 +72,21 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 }
 
 const styles = StyleSheet.create({
-  item: {
-    // flex: 1
+  cardFooter: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
   cardHeader: {
     paddingHorizontal: 0,
     paddingTop: 0
   },
   headerImage: {
-    width: '100%',
     height: 100,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
+    width: '100%'
   },
-  cardFooter: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+  item: {
+    // flex: 1
   }
 })

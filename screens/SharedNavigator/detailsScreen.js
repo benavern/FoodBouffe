@@ -101,19 +101,22 @@ export default function DetailsScreen ({ route }) {
 }
 
 const styles = StyleSheet.create({
-  detailWrapper: {
+  category: (category) => ({
+    backgroundColor: categoryColor(category)
+  }),
+  creationDate: {
+    backgroundColor: colors.textAlt
+  },
+  detailContent: {
+    borderTopLeftRadius: detailsTopRadius,
+    borderTopRightRadius: detailsTopRadius,
     flex: 1,
-    backgroundColor: colors.background
+    marginTop: -detailsTopRadius,
+    overflow: 'hidden',
+    paddingTop: detailsTopRadius/2
   },
   detailHeader: {
     paddingBottom: detailsTopRadius + 10
-  },
-  detailHeaderSection: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  detailHeaderTitle: {
-    flex: 1
   },
   detailHeaderInfo: {
     marginLeft: 10
@@ -122,24 +125,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end'
   },
-  category: (category) => ({
-    backgroundColor: categoryColor(category)
-  }),
-  creationDate: {
-    backgroundColor: colors.textAlt
+  detailHeaderSection: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  detailHeaderTitle: {
+    flex: 1
+  },
+  detailWrapper: {
+    backgroundColor: colors.background,
+    flex: 1
   },
   scroller: {
     flex: 1
   },
   scrollerContent: {
     flexGrow: 1
-  },
-  detailContent: {
-    flex: 1,
-    paddingTop: detailsTopRadius/2,
-    marginTop: -detailsTopRadius,
-    borderTopRightRadius: detailsTopRadius,
-    borderTopLeftRadius: detailsTopRadius,
-    overflow: 'hidden'
   }
 })
