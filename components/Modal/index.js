@@ -3,7 +3,7 @@ import { Modal, StyleSheet, View } from 'react-native'
 import IconButton from '../Button/IconButton'
 import { colors } from '../../styles/variables'
 
-export default function ({ children, close, visible }) {
+export default function ModalCpt({ children, close, visible }) {
   return (
     <Modal
       animationType="fade"

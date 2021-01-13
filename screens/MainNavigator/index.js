@@ -11,7 +11,9 @@ import CreateScreen from './createScreen'
 
 const Tab = createBottomTabNavigator();
 
-const makeIcon = iconName => ({ color, size }) => (<Entypo name={iconName} size={size} color={color} />)
+const makeIcon = iconName => function bottomTabIcon({ color, size }) {
+  return (<Entypo name={iconName} size={size} color={color} />)
+}
 
 const screens = [
   { name: 'Home', component: HomeScreen, options: { tabBarIcon: makeIcon('home')} }, // hand ?

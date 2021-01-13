@@ -25,7 +25,7 @@ export default function RecipeImagePicker({
 
   const imageManipulatorOptions = [
     [{ resize: { width } }],
-    { format: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
   ]
 
   const handleImageChange = async ({cancelled, ...image}) => {

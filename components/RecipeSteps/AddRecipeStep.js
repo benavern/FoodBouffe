@@ -1,5 +1,5 @@
 import React, { Children, cloneElement, useState } from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Modal from '../Modal'
 import Button from '../Button'
 import globalStyle from '../../styles/globalStyle'
@@ -47,7 +47,7 @@ export default function AddRecipeStep({
 
         <Input
             multiline
-            style={{ maxHeight: 300 }}
+            style={styles.input}
             label="Description de l'étape"
             placeholder="Tout mettre dans la casserole et cuire 10 min"
             value={stepValue}
@@ -73,3 +73,7 @@ export default function AddRecipeStep({
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  input: { maxHeight: 300 }
+})

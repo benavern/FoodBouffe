@@ -116,9 +116,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  categoryChoice: {
-    backgroundColor: colors.textAlt,
-  },
   categoryChoices: {
     flexDirection: 'row',
     justifyContent: 'space-around'

@@ -19,7 +19,7 @@ export default function Carousel({ data, title, subtitle, ...carouselProps }) {
         {
           !data.length
             ? <EmptyList subtitle={'Cette catégorie n\'existe peut-être pas...'} />
-            : <RecipesList horizontal items={data} style={{ marginVertical: 0 }} />
+            : <RecipesList horizontal items={data} style={styles.emptyList} />
         }
       </View>
     </View>
@@ -31,5 +31,6 @@ const styles = StyleSheet.create({
   carouselTitleWrapper: {
     marginBottom: 20,
     paddingHorizontal: pageHorizontalPadding
-  }
+  },
+  emptyList: { marginVertical: 0 }
 })

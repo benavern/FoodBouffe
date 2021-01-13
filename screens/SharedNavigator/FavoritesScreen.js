@@ -38,8 +38,5 @@ const styles = StyleSheet.create({
   },
   pageContent: {
     ...globalStyle.screen
-  },
-  pageEmpty: {
-    flex: 1
   }
 })

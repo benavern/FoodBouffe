@@ -8,7 +8,7 @@ export default function Pill ({children, style, onPress, active = false, activeB
     <TouchableWithoutFeedback
       disabled={!onPress}
       onPress={onPress}
-      style={{borderWidth: 3}}>
+      style={styles.pillTouchable}>
       <View style={styles.pillActiveBorder(active, activeBorderColor)}>
         <View style={[styles.pillWrapper, style]} >
           <Text style={styles.pillText}>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     color: colors.buttonText,
     fontSize: text.s
   },
+  pillTouchable: { borderWidth: 3 },
   pillWrapper: {
     backgroundColor: colors.primary,
     borderRadius: pillSize,

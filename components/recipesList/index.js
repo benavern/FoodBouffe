@@ -53,6 +53,7 @@ export default function RecipesList({
         }
 
         return (
+          // eslint-disable-next-line react-native/no-inline-styles
           <RecipeItem item={item} style={{ width: itemWidth, marginRight, marginBottom: horizontal ? 0 : gutter }} />
         )}
       }

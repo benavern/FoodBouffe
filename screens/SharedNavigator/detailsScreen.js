@@ -81,7 +81,7 @@ export default function DetailsScreen ({ route }) {
 
           { item.ingredients?.length &&
             <View style={item.steps?.length ? globalStyle.section : globalStyle.bottomSection}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
+              <Text style={[globalStyle.title, styles.sectionTitle]}>Ingrédients</Text>
 
               <IngredientsList ingredients={item.ingredients} />
             </View>
@@ -89,7 +89,7 @@ export default function DetailsScreen ({ route }) {
 
           { item.steps?.length &&
             <View style={globalStyle.bottomSection}>
-              <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
+              <Text style={[globalStyle.title, styles.sectionTitle]}>Recette</Text>
 
               <RecipeSteps steps={item.steps} />
             </View>
@@ -141,5 +141,6 @@ const styles = StyleSheet.create({
   },
   scrollerContent: {
     flexGrow: 1
-  }
+  },
+  sectionTitle: { marginBottom: 10 }
 })

@@ -28,7 +28,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
         style={styles.headerImage}
         />
 
-      <Author user={author} avatarOnly style={{ position: 'absolute', bottom: -5, alignSelf: 'center' }} />
+      <Author user={author} avatarOnly style={styles.cardHeaderAvatar} />
     </>
   )
 
@@ -51,12 +51,12 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 
   return (
     <TouchableOpacity
-      style={[style, styles.item]}
+      style={style}
       activeOpacity={0.6}
       onPress={() => { navigation.navigate('Details', { recipeId: item.id }) }}>
       <Card
         key={item.id}
-        style={{ flex: 1 }}
+        style={styles.card}
         coverImage={item.image}
         defaultCoverImage={defaultImage}
         itemId={item.id}
@@ -72,6 +72,7 @@ export default function RecipeItem ({ style = {}, item = { hidden: true } }) {
 }
 
 const styles = StyleSheet.create({
+  card: { flex: 1 },
   cardFooter: {
     alignItems: "center",
     flexDirection: "row",
@@ -81,12 +82,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingTop: 0
   },
+  cardHeaderAvatar: {
+    alignSelf: 'center',
+    bottom: -5,
+    position: 'absolute'
+  },
   headerImage: {
     height: 100,
     resizeMode: 'cover',
     width: '100%'
-  },
-  item: {
-    // flex: 1
   }
 })

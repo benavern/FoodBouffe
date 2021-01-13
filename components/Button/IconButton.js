@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { colors } from '../../styles/variables'
 
-export default function ({ onPress, iconName = 'hand', iconColor = colors.text, backgroundColor = colors.background, size = 32 }) {
+export default function IconButton({ onPress, iconName = 'hand', iconColor = colors.text, backgroundColor = colors.background, size = 32 }) {
   return (
     <TouchableOpacity
       style={styles.iconButton(size, backgroundColor)}

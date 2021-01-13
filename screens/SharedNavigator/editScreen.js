@@ -136,7 +136,7 @@ export default function EditScreen ({ route }) {
           </View>
 
           <View style={globalStyle.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Ingrédients</Text>
+            <Text style={[globalStyle.title, styles.sectionTitle]}>Ingrédients</Text>
 
             <IngredientsList
               ingredients={item.ingredients}
@@ -150,7 +150,7 @@ export default function EditScreen ({ route }) {
           </View>
 
           <View style={globalStyle.section}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Recette</Text>
+            <Text style={[globalStyle.title, styles.sectionTitle]}>Recette</Text>
 
             <RecipeSteps
               steps={item.steps}
@@ -164,7 +164,7 @@ export default function EditScreen ({ route }) {
           </View>
 
           <View style={globalStyle.bottomSection}>
-            <Text style={[globalStyle.title, { marginBottom: 10 }]}>Actions</Text>
+            <Text style={[globalStyle.title, styles.sectionTitle]}>Actions</Text>
 
             <Button
               style={{ backgroundColor: colors.success }}
@@ -204,5 +204,6 @@ const styles = StyleSheet.create({
   },
   scrollerContent: {
     flexGrow: 1
-  }
+  },
+  sectionTitle: { marginBottom: 10 }
 })

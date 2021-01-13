@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import globalStyle from '../../styles/globalStyle'
 import { homeCategoriesLimit, homeTrendingsLimit } from '../../config/foodbouffe.json'

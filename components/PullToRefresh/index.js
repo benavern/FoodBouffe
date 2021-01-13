@@ -43,7 +43,6 @@ export default function PullToRefresh({
 
   return <RefreshControl
     style={style}
-    children={children}
     {...controlParams}
     refreshing={refreshing}
     onRefresh={onRefresh}
@@ -52,5 +51,7 @@ export default function PullToRefresh({
     progressBackgroundColor={colors.background}
     title={title}
     titleColor={colors.text}
-    progressViewOffset={offset ? refreshControlTopOffset : null}/>
+    progressViewOffset={offset ? refreshControlTopOffset : null}>
+    {children}
+  </RefreshControl>
 }
